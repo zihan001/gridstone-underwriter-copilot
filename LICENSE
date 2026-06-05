@@ -1,0 +1,11 @@
+IP / LICENSE NOTICE
+
+This repository is the work product of a hiring challenge for KV Capital.
+Per the challenge terms, KV Capital owns the intellectual property in this work.
+
+It is provided to KV Capital for evaluation. No open-source license is granted.
+All adjustment-magnitude constants not sourced from CREB are US/North-American
+proxies included for illustration and to be locally calibrated; they are not
+representations of Calgary market values. All comparable-sale ("comp") data in
+the viewer is SYNTHETIC and clearly labeled as such. Subject characteristics are
+grounded in public Open Calgary assessment data.

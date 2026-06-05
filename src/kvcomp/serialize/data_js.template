@@ -1,0 +1,31 @@
+/* ============================================================================
+   GENERATED — do not edit by hand. Produced by kvcomp.serialize.memo_to_window
+   from a frozen MemoArtifact. Regenerate with ./scripts/run.sh
+   ----------------------------------------------------------------------------
+   This template carries the verbatim JS formatting helpers the locked viewer
+   calls (usd0 / sgn / pct / timeFactor). The Python serializer replaces the
+   __MEMO_DATA__ token with json.dumps(memo_window_dict) and writes the result
+   to out/data.js. The helpers must match the originals in the delivered viewer
+   exactly, byte for byte, so render is unchanged. See docs/MEMO_CONTRACT.md.
+   ========================================================================== */
+window.MEMO = (function () {
+  const usd0 = (n) =>
+    (n < 0 ? "-" : "") + "$" + Math.abs(Math.round(n)).toLocaleString("en-US");
+  const sgn = (n) =>
+    (n > 0 ? "+" : n < 0 ? "\u2212" : "") +
+    "$" +
+    Math.abs(Math.round(n)).toLocaleString("en-US");
+  const pct = (n, d = 1) =>
+    (n > 0 ? "+" : n < 0 ? "\u2212" : "") + Math.abs(n).toFixed(d) + "%";
+
+  // All data (computed by the deterministic core) is spliced in here.
+  const DATA = __MEMO_DATA__;
+
+  // timeFactor is data-dependent (uses the emitted benchmark map), so it is
+  // reconstructed here from DATA rather than hard-coded.
+  const bm = DATA.bm;
+  const BM_EFF = bm[DATA.meta.effectiveDate.slice(0, 7)];
+  const timeFactor = (month) => BM_EFF / bm[month] - 1;
+
+  return Object.assign({ usd0, sgn, pct, timeFactor }, DATA);
+})();
