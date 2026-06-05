@@ -1,6 +1,6 @@
 # KV Capital — Comp Defensibility Copilot
 
-> **Status: planning / scaffolding.** Implementation has not started. Sections marked _(fill during build)_ are placeholders.
+> **Status: implemented.** Deterministic core, pipeline, narrative seam, and serializer are built and tested (`uv run pytest` → 51 passed); the locked viewer renders the generated memo for the sample subject. See **How to run** below.
 
 ## Problem
 An underwriter's bottleneck in residential lending isn't computing a value — it's **defending** one. Comp analysis (finding comparable recent sales and reasoning to a supportable value) is manual, slow, and hard to audit. A black-box AVM doesn't help: it produces a number nobody can defend in review.
@@ -27,7 +27,40 @@ A **deterministic core does ALL the math**; the **LLM only writes prose** (rejec
 Generate comps with known attribute deltas, run them through the grid, and assert the adjusted values recover the generator's no-noise true price. If the grid isn't a correct inverse of the generator, this test fails. It is paired-sales analysis run in reverse on synthetic data, and it is the proof that the domain logic is real. _(see docs/TESTING.md)_
 
 ## How to run
-_(fill during build — clone, install, run pipeline, open viewer; record exact commands)_
+Python 3.11+ and [`uv`](https://docs.astral.sh/uv/) (deps are installed into an isolated `.venv`, never the base interpreter).
+
+```bash
+# 1. install (creates ./.venv and installs the package + dev tools)
+uv venv --python 3.11
+uv pip install -e ".[dev]"
+
+# 2. run the test suite — the matched-pair round-trip is the credibility gate
+uv run pytest -q
+
+# 3. generate the memo for the sample subject and view it
+uv run python -m kvcomp.pipeline      # pipeline → MemoArtifact → out/data.js
+cp out/data.js viewer/data.js          # snapshot into the locked viewer
+uv run python -m http.server 8000 -d viewer
+#   → open http://localhost:8000/index.html
+
+# …or do all of it in one shot:
+./scripts/run.sh
+```
+
+The deterministic core runs with **no API key** — prose degrades to deterministic templates,
+and every number is identical. To enable LLM-written narrative (prose only; it never produces
+a number that enters the result), set `ANTHROPIC_API_KEY` (see `.env.example`) before step 3.
+
+**Optional:** the live Open Calgary integration smoke test is skipped by default; run it with
+`KVCOMP_LIVE_OPENCALGARY=1 uv run pytest tests/test_subject_loader.py`.
+
+### One note on the frozen schema
+The delivered `tests/test_roundtrip.py` requires `comp.provenance.true_price_no_noise`
+(attribute access), but the seed `Subject` validator inherited by `Comp` flattened that
+`CompProvenance` model into a dict — making the companion test impossible to pass as shipped.
+A single one-line `isinstance` guard in `schemas/subject.py` scopes the field-source backfill
+to `Subject`'s dict provenance, leaving `Subject` behaviour byte-identical. It is the smallest
+repair that makes the frozen contract self-consistent; see the comment at that line.
 
 ## What's next
 - Permit-aware red-flag panel (Open Calgary building/development permits → effective-age / condition red flags). _(stretch)_
