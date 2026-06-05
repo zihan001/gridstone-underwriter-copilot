@@ -99,6 +99,14 @@ class Subject(BaseModel, frozen=True):
 
     @model_validator(mode="after")
     def _fill_and_check_provenance(self) -> "Subject":
+        # Subclasses (Comp) override `provenance` with a non-dict model (CompProvenance).
+        # This field-source backfill applies ONLY to Subject's dict provenance map; without
+        # this guard, pydantic v2's dict(model) below would flatten a CompProvenance into a
+        # plain dict and clobber it (breaking the delivered round-trip test's attribute
+        # access c.provenance.true_price_no_noise). Seed-defect repair: Subject behaviour is
+        # preserved exactly; only the inherited-on-Comp clobbering is prevented.
+        if not isinstance(self.provenance, dict):
+            return self
         # Backfill any unspecified field with a defensible default source so the
         # memo never shows an unlabeled value. frozen=True means we mutate via
         # object.__setattr__ inside the validator (allowed during construction).
