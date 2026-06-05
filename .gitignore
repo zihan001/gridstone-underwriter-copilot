@@ -25,3 +25,7 @@ out/
 .DS_Store
 .idea/
 .vscode/
+
+# local seed archive (the delivered zip; not source)
+*.zip
+.playwright-mcp/
