@@ -130,13 +130,21 @@ def build_comp(
     mls: str | None = None,
     district: District | None = None,
     tier: int = 0,
+    force_fallback_series: bool = False,
 ) -> Comp:
-    """Price one comp from the contributory model so the grid recovers `subject_true_value`."""
+    """Price one comp from the contributory model so the grid recovers `subject_true_value`.
+
+    `force_fallback_series` prices the comp off the city-wide fallback regardless of its
+    district. Used only for the wrong-district reject: a comp we are about to exclude as
+    cross-market is deliberately NOT bridged onto its (far) district's specific trend, so its
+    price is independent of which districts happen to carry an encoded series. Safe because such
+    a comp is always rejected before the grid — the matched-pair cancel-out never applies to it.
+    """
     dist = district or subject.district
     # Resolve benchmarks through the SAME time-engine lookup the grid uses, so de-trending
     # (here) and re-trending (grid) cancel exactly for every district — including fallback
     # districts where the effective month is extrapolated past the encoded series.
-    series, _ = series_for(dist)
+    series = CITY_BENCHMARK_FALLBACK if force_fallback_series else series_for(dist)[0]
     bm_eff, _ = benchmark_at(series, month_key(subject.effective_date))
     bm_con, _ = benchmark_at(series, month_key(contract_date))
 

@@ -37,6 +37,27 @@ SOUTH_BENCHMARK_SERIES: dict[str, int] = {
     "2026-06": 721600,  # effective month
 }
 
+# West / East monthly series — DEMO-GRADE, not the authoritative South fixture. Each is the
+# South monthly TREND SHAPE scaled to the district's real CREB May/effective benchmark
+# endpoint (DISTRICT_BENCHMARK below), so the effective-month value is ground-truth while the
+# intra-year path is an approximation. Encoded so the high-value (West) and low-value (East)
+# hero cases price their in-district comps off a district-appropriate trend instead of the
+# city-wide fallback. Adjacent-district comps still fall back to city-wide (and the time
+# engine flags them), exactly as the South hero does for its South-East tier-1 comp.
+WEST_BENCHMARK_SERIES: dict[str, int] = {
+    "2025-06": 961200, "2025-07": 966800, "2025-08": 971600, "2025-09": 975100,
+    "2025-10": 979300, "2025-11": 982800, "2025-12": 985100, "2026-01": 987600,
+    "2026-02": 991800, "2026-03": 996000, "2026-04": 1000200, "2026-05": 1003700,
+    "2026-06": 1005200,  # effective month — CREB district benchmark (ground-truth endpoint)
+}
+
+EAST_BENCHMARK_SERIES: dict[str, int] = {
+    "2025-06": 467700, "2025-07": 470400, "2025-08": 472800, "2025-09": 474500,
+    "2025-10": 476500, "2025-11": 478200, "2025-12": 479300, "2026-01": 480600,
+    "2026-02": 482600, "2026-03": 484600, "2026-04": 486700, "2026-05": 488400,
+    "2026-06": 489100,  # effective month — CREB district benchmark (ground-truth endpoint)
+}
+
 # City-wide detached benchmark (DOMAIN.md §4 fallback; Research_Report AREA 2).
 CITY_BENCHMARK_SERIES: dict[str, int] = {
     "2025-01": 749300, "2025-02": 758400, "2025-03": 766600, "2025-04": 766300,
@@ -46,10 +67,13 @@ CITY_BENCHMARK_SERIES: dict[str, int] = {
     "2026-05": 747800,
 }
 
-# Per-district series registry. Only South is encoded at monthly resolution for the
-# sample; any other district falls back to city-wide (and the time engine flags it).
+# Per-district series registry. South is the authoritative month-resolution fixture; West and
+# East are demo-grade series (district-benchmark-anchored, South-trend-shaped) so the high/low
+# hero cases are supported. Any other district falls back to city-wide (the time engine flags it).
 BENCHMARK_SERIES: dict[District, dict[str, int]] = {
     District.SOUTH: SOUTH_BENCHMARK_SERIES,
+    District.WEST: WEST_BENCHMARK_SERIES,
+    District.EAST: EAST_BENCHMARK_SERIES,
 }
 
 CITY_BENCHMARK_FALLBACK = CITY_BENCHMARK_SERIES

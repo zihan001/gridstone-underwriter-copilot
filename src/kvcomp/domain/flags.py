@@ -136,7 +136,18 @@ def evaluate(
         "A selected comp is a PPSF outlier — review for non-arm's-length character."
         if outlier_included else "No selected comp is a PPSF outlier (any outlier was rejected, not selected)."))
 
-    point_outside = not (vr.low <= vr.point <= vr.high) or not (min(a.adjusted_value for a in adjusted) <= vr.point <= max(a.adjusted_value for a in adjusted)) if adjusted else False
+    if not adjusted:
+        point_outside = False
+    elif len(adjusted) <= 1:
+        # Degenerate single-comp case: min == max == the one comp's value, but the reconciled
+        # point is rounded to $500 and floored to a ~0.8% spread (reconcile.py), so the
+        # adjusted-value envelope clause would ALWAYS false-fire. Only the range-ordering
+        # check (low <= point <= high) is meaningful with a single observation.
+        point_outside = not (vr.low <= vr.point <= vr.high)
+    else:
+        lo = min(a.adjusted_value for a in adjusted)
+        hi = max(a.adjusted_value for a in adjusted)
+        point_outside = not (vr.low <= vr.point <= vr.high) or not (lo <= vr.point <= hi)
     flags.append(_flag(
         FlagCode.VALUE_OUTSIDE_RANGE, bool(point_outside), Severity.REVIEW,
         "reconciled point outside [min, max] of adjusted comp values",
