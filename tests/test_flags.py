@@ -87,6 +87,20 @@ def test_deep_widening_boundary(sample_subject, config):
     assert s_raised["DEEP_WIDENING"] == "CLEAR"
 
 
+def test_value_outside_range_single_comp_does_not_false_fire(sample_subject, config):
+    """Degenerate single-comp case: min == max == the one comp's adjusted value, while the
+    reconciled point is rounded to $500 and floored to a ~0.8% spread. Without the guard the
+    adjusted-value envelope clause would ALWAYS false-fire; with it, VALUE_OUTSIDE_RANGE is
+    CLEAR and the point still sits inside its own [low, high] band."""
+    universe = _universe(sample_subject, config)
+    one = [c for c in universe if c.comp_id == "C-A"]
+    status, _, adjusted, _, recon = evaluate_chain(sample_subject, one, config)
+    assert len(adjusted) == 1                              # genuinely the degenerate case
+    assert status["VALUE_OUTSIDE_RANGE"] == "CLEAR"        # no spurious fire
+    vr = recon.value_range
+    assert vr.low <= vr.point <= vr.high                   # range ordering still holds
+
+
 def test_stale_watch_boundary(sample_subject, config):
     universe = _universe(sample_subject, config)
     # COMP-D is 144 days. Watch at 120 -> fired; raise watch above 144 -> clear.
