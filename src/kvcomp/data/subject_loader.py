@@ -151,6 +151,50 @@ def default_subject() -> Subject:
     )
 
 
+def _west_subject() -> Subject:
+    """A high-value West-district detached (the high-value demo contrast).
+
+    Built the same way as default_subject(): real-style grounding fields, physical attributes
+    left to DISTRICT_TYPICAL[WEST] so they read as DISTRICT_DEFAULT in provenance. Same
+    effective date as South so the shared snapshot/rail-foot date stays correct."""
+    return build_subject(
+        address="33xx Signal Hill Heights SW", district=District.WEST,
+        lat=51.0207, lon=-114.1573, effective_date=date(2026, 6, 1),
+        roll_number="091-44-218-03", assessed_value=985_000, land_use="R-C1",
+        assessment_roll_year=2026, year_built=1998,
+        basement_finished_sqft=600, basement_walkout=False,
+        garage_type=GarageType.ATTACHED, garage_stalls=2,
+        condition=Condition.C3, quality=Quality.Q3,
+    )
+
+
+def _east_subject() -> Subject:
+    """A low-value East-district detached (the low-value demo contrast).
+
+    Same construction discipline as default_subject(); physical fields default to
+    DISTRICT_TYPICAL[EAST]. Same effective date as South."""
+    return build_subject(
+        address="7xx Penbrooke Meadows Close SE", district=District.EAST,
+        lat=51.0381, lon=-113.9492, effective_date=date(2026, 6, 1),
+        roll_number="058-13-902-11", assessed_value=472_000, land_use="R-C1",
+        assessment_roll_year=2026, year_built=1973,
+        basement_finished_sqft=600, basement_walkout=False,
+        garage_type=GarageType.ATTACHED, garage_stalls=2,
+        condition=Condition.C3, quality=Quality.Q3,
+    )
+
+
+def demo_subjects() -> dict[str, Subject]:
+    """The three demo subjects, by case key. South is the EXACT existing hero subject
+    (default_subject()), not a fork; West/East are the high/low district contrasts. Imported by
+    the snapshot generator and the demo-case tests so both share one definition."""
+    return {
+        "south": default_subject(),
+        "west": _west_subject(),
+        "east": _east_subject(),
+    }
+
+
 def fetch_open_calgary(roll_number: str, *, effective_date: date, timeout: float = 15.0) -> Subject:
     """Optional live pull: one record by roll number -> Subject. Network required."""
     import httpx
