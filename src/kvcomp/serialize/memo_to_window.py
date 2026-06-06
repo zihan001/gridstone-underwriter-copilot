@@ -255,11 +255,30 @@ def write_data_js(result, path: Path | None = None) -> Path:
     return out
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    """CLI: serialize a named demo case to a named file.
+
+    No args reproduces the historical behaviour exactly — the South hero to out/data.js — so
+    `python -m kvcomp.serialize` and ./scripts/run.sh are unchanged. `--case east/west` selects
+    a demo subject; `--out` overrides the destination (defaults to out/data.<case>.js for the
+    non-hero cases). Reuses run(subject=...) + write_data_js(...) — no pipeline logic here."""
+    import argparse
+
+    from kvcomp.data.subject_loader import demo_subjects
     from kvcomp.pipeline import run
 
-    path = write_data_js(run())
-    print(f"wrote {path}")
+    cases = demo_subjects()
+    parser = argparse.ArgumentParser(prog="python -m kvcomp.serialize",
+                                     description="Serialize a demo case to a window.MEMO data file.")
+    parser.add_argument("--case", choices=sorted(cases), default="south",
+                        help="demo case to serialize (default: south, the hero).")
+    parser.add_argument("--out", default=None,
+                        help="output path (default: out/data.js for south, out/data.<case>.js otherwise).")
+    args = parser.parse_args(argv)
+
+    out = Path(args.out) if args.out else (_OUT if args.case == "south" else _OUT.with_name(f"data.{args.case}.js"))
+    path = write_data_js(run(cases[args.case]), out)
+    print(f"wrote {path} ({args.case})")
 
 
 if __name__ == "__main__":
