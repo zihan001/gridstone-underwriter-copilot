@@ -146,6 +146,16 @@ body {
 .brand-title { margin: 11px 0 2px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
 .brand-sub { font-family: var(--mono); font-size: 11px; color: var(--faint); }
 
+.case-switch { display: flex; align-items: center; gap: 8px; margin-top: 11px; }
+.case-switch-k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--faint); }
+.case-switch select {
+  flex: 1; min-width: 0; font-family: var(--mono); font-size: 11px; color: var(--ink);
+  background: var(--panel); border: 1px solid var(--line-2); border-radius: var(--r);
+  padding: 5px 8px; cursor: pointer;
+}
+.case-switch select:focus { outline: none; border-color: var(--accent-bd); }
+
 .rail-subject {
   margin: 14px 14px 6px; padding: 11px 12px;
   background: var(--panel); border: 1px solid var(--line); border-radius: var(--r);
@@ -545,12 +555,32 @@ table.adjgrid tfoot tr:first-child td { border-top: 2px solid var(--line-strong)
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<!-- Case snapshots. data.js (the South hero) loads FIRST and stays the default, so the
+     single-case path is unchanged. Each file is a frozen window.MEMO produced by the Python
+     core; the inline captures stash each one under a per-case global. East/West are optional —
+     if absent the switcher simply offers only the cases that loaded. NO math happens in JS. -->
 <script src="data.js"></script>
+<script>window.MEMO_SOUTH = window.MEMO;</script>
+<script src="data.east.js"></script>
+<script>window.MEMO_EAST = window.MEMO;</script>
+<script src="data.west.js"></script>
+<script>window.MEMO_WEST = window.MEMO;</script>
+<script>window.MEMO = window.MEMO_SOUTH;</script>
 <script type="text/babel" data-presets="react">
 
 /* ===== shared.jsx ===== */
 /* Shared primitives — formatters, badges, pills, bars, section chrome */
-const M = window.MEMO;
+
+// Case registry — each entry is a frozen window.MEMO produced by the Python core. Switching
+// cases ONLY reassigns the module-level `M` binding (which every component reads by closure)
+// and re-renders; no underwriting number is ever recomputed in JS. South is the default.
+const CASES = [
+  { key: "south", name: "South · hero",      memo: window.MEMO_SOUTH },
+  { key: "east",  name: "East · low-value",  memo: window.MEMO_EAST },
+  { key: "west",  name: "West · high-value", memo: window.MEMO_WEST },
+].filter((c) => c.memo);
+let M = CASES.find((c) => c.key === "south")?.memo || CASES[0].memo;
+// The usd0/sgn/pct helpers are byte-identical across snapshots, so destructuring once is safe.
 const { usd0, sgn, pct } = M;
 
 // thin underline-style section header used inside panels
@@ -1465,16 +1495,30 @@ const { useState, useEffect } = React;
 // Nav tags are DERIVED from the data, not hardcoded literals, so they track any subject:
 //   comps      = selected / retrieved   grid = comps × grid-lines
 //   confidence = count of FIRED flags (must match the top bar and the "N raised" header)
-const SECTIONS = [
+// Rebuilt each render so the nav badges (derived from the data) track the active case.
+function buildSections() {
+  return [
   { id: "subject",   num: "01", name: "Subject",            Comp: () => window.SubjectSection(),       tag: { t: "REAL", c: "good" } },
   { id: "comps",     num: "02", name: "Comp Selection",     Comp: () => window.CompSelectionSection(), tag: { t: `${M.searchSummary.selected} / ${M.searchSummary.retrieved}`, c: "" } },
   { id: "grid",      num: "03", name: "Adjustment Grid",    Comp: () => window.AdjustmentGridSection(),tag: { t: `${M.selected.length}×${M.selected[0]?.lines.length || 0}`, c: "accent" } },
   { id: "recon",     num: "04", name: "Reconciliation",     Comp: () => window.ReconciliationSection(),tag: { t: "range", c: "" } },
   { id: "confidence",num: "05", name: "Confidence + Flags", Comp: () => window.ConfidenceSection(),    tag: { t: `${M.flags.filter((f) => f.status === "FIRED").length}`, c: "warn" } },
   { id: "memo",      num: "06", name: "Memo",               Comp: () => window.MemoSection(),          tag: null },
-];
+  ];
+}
 
 function App() {
+  // Active case. Changing it reassigns the module-level `M` (read by every component via
+  // closure) BEFORE the re-render, so the whole tree renders the newly-selected snapshot.
+  const [caseKey, setCaseKey] = useState("south");
+  const selectCase = (key) => {
+    const hit = CASES.find((c) => c.key === key);
+    if (!hit) return;
+    M = hit.memo;
+    setCaseKey(key);
+  };
+
+  const SECTIONS = buildSections();
   const [active, setActive] = useState(() => {
     const h = (location.hash || "").replace("#", "");
     if (SECTIONS.some((s) => s.id === h)) return h;
@@ -1500,6 +1544,16 @@ function App() {
           <div className="brand-mark"><span className="brand-dot" />Gridstone</div>
           <div className="brand-title">Comp Memo · Audit View</div>
           <div className="brand-sub">{M.meta.caseId}</div>
+          {CASES.length > 1 && (
+            <label className="case-switch">
+              <span className="case-switch-k">demo case</span>
+              <select value={caseKey} onChange={(e) => selectCase(e.target.value)}>
+                {CASES.map((c) => (
+                  <option key={c.key} value={c.key}>{c.name}</option>
+                ))}
+              </select>
+            </label>
+          )}
         </div>
 
         <div className="rail-subject">
