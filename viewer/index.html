@@ -733,7 +733,7 @@ function SubjectSection() {
       <div className="group">
         <div className="group-label">market context<span className="gl-line" /><span className="gl-right">{mc.series}</span></div>
         <div className="context-line">
-          South district benchmark <b>{M.usd0(mc.southBenchmark)}</b><span className="cl-sep">·</span>
+          {s.district} district benchmark <b>{M.usd0(mc.southBenchmark)}</b><span className="cl-sep">·</span>
           city benchmark <b>{M.usd0(mc.cityBenchmark)}</b><span className="cl-sep">·</span>
           benchmark <b>${mc.ppsf}/sf</b><span className="cl-sep">·</span>
           subject age <b>{s.age} yr</b><span className="cl-sep">·</span>detached · 2026-06
@@ -829,8 +829,9 @@ function SelectedCompCard({ c }) {
       <div className="cc-foot">
         <span className="cc-meta">MLS {c.mls} · {c.district}</span>
         <div className="flag-meta">
-          {(c.watch || []).map((w) => <Badge key={w} tone="warn">{w}</Badge>)}
-          {!c.watch && <Badge tone="good">clean</Badge>}
+          {(c.watch || []).length
+            ? c.watch.map((w) => <Badge key={w} tone="warn">{w}</Badge>)
+            : <Badge tone="good">clean</Badge>}
         </div>
       </div>
     </div>
@@ -906,21 +907,37 @@ window.CompSelectionSection = CompSelectionSection;
 
 /* ===== sec_grid.jsx ===== */
 /* Section 3 — ADJUSTMENT GRID (transparent sales-comparison grid) */
+const GARAGE_ABBR = { attached: "att.", detached: "det.", tandem: "tan.", none: "none" };
+
 function AdjustmentGridSection() {
   const comps = M.selected;
   const t = M.thresholds;
+  const s = M.subject;
+  const r = M.rates;
+  // Null-guard: with no selected comps the grid has no row template / columns. Render a
+  // notice rather than crashing on comps[0].lines.
+  if (!comps.length) {
+    return (
+      <section className="section" data-screen-label="Adjustment Grid">
+        <SectionTitle index="03" name="Adjustment Grid"
+          sub="No comparable sales were selected, so no adjustment grid can be developed." />
+        <div className="note-line">Adjustment grid unavailable — the selection step retained no comparables.</div>
+      </section>
+    );
+  }
   const rowOrder = comps[0].lines.map((l) => ({ key: l.key, label: l.label }));
+  // Subject column — driven from the subject record, not South-locked literals.
   const subjectVals = {
-    gla: ["1,450 sf", "above grade"],
-    lot: ["5,242 sf", "site"],
-    bed: ["3", "bedrooms"],
-    bath: ["2F / 1H", "baths"],
-    bsmt: ["600 sf fin", "no walkout"],
-    gar: ["2 · att.", "garage"],
-    age: ["1984", "42 yr"],
-    cond: ["C3", "condition"],
-    qual: ["Q3", "quality"],
-    time: ["2026-06-01", "effective"],
+    gla: [`${s.gla.toLocaleString()} sf`, "above grade"],
+    lot: [`${s.lot.toLocaleString()} sf`, "site"],
+    bed: [`${s.beds}`, "bedrooms"],
+    bath: [`${s.bathFull}F / ${s.bathHalf}H`, "baths"],
+    bsmt: [`${s.basementSf} sf fin`, s.walkout ? "walkout" : "no walkout"],
+    gar: [`${s.garageStalls} · ${GARAGE_ABBR[s.garageType] || s.garageType}`, "garage"],
+    age: [`${s.yearBuilt}`, `${s.age} yr`],
+    cond: [s.condition, "condition"],
+    qual: [s.quality, "quality"],
+    time: [s.effDate, "effective"],
   };
 
   return (
@@ -928,7 +945,7 @@ function AdjustmentGridSection() {
       <SectionTitle
         index="03"
         name="Adjustment Grid"
-        sub="Every comparable is reconciled to the subject on a transparent grid using a fixed rate card. A superior comparable carries a negative adjustment; an inferior one, positive. Time adjustments are derived per comp from the CREB South-district benchmark between its contract month and the effective date."
+        sub={`Every comparable is reconciled to the subject on a transparent grid using a fixed rate card. A superior comparable carries a negative adjustment; an inferior one, positive. Time adjustments are derived per comp from the CREB ${s.district}-district benchmark between its contract month and the effective date.`}
         meta={
           <React.Fragment>
             <SyntheticTag />
@@ -945,10 +962,10 @@ function AdjustmentGridSection() {
           right={<Badge tone="ghost">applied uniformly across all comps</Badge>} />
         <div className="panel-pad" style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
           {[
-            ["GLA", "$85 / sf"], ["Lot", "$12 / sf"], ["Bed", "$4,000"],
-            ["Full bath", "$6,000"], ["Half bath", "$3,500"], ["Basement", "$35 / sf"],
-            ["Garage", "$7,500 / stall"], ["Age", "$700 / yr"], ["Condition", "$12,000 / step"],
-            ["Quality", "$15,000 / step"], ["Time", "CREB benchmark"],
+            ["GLA", `$${r.gla} / sf`], ["Lot", `$${r.lot} / sf`], ["Bed", `$${r.bed.toLocaleString()}`],
+            ["Full bath", `$${r.bathFull.toLocaleString()}`], ["Half bath", `$${r.bathHalf.toLocaleString()}`], ["Basement", `$${r.basement} / sf`],
+            ["Garage", `$${r.garage.toLocaleString()} / stall`], ["Age", `$${r.age.toLocaleString()} / yr`], ["Condition", `$${r.condition.toLocaleString()} / step`],
+            ["Quality", `$${r.quality.toLocaleString()} / step`], ["Time", "CREB benchmark"],
           ].map(([k, v]) => (
             <div key={k} style={{ display: "flex", gap: 7, alignItems: "baseline", border: "1px solid var(--line)", borderRadius: 5, padding: "5px 10px" }}>
               <span style={{ fontFamily: "var(--mono)", fontSize: 10.5, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.06em" }}>{k}</span>
@@ -967,7 +984,7 @@ function AdjustmentGridSection() {
                 <th className="col-subject">
                   <div className="colhead">
                     <span className="ch-id"><span className="subject-anchor">◆</span> SUBJECT</span>
-                    <span className="ch-sub">eff. 2026-06-01</span>
+                    <span className="ch-sub">eff. {s.effDate}</span>
                     <span className="ch-price subject-anchor">anchor</span>
                   </div>
                 </th>
@@ -1049,11 +1066,16 @@ function AdjustmentGridSection() {
             <b>Thresholds are flags, not failures.</b> {M.aicNote} Net &gt; {t.net}% / gross &gt; {t.gross}% / single-line &gt; {t.line}% render amber;
             a softer review band (gross &gt; {t.grossReview}%) is also surfaced. Hover any pill for the specific guidance.
           </div>
-          <div className="note-line" style={{ marginTop: 12 }}>
-            <b style={{ color: "var(--ink-2)" }}>Note on COMP-D.</b> Its adjacent-district location is absorbed through distance-weighting in
-            Reconciliation rather than an explicit grid line, keeping the grid to the documented subject attributes. The choice is
-            recorded as flag <span className="mono" style={{ color: "var(--accent-2)" }}>ADJACENT_DISTRICT_COMP</span>.
-          </div>
+          {(() => {
+            const adj = comps.find((c) => !c.sameDistrict);
+            return adj ? (
+              <div className="note-line" style={{ marginTop: 12 }}>
+                <b style={{ color: "var(--ink-2)" }}>Note on {adj.label}.</b> Its adjacent-district location is absorbed through distance-weighting in
+                Reconciliation rather than an explicit grid line, keeping the grid to the documented subject attributes. The choice is
+                recorded as flag <span className="mono" style={{ color: "var(--accent-2)" }}>ADJACENT_DISTRICT_COMP</span>.
+              </div>
+            ) : null;
+          })()}
         </div>
       </div>
     </section>
@@ -1067,7 +1089,12 @@ window.AdjustmentGridSection = AdjustmentGridSection;
 function ValueBand() {
   const r = M.range;
   const comps = M.selected;
-  const axisMin = 702000, axisMax = 728000;
+  // Axis computed from the actual adjusted-value envelope AND the reported range, padded, so
+  // off-hero dots never fall off the track (no South-locked 702k–728k window).
+  const lo = Math.min(r.low, ...M.adjustedVals);
+  const hi = Math.max(r.high, ...M.adjustedVals);
+  const pad = (hi - lo) * 0.12 || 1000;
+  const axisMin = lo - pad, axisMax = hi + pad;
   const span = axisMax - axisMin;
   const pos = (v) => ((v - axisMin) / span) * 100;
   return (
@@ -1100,8 +1127,27 @@ function ValueBand() {
 function ReconciliationSection() {
   const comps = M.selected;
   const r = M.range;
+  const t = M.thresholds;
   const wd = M.weightDrivers;
+  // Null-guard: with no selected comps, Math.min/max(...[]) yields ±Infinity (NaN bars and
+  // an "$Infinity" envelope). Render a notice instead.
+  if (!comps.length) {
+    return (
+      <section className="section" data-screen-label="Reconciliation">
+        <SectionTitle index="04" name="Reconciliation"
+          sub="No comparable sales were selected, so no value range can be reconciled." />
+        <div className="note-line">Reconciliation unavailable — the selection step retained no comparables.</div>
+      </section>
+    );
+  }
   const maxW = Math.max(...comps.map((c) => M.weights[c.id]));
+  // Range spread reported as ONE figure everywhere: $ from the range, % from spreadPct.
+  const rangeSpread = r.high - r.low;
+  const insideRange = M.adjustedVals.filter((v) => v >= r.low && v <= r.high).length;
+  // Generalised weight-derivation prose — driven from the data, not South-locked labels.
+  const anchor = comps.length ? comps.reduce((a, b) => (M.weights[a.id] >= M.weights[b.id] ? a : b)) : null;
+  const heavy = comps.length ? comps.reduce((a, b) => (a.grossPct >= b.grossPct ? a : b)) : null;
+  const adj = comps.find((c) => !c.sameDistrict);
   return (
     <section className="section" data-screen-label="Reconciliation">
       <SectionTitle
@@ -1116,15 +1162,15 @@ function ReconciliationSection() {
         <ValueBand />
         <div className="panel-pad" style={{ borderTop: "1px solid var(--line)" }}>
           <div className="context-line">
-            bracketing <b>4 / 4</b> comps inside range<span className="cl-sep">·</span>
+            bracketing <b>{insideRange} / {M.adjustedVals.length}</b> comps inside range<span className="cl-sep">·</span>
             adjusted values <b>{M.usd0(Math.min(...M.adjustedVals))}–{M.usd0(Math.max(...M.adjustedVals))}</b><span className="cl-sep">·</span>
-            spread <b>${(Math.max(...M.adjustedVals) - Math.min(...M.adjustedVals)).toLocaleString()}</b> (~1.6% of point)
+            range spread <b>${rangeSpread.toLocaleString()}</b> ({r.spreadPct.toFixed(1)}% of point)
           </div>
         </div>
         <div className="panel-pad" style={{ borderTop: "1px solid var(--line)" }}>
           <div className="callout">
             The weighted central point <b className="mono">{M.usd0(r.point)}</b> is reported as the midpoint of a defensible range, not as
-            "the value." Every adjusted comparable falls inside <b className="mono">{M.usd0(r.low)}–{M.usd0(r.high)}</b>; the range is the deliverable.
+            "the value." {insideRange} of {M.adjustedVals.length} adjusted comparables fall within <b className="mono">{M.usd0(r.low)}–{M.usd0(r.high)}</b>; the supported range is the deliverable.
           </div>
         </div>
       </div>
@@ -1149,7 +1195,7 @@ function ReconciliationSection() {
                     <td className="mono">{wd[c.id].similarity}</td>
                     <td className="mono">{wd[c.id].recency}</td>
                     <td className="mono">{wd[c.id].distance}</td>
-                    <td className="mono" style={{ color: c.id === "C-C" ? "var(--warn-2)" : "var(--ink-2)" }}>{wd[c.id].burden}</td>
+                    <td className="mono" style={{ color: c.grossPct > t.grossReview ? "var(--warn-2)" : "var(--ink-2)" }}>{wd[c.id].burden}</td>
                     <td>
                       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <div style={{ flex: 1, height: 9, background: "var(--panel-3)", borderRadius: 3, overflow: "hidden" }}>
@@ -1164,9 +1210,11 @@ function ReconciliationSection() {
             </tbody>
           </table>
           <div className="note-line" style={{ marginTop: 10 }}>
-            COMP-A leads on similarity, recency, and proximity with the lightest adjustment burden, so it anchors the
-            indication. COMP-C is down-weighted for its 13.6% gross adjustment; COMP-D for adjacent-district location and a
-            144-day contract age. Weights sum to 100%.
+            {anchor && <React.Fragment>{anchor.label} leads on similarity, recency, and proximity with the lightest adjustment burden, so it anchors the
+            indication. </React.Fragment>}
+            {heavy && heavy.grossPct > t.grossReview && <React.Fragment>{heavy.label} is down-weighted for its {heavy.grossPct.toFixed(1)}% gross adjustment</React.Fragment>}
+            {adj && <React.Fragment>{heavy && heavy.grossPct > t.grossReview ? "; " : ""}{adj.label} for adjacent-district location and a {adj.ageDays}-day contract age</React.Fragment>}
+            {(heavy && heavy.grossPct > t.grossReview) || adj ? ". " : ""}Weights sum to 100%.
           </div>
         </div>
       </div>
@@ -1322,16 +1370,16 @@ function MemoSection() {
             <table className="tbl">
               <tbody>
                 <tr><td className="k">Subject</td><td className="v">{s.addr}</td></tr>
-                <tr><td className="k">GLA / lot</td><td className="v mono">1,450 sf / 5,242 sf</td></tr>
-                <tr><td className="k">Beds / baths</td><td className="v mono">3 / 2F · 1H</td></tr>
-                <tr><td className="k">Built · cond · qual</td><td className="v mono">1984 · C3 · Q3</td></tr>
+                <tr><td className="k">GLA / lot</td><td className="v mono">{s.gla.toLocaleString()} sf / {s.lot.toLocaleString()} sf</td></tr>
+                <tr><td className="k">Beds / baths</td><td className="v mono">{s.beds} / {s.bathFull}F · {s.bathHalf}H</td></tr>
+                <tr><td className="k">Built · cond · qual</td><td className="v mono">{s.yearBuilt} · {s.condition} · {s.quality}</td></tr>
               </tbody>
             </table>
             <table className="tbl">
               <tbody>
                 <tr><td className="k">Assessed value</td><td className="v mono">{M.usd0(s.assessedValue)}</td></tr>
                 <tr><td className="k">Provenance</td><td className="v mono" style={{ color: "var(--accent-2)" }}>{s.provenance}</td></tr>
-                <tr><td className="k">South benchmark</td><td className="v mono">{M.usd0(M.marketContext.southBenchmark)}</td></tr>
+                <tr><td className="k">{s.district} benchmark</td><td className="v mono">{M.usd0(M.marketContext.southBenchmark)}</td></tr>
                 <tr><td className="k">Effective date</td><td className="v mono">{M.meta.effectiveDate}</td></tr>
               </tbody>
             </table>
@@ -1355,7 +1403,7 @@ function MemoSection() {
                   <td className="mono">{c.distanceKm} km</td>
                   <td className="mono">T{c.tier}</td>
                   <td className="mono v">{M.usd0(c.adjusted)}</td>
-                  <td>{c.watch ? <Badge tone="warn">{c.watch[0]}</Badge> : <Badge tone="good">clean</Badge>}</td>
+                  <td>{(c.watch || []).length ? <Badge tone="warn">{c.watch[0]}</Badge> : <Badge tone="good">clean</Badge>}</td>
                 </tr>
               ))}
               {M.rejected.map((c) => (
@@ -1414,12 +1462,15 @@ window.MemoSection = MemoSection;
 /* App shell — nav rail, topbar status strip, section router */
 const { useState, useEffect } = React;
 
+// Nav tags are DERIVED from the data, not hardcoded literals, so they track any subject:
+//   comps      = selected / retrieved   grid = comps × grid-lines
+//   confidence = count of FIRED flags (must match the top bar and the "N raised" header)
 const SECTIONS = [
   { id: "subject",   num: "01", name: "Subject",            Comp: () => window.SubjectSection(),       tag: { t: "REAL", c: "good" } },
-  { id: "comps",     num: "02", name: "Comp Selection",     Comp: () => window.CompSelectionSection(), tag: { t: "4 / 9", c: "" } },
-  { id: "grid",      num: "03", name: "Adjustment Grid",    Comp: () => window.AdjustmentGridSection(),tag: { t: "10×4", c: "accent" } },
+  { id: "comps",     num: "02", name: "Comp Selection",     Comp: () => window.CompSelectionSection(), tag: { t: `${M.searchSummary.selected} / ${M.searchSummary.retrieved}`, c: "" } },
+  { id: "grid",      num: "03", name: "Adjustment Grid",    Comp: () => window.AdjustmentGridSection(),tag: { t: `${M.selected.length}×${M.selected[0]?.lines.length || 0}`, c: "accent" } },
   { id: "recon",     num: "04", name: "Reconciliation",     Comp: () => window.ReconciliationSection(),tag: { t: "range", c: "" } },
-  { id: "confidence",num: "05", name: "Confidence + Flags", Comp: () => window.ConfidenceSection(),    tag: { t: "4", c: "warn" } },
+  { id: "confidence",num: "05", name: "Confidence + Flags", Comp: () => window.ConfidenceSection(),    tag: { t: `${M.flags.filter((f) => f.status === "FIRED").length}`, c: "warn" } },
   { id: "memo",      num: "06", name: "Memo",               Comp: () => window.MemoSection(),          tag: null },
 ];
 
