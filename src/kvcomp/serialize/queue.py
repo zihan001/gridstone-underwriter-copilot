@@ -34,16 +34,18 @@ _VERDICT_ORDER = {"red": 0, "yellow": 1, "green": 2}
 _DEFAULT_OUT = Path(__file__).resolve().parents[3] / "viewer" / "queue.js"
 
 
-def build_queue(cfg: AdjustmentConfig | None = None):
+def build_queue(cfg: AdjustmentConfig | None = None, *, use_llm: bool | None = None):
     """Run every inbox deal through the core, triage each, and return (entries, results).
 
     `entries` is the sorted window.QUEUE list; `results` maps deal id -> PipelineResult so the
-    caller can serialize each deal's full memo with the existing serializer."""
+    caller can serialize each deal's full memo with the existing serializer. `use_llm` follows
+    the usual convention: None auto-detects ANTHROPIC_API_KEY (LLM-written prose when set,
+    deterministic template otherwise); the triage verdicts and ranges are LLM-independent."""
     cfg = cfg or AdjustmentConfig()
     entries: list[dict] = []
     results: dict[str, object] = {}
     for deal in inbox(cfg):
-        res = run(deal.subject, cfg, candidates=deal.candidates, use_llm=False)
+        res = run(deal.subject, cfg, candidates=deal.candidates, use_llm=use_llm)
         verdict = triage(res.memo)
         vr = res.memo.value_range
         entries.append({
@@ -64,24 +66,27 @@ def build_queue(cfg: AdjustmentConfig | None = None):
     return entries, results
 
 
-def write_queue(out_path: Path | None = None, cfg: AdjustmentConfig | None = None) -> Path:
-    """Write window.QUEUE to `out_path` and each deal's full window.MEMO to <out_dir>/queue/."""
-    out = out_path or _DEFAULT_OUT
+def _emit(out: Path, entries: list[dict], results: dict[str, object]) -> None:
+    """Write queue.js (window.QUEUE) and one window.MEMO snapshot per deal."""
     out.parent.mkdir(parents=True, exist_ok=True)
-    entries, results = build_queue(cfg)
-
     out.write_text(
         "/* GENERATED — triage queue snapshot. Regenerate with "
         "`python -m kvcomp.serialize --queue`. */\n"
         "window.QUEUE = " + json.dumps(entries, ensure_ascii=False, indent=2) + ";\n"
     )
-
     deal_dir = out.parent / "queue"
     deal_dir.mkdir(parents=True, exist_ok=True)
     for deal_id, res in results.items():
         # The EXISTING serializer, unchanged — each deal becomes a real window.MEMO snapshot.
         (deal_dir / f"{deal_id}.js").write_text(render_data_js(res))
 
+
+def write_queue(out_path: Path | None = None, cfg: AdjustmentConfig | None = None,
+                *, use_llm: bool | None = None) -> Path:
+    """Write window.QUEUE to `out_path` and each deal's full window.MEMO to <out_dir>/queue/."""
+    out = out_path or _DEFAULT_OUT
+    entries, results = build_queue(cfg, use_llm=use_llm)
+    _emit(out, entries, results)
     return out
 
 
@@ -96,10 +101,12 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
 
     out = Path(args.out) if args.out else _DEFAULT_OUT
-    path = write_queue(out)
-    entries, _ = build_queue()
+    entries, results = build_queue()          # built once; auto-detects the key for prose
+    _emit(out, entries, results)
     from collections import Counter
     spread = Counter(e["verdict"] for e in entries)
-    print(f"wrote {path} — {len(entries)} deals "
-          f"({spread.get('green', 0)} green · {spread.get('yellow', 0)} yellow · {spread.get('red', 0)} red)")
-    print(f"wrote per-deal snapshots to {path.parent / 'queue'}/")
+    src = next((r.narrative_source for r in results.values()), "template")
+    print(f"wrote {out} — {len(entries)} deals "
+          f"({spread.get('green', 0)} green · {spread.get('yellow', 0)} yellow · {spread.get('red', 0)} red) "
+          f"· prose via {src}")
+    print(f"wrote per-deal snapshots to {out.parent / 'queue'}/")
