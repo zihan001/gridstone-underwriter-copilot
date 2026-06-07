@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import pytest
 
-from kvcomp.narrative.agent import ToolCall, _one_line, _tool_schema, run_agent
+from kvcomp.narrative.agent import _SUMMARY_CHARS, ToolCall, _one_line, _tool_schema, run_agent
 
 
 @pytest.fixture(autouse=True)
@@ -76,4 +76,4 @@ def test_toolcall_is_a_named_triple():
 
 def test_one_line_collapses_and_caps():
     assert _one_line("a\n  b\t c") == "a b c"
-    assert len(_one_line("x" * 1000)) <= 160
+    assert len(_one_line("x" * 1000)) <= _SUMMARY_CHARS

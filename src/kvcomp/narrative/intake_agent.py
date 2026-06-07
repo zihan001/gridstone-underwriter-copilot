@@ -386,7 +386,7 @@ def _deterministic_intake(listing: str, ledger: IntakeLedger) -> list[ToolCall]:
 
     def call(name: str, **args) -> None:
         out = str(tools[name](**args))
-        trace.append(ToolCall(name, args, " ".join(out.split())[:160]))
+        trace.append(ToolCall(name, args, " ".join(out.split())[:400]))
 
     addr_match = re.search(r"\d+x*\s+[A-Za-z].*?(?:SE|SW|NE|NW)", listing)
     address = addr_match.group(0).strip() if addr_match else listing.strip()[:60]

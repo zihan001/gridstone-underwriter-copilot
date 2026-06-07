@@ -4,7 +4,7 @@
    ----------------------------------------------------------------------------
    This template carries the verbatim JS formatting helpers the locked viewer
    calls (usd0 / sgn / pct / timeFactor). The Python serializer replaces the
-   __MEMO_DATA__ token with json.dumps(memo_window_dict) and writes the result
+   data token (below) with json.dumps(memo_window_dict) and writes the result
    to out/data.js. The helpers must match the originals in the delivered viewer
    exactly, byte for byte, so render is unchanged. See docs/MEMO_CONTRACT.md.
    ========================================================================== */

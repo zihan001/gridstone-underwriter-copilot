@@ -469,6 +469,24 @@ table.adjgrid tfoot tr:first-child td { border-top: 2px solid var(--line-strong)
 .llm-note { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10px; color: var(--muted);
   border: 1px dashed var(--line-2); border-radius: 5px; padding: 2px 8px; margin-bottom: 12px; }
 
+/* ---- §07 agent trace: verdict line + compact delta table + collapsible raw trace -------- */
+.agent-verdict { font-size: 14px; line-height: 1.6; font-weight: 600; color: var(--ink);
+  margin: 0 0 14px; max-width: 84ch; }
+.delta-tbl { margin: 0 0 16px; }
+.delta-tbl td, .delta-tbl th { font-variant-numeric: tabular-nums; }
+.delta-tbl td.k { width: 280px; color: var(--ink-2); }
+.delta-tbl td.delta-moved { color: var(--warn-2); font-weight: 600; background: var(--warn-bg); }
+.agent-trace-toggle { margin-top: 2px; }
+.trace-toggle-btn { display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  background: none; border: 0; padding: 6px 0; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-2); }
+.trace-toggle-btn:hover { color: var(--accent); }
+.ttb-count { color: var(--faint); letter-spacing: 0.06em; text-transform: none; }
+.agent-md > :first-child { margin-top: 0; }
+.agent-md-h { font-weight: 600; color: var(--ink); margin: 13px 0 5px; font-size: 13px; }
+.agent-md-ul { margin: 5px 0 11px; padding-left: 18px; }
+.agent-md-ul li { margin: 2px 0; }
+
 .note-line { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
 .callout { border-left: 2px solid var(--accent-bd); background: var(--accent-bg); padding: 11px 15px; border-radius: 0 6px 6px 0; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
 .callout.warn { border-left-color: var(--warn-bd); background: var(--warn-bg); }
@@ -573,13 +591,15 @@ table.adjgrid tfoot tr:first-child td { border-top: 2px solid var(--line-strong)
 
 // Case registry — each entry is a frozen window.MEMO produced by the Python core. Switching
 // cases ONLY reassigns the module-level `M` binding (which every component reads by closure)
-// and re-renders; no underwriting number is ever recomputed in JS. South is the default.
+// and re-renders; no underwriting number is ever recomputed in JS. Labels describe what each
+// case TEACHES (see in §07's sensitivity probe), not internal nicknames. East is the landing
+// case — it's the one where the value holds but confidence is genuinely sensitive.
 const CASES = [
-  { key: "south", name: "South · hero",      memo: window.MEMO_SOUTH },
-  { key: "east",  name: "East · low-value",  memo: window.MEMO_EAST },
-  { key: "west",  name: "West · high-value", memo: window.MEMO_WEST },
+  { key: "east",  name: "East · sensitive (confidence drops under forced wider search)", memo: window.MEMO_EAST },
+  { key: "south", name: "South · stable (value holds under every probe)",                memo: window.MEMO_SOUTH },
+  { key: "west",  name: "West · clean (high-value, fewest flags raised)",                memo: window.MEMO_WEST },
 ].filter((c) => c.memo);
-let M = CASES.find((c) => c.key === "south")?.memo || CASES[0].memo;
+let M = CASES.find((c) => c.key === "east")?.memo || CASES[0].memo;
 // The usd0/sgn/pct helpers are byte-identical across snapshots, so destructuring once is safe.
 const { usd0, sgn, pct } = M;
 
@@ -1519,7 +1539,138 @@ function AgentCallList({ calls }) {
   );
 }
 
-function AgentBlock({ title, sub, block, proseKey }) {
+/* Verbatim readers. Every figure in §07 ALREADY EXISTS inside the prose the core authored
+   (intake.reasoning, sensitivity.note). These helpers RE-READ those figures as substrings —
+   they parse, they never compute. If the grammar ever drifts, a reader returns null and the
+   caller falls back to the original prose, with the full raw trace always present below. So
+   the viewer can never become the author of a number it merely displays. */
+
+// Intake: pull the three provenance counts out of the grounding sentence the core wrote.
+function readIntakeProvenance(reasoning) {
+  if (!reasoning) return null;
+  const oc = reasoning.match(/grounded\s+(\d+)\s+identity\/assessment field\(s\) from Open Calgary/);
+  const ls = reasoning.match(/read\s+(\d+)\s+attribute\(s\) from the listing/);
+  const fb = reasoning.match(/fell back to CREB district-typical values for\s+(\d+)\s+field\(s\)\s*\(([^)]*)\)/);
+  if (!oc || !ls || !fb) return null;
+  const openCalgary = +oc[1], listing = +ls[1], estimated = +fb[1];
+  return { openCalgary, listing, estimated, estNames: fb[2], total: openCalgary + listing + estimated };
+}
+
+// Scan any text for per-scenario delta lines and return parsed rows (or null). The grammar is
+// the deterministic engine's compare line: "[label] point $A -> $B (moved); range ...;
+// confidence LVL c1 -> LVL c2; selected s1 -> s2; fired flags f1 -> f2."  We capture only the
+// cells the table shows; pointHeld is decided by comparing the two dollar values, so it is
+// correct whether the point moved or not.
+function scenarioRows(text) {
+  if (!text) return null;
+  const re = /\[([^\]]+)\]\s*point\s+(\$[\d,]+)\s*->\s*(\$[\d,]+)\s*(\([^)]*\))?[^;]*;[^;]*;\s*confidence\s+(\w+)\s+([\d.]+)\s*->\s*(\w+)\s+([\d.]+);\s*selected\s+(\d+)\s*->\s*(\d+);\s*fired flags\s+(\d+)\s*->\s*(\d+)/g;
+  const rows = [];
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    rows.push({
+      label: m[1].trim(),
+      pointFrom: m[2], pointTo: m[3], pointHeld: m[2] === m[3],
+      confLvlFrom: m[5], confFrom: m[6], confLvlTo: m[7], confTo: m[8],
+      confChanged: m[6] !== m[8] || m[5] !== m[7], confLevelDropped: m[5] !== m[7],
+      flagsFrom: m[11], flagsTo: m[12], flagsChanged: m[11] !== m[12],
+    });
+  }
+  return rows.length ? rows : null;
+}
+
+// Read the sensitivity delta rows. PREFER the deterministic tool-call results — they carry the
+// structured compare grammar in BOTH template and LLM mode (the LLM cannot alter a tool's
+// output, only choose which tools to run), so the table survives a model-authored note. Fall
+// back to the prose note for older/truncated snapshots whose call results were capped short.
+function readSensitivityRows(sensitivity) {
+  if (!sensitivity) return null;
+  const fromCalls = (sensitivity.calls || []).map((c) => c.result).join("\n");
+  return scenarioRows(fromCalls) || scenarioRows(sensitivity.note);
+}
+
+// One plain-language sentence, phrased from the rows actually present — not hardcoded.
+function sensitivityVerdict(rows) {
+  const stripParen = (s) => s.replace(/\s*\([^)]*\)/g, "").trim();
+  const held = rows.every((r) => r.pointHeld);
+  const dropped = rows.filter((r) => r.confLevelDropped);
+  if (held && dropped.length === 0) return "Value and confidence hold under every probe.";
+  if (held) {
+    const lvl = dropped[0].confLvlTo;
+    const which = dropped.map((d) => stripParen(d.label)).join(", ");
+    return `Value holds under all ${rows.length} probes; confidence falls to ${lvl} only under ${which}.`;
+  }
+  return "The point indication shifts under at least one probe — see the table below.";
+}
+
+// Compact delta table (sensitivity only). One row per scenario; a cell is highlighted ONLY
+// when it moved, so the eye lands on what changed. Arrow read straight from the payload's "->".
+function SensitivityDeltaTable({ rows }) {
+  if (!rows || !rows.length) return null;
+  const pretty = (s) => s.replace(/\s*->\s*/g, " → ");
+  return (
+    <table className="tbl delta-tbl">
+      <thead>
+        <tr><th>Scenario</th><th>Point</th><th>Confidence</th><th>Flags</th></tr>
+      </thead>
+      <tbody>
+        {rows.map((r, i) => (
+          <tr key={i}>
+            <td className="k">{pretty(r.label)}</td>
+            <td>{r.pointHeld ? `${r.pointFrom} → unchanged` : `${r.pointFrom} → ${r.pointTo}`}</td>
+            <td className={r.confChanged ? "delta-moved" : ""}>
+              {r.confFrom} {"→"} {r.confTo}{r.confLevelDropped ? ` ${r.confLvlTo}` : ""}
+            </td>
+            <td className={r.flagsChanged ? "delta-moved" : ""}>{r.flagsFrom} {"→"} {r.flagsTo}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+// Minimal Markdown renderer for the agent prose. LLM-authored notes arrive as Markdown
+// (## headings, **bold**, - bullets); the deterministic template arrives as plain text. This
+// builds React nodes only (no innerHTML), and plain text passes through as paragraphs, so it is
+// safe for either source. It renders text the core/agent already produced — it computes nothing.
+function mdInline(text, kp) {
+  return String(text).split(/\*\*(.+?)\*\*/g)
+    .map((p, i) => (i % 2 === 1 ? <strong key={kp + "-" + i}>{p}</strong> : p));
+}
+function Markdown({ text }) {
+  if (!text) return null;
+  const blocks = [];
+  let para = [], list = [];
+  const flushPara = () => { if (para.length) { blocks.push({ t: "p", lines: para }); para = []; } };
+  const flushList = () => { if (list.length) { blocks.push({ t: "ul", lines: list }); list = []; } };
+  for (const raw of String(text).replace(/\r/g, "").split("\n")) {
+    const line = raw.trimEnd();
+    if (!line.trim()) { flushPara(); flushList(); continue; }
+    const h = line.match(/^(#{1,6})\s+(.*)$/);
+    const b = line.match(/^[-*]\s+(.*)$/);
+    if (h) { flushPara(); flushList(); blocks.push({ t: "h", text: h[2] }); }
+    else if (b) { flushPara(); list.push(b[1]); }
+    else { flushList(); para.push(line); }
+  }
+  flushPara(); flushList();
+  return (
+    <div className="agent-md">
+      {blocks.map((blk, i) => {
+        if (blk.t === "h") return <div key={i} className="agent-md-h">{mdInline(blk.text, "h" + i)}</div>;
+        if (blk.t === "ul") return <ul key={i} className="agent-md-ul">{blk.lines.map((li, j) => <li key={j}>{mdInline(li, "li" + i + "-" + j)}</li>)}</ul>;
+        return <p key={i}>{mdInline(blk.lines.join(" "), "p" + i)}</p>;
+      })}
+    </div>
+  );
+}
+
+// Three-tier disclosure per agent: (a) a glance-readable verdict line, (b) an optional compact
+// delta table, (c) the agent's own prose — shown only when it is LLM-authored (or as a fallback
+// when the table couldn't be built), so a deterministic template never re-introduces a prose
+// wall, (d) the full raw tool-call log collapsed behind a toggle. The toggle (show/hide of
+// already-present content) is the ONLY interactivity in this section.
+function AgentBlock({ title, sub, block, verdict, table, prose }) {
+  const [open, setOpen] = useState(false);
+  const calls = block && block.calls ? block.calls : [];
   return (
     <div className="memo-sec">
       <h4>{title}
@@ -1529,8 +1680,19 @@ function AgentBlock({ title, sub, block, proseKey }) {
       {!block
         ? <div className="memo-prose"><p style={{ color: "var(--faint)" }}>Not run for this case.</p></div>
         : (<React.Fragment>
-            <div className="memo-prose"><p>{block[proseKey]}</p></div>
-            <AgentCallList calls={block.calls} />
+            {verdict && <p className="agent-verdict">{verdict}</p>}
+            {table}
+            {prose && <div className="memo-prose"><Markdown text={prose} /></div>}
+            {calls.length > 0 && (
+              <div className="agent-trace-toggle">
+                <button type="button" className="trace-toggle-btn"
+                  aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+                  {open ? "▾ Hide full trace" : "▸ Show full trace"}
+                  <span className="ttb-count">{calls.length} tool call{calls.length === 1 ? "" : "s"}</span>
+                </button>
+                {open && <AgentCallList calls={calls} />}
+              </div>
+            )}
           </React.Fragment>)}
     </div>
   );
@@ -1538,6 +1700,25 @@ function AgentBlock({ title, sub, block, proseKey }) {
 
 function AgentTraceSection() {
   const at = M.agentTrace;
+  // Each block shows a derived verdict + (sensitivity) delta table when the structured grammar
+  // parses, and the agent's own prose only when it is LLM-authored — or as a fallback when the
+  // structure didn't parse, so no information is ever lost. A deterministic template note is
+  // therefore never shown as a prose wall (the table already says it, more legibly).
+  const intake = at && at.intake;
+  const prov = intake ? readIntakeProvenance(intake.reasoning) : null;
+  // Require a non-zero total: a zero parse means the grounding sentence didn't really describe
+  // sourced fields, so derive no verdict and let the prose stand instead of claiming "All 0".
+  const validProv = prov && prov.total > 0;
+  const intakeVerdict = validProv
+    ? `All ${prov.total} subject fields are sourced, none invented — ${prov.openCalgary} from Open Calgary, ${prov.listing} from the listing, ${prov.estimated} estimated (${prov.estNames}).`
+    : null;
+  const intakeProse = intake && (intake.source === "llm" || !validProv) ? intake.reasoning : null;
+
+  const sensitivity = at && at.sensitivity;
+  const sensRows = sensitivity ? readSensitivityRows(sensitivity) : null;
+  const sensVerdict = sensRows ? sensitivityVerdict(sensRows) : null;
+  const sensProse = sensitivity && (sensitivity.source === "llm" || !sensRows) ? sensitivity.note : null;
+
   return (
     <section className="section" data-screen-label="Agent Trace">
       <SectionTitle
@@ -1551,9 +1732,10 @@ function AgentTraceSection() {
           ? <div className="memo-sec"><div className="memo-prose"><p>No agent trace in this snapshot.</p></div></div>
           : (<React.Fragment>
               <AgentBlock title="Intake reasoning" sub="before the pipeline · listing text → grounded Subject"
-                block={at.intake} proseKey="reasoning" />
+                block={intake} verdict={intakeVerdict} prose={intakeProse} />
               <AgentBlock title="Sensitivity analysis" sub="after the pipeline · stress-tests the finished value range"
-                block={at.sensitivity} proseKey="note" />
+                block={sensitivity} verdict={sensVerdict} prose={sensProse}
+                table={<SensitivityDeltaTable rows={sensRows} />} />
             </React.Fragment>)}
       </div>
     </section>
@@ -1580,7 +1762,7 @@ function buildSections() {
 function App() {
   // Active case. Changing it reassigns the module-level `M` (read by every component via
   // closure) BEFORE the re-render, so the whole tree renders the newly-selected snapshot.
-  const [caseKey, setCaseKey] = useState("south");
+  const [caseKey, setCaseKey] = useState("east");
   const selectCase = (key) => {
     const hit = CASES.find((c) => c.key === key);
     if (!hit) return;
