@@ -34,7 +34,7 @@ def test_core_numbers_byte_identical_with_agents_enabled_vs_disabled(case):
     # agents DISABLED: the subject drives the pipeline directly.
     disabled = build_window(run(subject, use_llm=False))
 
-    # agents ENABLED: intake (before) + sensitivity (after) bracket the same pipeline.
+    # agent ENABLED: intake (before) fronts the same pipeline.
     result, trace = run_with_agents(listing=demo_listing(subject), effective_date=subject.effective_date)
     enabled = build_window(result, trace_to_window(trace))
 
