@@ -166,9 +166,9 @@ def _subject_view(subject: Subject) -> dict:
 def build_window(result, agent_trace: dict | None = None) -> dict:
     """Build the full window.MEMO data dict (everything except the JS helpers).
 
-    `agent_trace`, when supplied, adds the read-only `agentTrace` block (intake + sensitivity
-    reasoning and tool calls). Omitting it leaves the output byte-identical to before, so the
-    frozen serializer contract is unaffected on the no-agent path."""
+    `agent_trace`, when supplied, adds the read-only `agentTrace` block (intake reasoning and
+    tool calls). Omitting it leaves the output byte-identical to before, so the frozen
+    serializer contract is unaffected on the no-agent path."""
     memo = result.memo
     cfg = result.config
     subject: Subject = memo.subject
@@ -275,9 +275,9 @@ def main(argv: list[str] | None = None) -> None:
     No args reproduces the South hero to out/data.js — so `python -m kvcomp.serialize` and
     ./scripts/run.sh are unchanged in destination. `--case east/west` selects a demo subject;
     `--out` overrides the destination (defaults to out/data.<case>.js for the non-hero cases).
-    Each case is bracketed by the intake (before) and sensitivity (after) agents via
-    run_with_agents so data.js carries the read-only agentTrace block; the pipeline numbers
-    are byte-identical to the subject-driven path (the demo blurb round-trips)."""
+    Each case is fronted by the intake (before) agent via run_with_agents so data.js carries
+    the read-only agentTrace block; the pipeline numbers are byte-identical to the
+    subject-driven path (the demo blurb round-trips)."""
     import argparse
 
     from kvcomp.data.subject_loader import demo_subjects

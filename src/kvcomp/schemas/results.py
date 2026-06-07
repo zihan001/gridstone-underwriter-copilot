@@ -53,6 +53,16 @@ class Severity(str, Enum):
     TOLERANCE = "tolerance"
 
 
+class TriageVerdict(str, Enum):
+    """Queue-level disposition for one finished memo (domain/triage.py).
+
+    A closed enum so the queue serializer and tests assert against it. GREEN = file it;
+    YELLOW = a human should look; RED = the evidence cannot defend a range as-is."""
+    GREEN = "green"
+    YELLOW = "yellow"
+    RED = "red"
+
+
 # ---- result types ----------------------------------------------------------
 class SimilarityScore(BaseModel, frozen=True):
     comp_id: str
@@ -165,3 +175,14 @@ class MemoArtifact(BaseModel, frozen=True):
     # carried for the serializer / market context
     district_benchmark: int = 0
     city_benchmark: int = 747800
+
+
+class TriageResult(BaseModel, frozen=True):
+    """The queue's read-only verdict on a finished memo. Computes NO valuation — it reads the
+    already-computed confidence band/score and fired flags and classifies them. `reason` is
+    built from a triggering flag's existing detail text (never new prose); `review_flag_count`
+    and `score` are the queue sort keys (scariest floats up)."""
+    verdict: TriageVerdict
+    reason: str
+    review_flag_count: int
+    score: float

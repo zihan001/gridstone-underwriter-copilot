@@ -1,9 +1,9 @@
 """
 narrative/agent.py — a tiny, generic Anthropic tool-use loop (the agent HARNESS).
 
-This is the shared spine for the two bracketing agents (intake before the pipeline,
-sensitivity after). It deliberately knows NOTHING about subjects, memos, or domain math:
-it drives a tool-use conversation and returns prose + a trace of the tool calls made.
+This is the shared spine for the intake agent (which grounds a listing before the pipeline).
+It deliberately knows NOTHING about subjects, memos, or domain math: it drives a tool-use
+conversation and returns prose + a trace of the tool calls made.
 
 INVARIANT SUPPORT. The harness never authors a number that enters a result:
   * Tools are supplied by the caller as plain Python callables. Whatever a tool computes,

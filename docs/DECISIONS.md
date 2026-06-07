@@ -94,6 +94,9 @@ regression anchor, without letting hand-authored fiction override tested arithme
 
 ## ADR-005 — The LLM gains tool use, but stays strictly read-only or core-routed
 
+> **Superseded in part by ADR-006:** the post-pipeline **sensitivity** agent was later removed;
+> intake remains. The read-only / core-routed principle below still holds for the intake agent.
+
 **Decision.** The LLM was upgraded from a single prose-only call to genuine **tool use**, via
 two agents that **bracket** the deterministic pipeline (`narrative/orchestrator.run_with_agents`):
 
@@ -124,3 +127,32 @@ collapsed, read-only audit of tool calls + prose with zero interactivity — no 
 recomputation in the browser. It *documents* the agents' reasoning; it does not let a user drive
 them. A read-only audit trail is the opposite of an interactive surface, so the scope boundary
 (deterministic core is authoritative; the browser computes nothing) is preserved, not relaxed.
+
+## ADR-006 — Triage queue layer; remove the sensitivity agent; keep intake
+
+**Decision.** Add a **triage queue** as the new top surface in front of the existing memo, and
+**remove the post-pipeline sensitivity agent** (ADR-005). The per-property memo becomes the
+drill-down reached by clicking a queue row.
+
+- **Triage** (`domain/triage.py`) classifies a finished `MemoArtifact` green / yellow / red.
+  It is a *classifier, not a valuation*: it reads ONLY the core's already-computed confidence
+  band/score and fired flags (each with its existing severity + detail) and never originates a
+  number. RED = band LOW or `VALUE_OUTSIDE_RANGE` / `THIN_COMP_SET` / `WIDE_UNADJUSTED_SPREAD`
+  fired. YELLOW = band LIMITED, any other review-severity flag, or ≥2 tolerance breaches. GREEN
+  otherwise. A **tolerance breach alone never forces RED** — the AIC stance (thresholds are
+  commentary triggers, not fails); `tests/test_triage.py` locks it.
+- **Queue** (`data/inbox.py` + `serialize/queue.py`): a demo inbox of deals, each run through the
+  **same** `run()`/pipeline core and triaged, serialized to `window.QUEUE` (sorted RED → YELLOW →
+  GREEN, then reviewFlagCount desc, then score asc) plus one per-deal `window.MEMO` snapshot via
+  the **unchanged** `memo_to_window` serializer. The queue viewer is a top-level toggle in
+  `index.html`, render-only — it computes nothing, consistent with ADR-005's render-only boundary.
+- **Sensitivity removed.** An LLM choosing from a *fixed, deterministic* probe set added latency
+  and unauditability with no decision quality — the probes are arithmetic a function already does.
+  Its `agentTrace.sensitivity` block and the §07 sensitivity card are gone; `agentTrace` now
+  carries the `intake` half only.
+
+**Why intake stays.** Interpreting unstructured intake text is judgment a function can't encode —
+the one place an LLM earns its seat. The math core stays **agent-free**: the LLM appears only at
+intake (before the pipeline) and prose (from finished numbers). `tests/test_agent_invariant.py`
+still asserts the serialized payload with intake enabled is byte-identical to the disabled payload
+modulo the additive `agentTrace` block.
