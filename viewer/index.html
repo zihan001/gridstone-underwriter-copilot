@@ -584,6 +584,10 @@ table.adjgrid tfoot tr:first-child td { border-top: 2px solid var(--line-strong)
 <script src="data.west.js"></script>
 <script>window.MEMO_WEST = window.MEMO;</script>
 <script>window.MEMO = window.MEMO_SOUTH;</script>
+<!-- Triage queue snapshot (window.QUEUE). Optional and ADDITIVE: when present, the app opens
+     on the queue and the per-case memo view becomes the drill-down; when absent, the app is the
+     unchanged single-memo viewer. Per-deal memos load on demand from viewer/queue/<id>.js. -->
+<script src="queue.js"></script>
 <script type="text/babel" data-presets="react">
 
 /* ===== shared.jsx ===== */
@@ -1681,9 +1685,76 @@ function buildSections() {
   ];
 }
 
-function App() {
+/* ===== queue.jsx ===== */
+/* The triage QUEUE — the new top-level surface IN FRONT of the memo view. Pure render: it
+   reads window.QUEUE (verdict, range, band, reason — all computed by the Python core + triage)
+   and lists deals scariest-first. Clicking a row drills into that deal's real memo (the
+   unchanged view below). No math, no recomputation in JS — consistent with the locked viewer. */
+const QUEUE = Array.isArray(window.QUEUE) ? window.QUEUE : null;
+const VERDICT_WORD = { green: "clean", yellow: "review", red: "flagged" };
+
+// usd0 lives on every memo snapshot; the queue page may render before any deal memo is loaded,
+// so format dollars locally (identical formatting, no dependency on M).
+function qUsd(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+
+function QueueScreen({ rows, onOpen }) {
+  const counts = { green: 0, yellow: 0, red: 0 };
+  rows.forEach((r) => { counts[r.verdict] = (counts[r.verdict] || 0) + 1; });
+  return (
+    <div className="queue-page">
+      <div className="queue-wrap">
+        <div className="queue-brand"><span className="brand-dot" />Gridstone · Underwriting Queue</div>
+        <h1 className="queue-title">Triage the deal stack</h1>
+        <p className="queue-lede">
+          Every deal is valued by the deterministic core and ranked by how much human judgment it
+          needs. Green is fileable; yellow wants a look; red can’t defend a range yet. Open a row to
+          read its audit-ready memo.
+        </p>
+        <div className="queue-strip">
+          <span className="qs-n">{rows.length}</span>&nbsp;deals
+          <span className="qs-sep">·</span>
+          <span className="qs-good">{counts.green} clean</span>
+          <span className="qs-sep">·</span>
+          <span className="qs-warn">{counts.yellow} review</span>
+          <span className="qs-sep">·</span>
+          <span className="qs-bad">{counts.red} flagged</span>
+        </div>
+        <table className="tbl queue-tbl">
+          <thead>
+            <tr>
+              <th>Status</th><th>Property</th><th>Value range (low · point · high)</th>
+              <th>Confidence</th><th>Why</th><th />
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.id} onClick={() => onOpen(r.id)}
+                  title={"Open memo for " + r.id}>
+                <td><span className={"qpill qpill-" + r.verdict}>{VERDICT_WORD[r.verdict] || r.verdict}</span></td>
+                <td>
+                  <div className="q-addr">{r.address}</div>
+                  <div className="q-sub">{r.id} · {r.district}</div>
+                </td>
+                <td className="q-range">
+                  {qUsd(r.rangeLow)} · <span className="q-pt">{qUsd(r.rangePoint)}</span> · {qUsd(r.rangeHigh)}
+                </td>
+                <td className="q-band">{r.confidenceBand}</td>
+                <td className="q-reason">{r.reason}</td>
+                <td className="q-open">open →</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function App({ onBack, dealId } = {}) {
   // Active case. Changing it reassigns the module-level `M` (read by every component via
   // closure) BEFORE the re-render, so the whole tree renders the newly-selected snapshot.
+  // When opened from the queue (`dealId` set), M is already the deal's memo and the demo-case
+  // switcher is hidden — the back control returns to the queue instead.
   const [caseKey, setCaseKey] = useState("east");
   const selectCase = (key) => {
     const hit = CASES.find((c) => c.key === key);
@@ -1717,8 +1788,11 @@ function App() {
         <div className="rail-brand">
           <div className="brand-mark"><span className="brand-dot" />Gridstone</div>
           <div className="brand-title">Comp Memo · Audit View</div>
-          <div className="brand-sub">{M.meta.caseId}</div>
-          {CASES.length > 1 && (
+          <div className="brand-sub">{dealId ? dealId : M.meta.caseId}</div>
+          {onBack && (
+            <button type="button" className="queue-back" onClick={onBack}>← Back to queue</button>
+          )}
+          {!dealId && CASES.length > 1 && (
             <label className="case-switch">
               <span className="case-switch-k">demo case</span>
               <select value={caseKey} onChange={(e) => selectCase(e.target.value)}>
@@ -1765,7 +1839,7 @@ function App() {
       <main className="main">
         <div className="topbar">
           <div className="crumb">
-            <b>Gridstone</b> / Comp Memo / <b>{cur.num} · {cur.name}</b>
+            <b>Gridstone</b> / {dealId ? <React.Fragment>Queue / <b>{dealId}</b> / </React.Fragment> : "Comp Memo / "}<b>{cur.num} · {cur.name}</b>
           </div>
           <div className="status-strip">
             <div className="chip"><span className="chip-k">Value range</span><span className="chip-v accent">{M.usd0(r.low)} – {M.usd0(r.high)}</span></div>
@@ -1795,7 +1869,46 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+/* Root router — queue first (if a queue snapshot loaded), else the unchanged single-memo view.
+   Opening a deal loads its window.MEMO snapshot on demand, reassigns the module-level `M`
+   binding every memo component reads, then renders the existing App as the drill-down. */
+const DEAL_CACHE = {};
+function loadDeal(id) {
+  if (DEAL_CACHE[id]) return Promise.resolve(DEAL_CACHE[id]);
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = "queue/" + encodeURIComponent(id) + ".js";
+    s.onload = () => {
+      // The snapshot assigns window.MEMO; capture it (and don't disturb the hero captures).
+      DEAL_CACHE[id] = window.MEMO;
+      resolve(DEAL_CACHE[id]);
+    };
+    s.onerror = () => reject(new Error("could not load deal " + id));
+    document.body.appendChild(s);
+  });
+}
+
+function Root() {
+  if (!QUEUE) return <App />;                      // no queue snapshot -> unchanged behavior
+  const [dealId, setDealId] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const openDeal = (id) => {
+    setLoading(true);
+    loadDeal(id).then((memo) => {
+      M = memo;                                     // every memo component reads M by closure
+      setDealId(id);
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  };
+  const backToQueue = () => setDealId(null);
+
+  if (!dealId) return <QueueScreen rows={QUEUE} onOpen={openDeal} />;
+  // `key` forces a fresh App subtree per deal so its internal section state resets cleanly.
+  return <App key={dealId} dealId={dealId} onBack={backToQueue} />;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Root />);
 
 
 </script>

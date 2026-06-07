@@ -476,3 +476,43 @@ table.adjgrid tfoot tr:first-child td { border-top: 2px solid var(--line-strong)
 .stat-value { font-family: var(--serif); font-weight: 600; letter-spacing: -0.005em; }
 .adjusted-val { font-family: var(--serif); font-size: 15px; }
 .band-tick .bt-v { font-family: var(--serif); font-size: 15px; }
+
+/* ---- triage queue (the new top-level view in front of the memo) ---------- */
+/* The queue is render-only: it shows already-computed ranges, bands, and triage verdicts.
+   No math happens here — it reads window.QUEUE exactly as the core serialized it. */
+.queue-page { height: 100vh; overflow-y: auto; background: var(--bg); }
+.queue-wrap { max-width: 1180px; margin: 0 auto; padding: 38px 34px 90px; }
+.queue-brand { display: flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.queue-brand .brand-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.queue-title { font-size: 25px; color: var(--ink); margin: 18px 0 4px; letter-spacing: -0.01em; }
+.queue-lede { font-size: 13.5px; color: var(--muted); max-width: 720px; line-height: 1.5; }
+.queue-strip { display: flex; flex-wrap: wrap; gap: 9px; align-items: baseline; margin: 22px 0 14px;
+  font-family: var(--mono); font-size: 13px; color: var(--ink-2); }
+.queue-strip .qs-n { font-size: 15px; color: var(--ink); font-weight: 600; }
+.queue-strip .qs-sep { color: var(--line-strong); }
+.queue-strip .qs-good { color: var(--good); }
+.queue-strip .qs-warn { color: var(--warn-2); }
+.queue-strip .qs-bad { color: var(--bad); }
+
+table.queue-tbl td { vertical-align: middle; }
+table.queue-tbl tbody tr { cursor: pointer; transition: background 0.08s ease; }
+table.queue-tbl tbody tr:hover { background: var(--panel-2); }
+.qpill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--line-2); }
+.qpill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.qpill-green { color: var(--good); border-color: var(--good-bd); background: var(--good-bg); }
+.qpill-yellow { color: var(--warn-2); border-color: var(--warn-bd); background: var(--warn-bg); }
+.qpill-red { color: var(--bad); border-color: var(--bad-bd); background: var(--bad-bg); }
+.q-addr { color: var(--ink); font-weight: 500; }
+.q-sub { font-family: var(--mono); font-size: 11px; color: var(--faint); margin-top: 2px; }
+.q-range { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+.q-range .q-pt { color: var(--accent-2); }
+.q-reason { color: var(--muted); font-size: 12.5px; line-height: 1.45; max-width: 460px; }
+.q-band { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
+.q-open { font-family: var(--mono); font-size: 11px; color: var(--accent-2); white-space: nowrap; }
+
+/* back-to-queue control reused in the memo rail */
+.queue-back { display: inline-flex; align-items: center; gap: 7px; width: 100%; margin-top: 10px;
+  font-family: var(--mono); font-size: 11.5px; color: var(--accent-2); background: var(--accent-bg);
+  border: 1px solid var(--accent-bd); border-radius: 6px; padding: 7px 10px; cursor: pointer; }
+.queue-back:hover { background: rgba(var(--accent-rgb), 0.14); }
