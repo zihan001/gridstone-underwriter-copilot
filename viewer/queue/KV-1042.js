@@ -28,7 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
-  "narrativeSource": "llm",
+  "narrativeSource": "template",
   "benchmark": [
     {
       "m": "2025-06",
@@ -210,104 +210,7 @@ window.MEMO = (function () {
   },
   "selected": [
     {
-      "id": "F-A",
-      "label": "COMP-A",
-      "synthetic": true,
-      "mls": "C-2000",
-      "community": "Lake Bonavista",
-      "district": "South",
-      "sameDistrict": true,
-      "distanceKm": 0.6,
-      "contractDate": "2026-05-10",
-      "contractMonth": "2026-05",
-      "ageDays": 22,
-      "price": 712239,
-      "gla": 1330,
-      "lot": 4642,
-      "beds": 3,
-      "baths": "2F / 1H",
-      "basement": "600 sf fin",
-      "garage": "2 · att.",
-      "built": 1984,
-      "cond": "C3",
-      "qual": "Q3",
-      "tier": 0,
-      "watch": [],
-      "lines": [
-        {
-          "key": "gla",
-          "label": "Above-grade GLA",
-          "sub": "1,330 sf (−120)",
-          "adj": 10200
-        },
-        {
-          "key": "lot",
-          "label": "Site / lot",
-          "sub": "4,642 sf (−600)",
-          "adj": 0
-        },
-        {
-          "key": "bed",
-          "label": "Bedrooms",
-          "sub": "3 (=)",
-          "adj": 0
-        },
-        {
-          "key": "bath",
-          "label": "Bathrooms",
-          "sub": "2F / 1H (=)",
-          "adj": 0
-        },
-        {
-          "key": "bsmt",
-          "label": "Basement",
-          "sub": "600 sf fin (=)",
-          "adj": 0
-        },
-        {
-          "key": "gar",
-          "label": "Garage",
-          "sub": "2 att. (=)",
-          "adj": 0
-        },
-        {
-          "key": "age",
-          "label": "Age / eff-age",
-          "sub": "1984 (=)",
-          "adj": 0
-        },
-        {
-          "key": "cond",
-          "label": "Condition",
-          "sub": "C3 (=)",
-          "adj": 0
-        },
-        {
-          "key": "qual",
-          "label": "Quality",
-          "sub": "Q3 (=)",
-          "adj": 0
-        },
-        {
-          "key": "time",
-          "label": "Time / market cond.",
-          "sub": "2026-05-10 → 2026-06-01",
-          "adj": 1100
-        }
-      ],
-      "tf": 0.001527,
-      "bmContract": 720500,
-      "timeAdj": 1100,
-      "net": 11300,
-      "gross": 11300,
-      "adjusted": 723539,
-      "netPct": 1.5865,
-      "grossPct": 1.5865,
-      "linePct": 1.4321,
-      "ppsf": 536
-    },
-    {
-      "id": "F-B",
+      "id": "G-B",
       "label": "COMP-B",
       "synthetic": true,
       "mls": "C-2001",
@@ -318,9 +221,9 @@ window.MEMO = (function () {
       "contractDate": "2026-04-17",
       "contractMonth": "2026-04",
       "ageDays": 45,
-      "price": 706056,
-      "gla": 1390,
-      "lot": 4942,
+      "price": 705782,
+      "gla": 1370,
+      "lot": 4842,
       "beds": 3,
       "baths": "2F / 1H",
       "basement": "600 sf fin",
@@ -334,13 +237,13 @@ window.MEMO = (function () {
         {
           "key": "gla",
           "label": "Above-grade GLA",
-          "sub": "1,390 sf (−60)",
-          "adj": 5100
+          "sub": "1,370 sf (−80)",
+          "adj": 6800
         },
         {
           "key": "lot",
           "label": "Site / lot",
-          "sub": "4,942 sf (−300)",
+          "sub": "4,842 sf (−400)",
           "adj": 0
         },
         {
@@ -395,16 +298,16 @@ window.MEMO = (function () {
       "tf": 0.005014,
       "bmContract": 718000,
       "timeAdj": 3550,
-      "net": 8650,
-      "gross": 8650,
-      "adjusted": 714706,
-      "netPct": 1.2251,
-      "grossPct": 1.2251,
-      "linePct": 0.7223,
-      "ppsf": 508
+      "net": 10350,
+      "gross": 10350,
+      "adjusted": 716132,
+      "netPct": 1.4665,
+      "grossPct": 1.4665,
+      "linePct": 0.9635,
+      "ppsf": 515
     },
     {
-      "id": "F-C",
+      "id": "G-C",
       "label": "COMP-C",
       "synthetic": true,
       "mls": "C-2002",
@@ -415,7 +318,7 @@ window.MEMO = (function () {
       "contractDate": "2026-03-25",
       "contractMonth": "2026-03",
       "ageDays": 68,
-      "price": 720303,
+      "price": 709545,
       "gla": 1450,
       "lot": 5242,
       "beds": 3,
@@ -486,22 +389,22 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-03-25 → 2026-06-01",
-          "adj": 6650
+          "adj": 6550
         }
       ],
       "tf": 0.009231,
       "bmContract": 715000,
-      "timeAdj": 6650,
-      "net": 6650,
-      "gross": 6650,
-      "adjusted": 726953,
-      "netPct": 0.9232,
-      "grossPct": 0.9232,
-      "linePct": 0.9232,
-      "ppsf": 497
+      "timeAdj": 6550,
+      "net": 6550,
+      "gross": 6550,
+      "adjusted": 716095,
+      "netPct": 0.9231,
+      "grossPct": 0.9231,
+      "linePct": 0.9231,
+      "ppsf": 489
     },
     {
-      "id": "F-D",
+      "id": "G-D",
       "label": "COMP-D",
       "synthetic": true,
       "mls": "C-2003",
@@ -512,9 +415,9 @@ window.MEMO = (function () {
       "contractDate": "2026-03-03",
       "contractMonth": "2026-03",
       "ageDays": 90,
-      "price": 716671,
-      "gla": 1520,
-      "lot": 5592,
+      "price": 712290,
+      "gla": 1530,
+      "lot": 5642,
       "beds": 3,
       "baths": "2F / 1H",
       "basement": "600 sf fin",
@@ -528,13 +431,13 @@ window.MEMO = (function () {
         {
           "key": "gla",
           "label": "Above-grade GLA",
-          "sub": "1,520 sf (+70)",
-          "adj": -5950
+          "sub": "1,530 sf (+80)",
+          "adj": -6800
         },
         {
           "key": "lot",
           "label": "Site / lot",
-          "sub": "5,592 sf (+350)",
+          "sub": "5,642 sf (+400)",
           "adj": 0
         },
         {
@@ -583,22 +486,22 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-03-03 → 2026-06-01",
-          "adj": 6600
+          "adj": 6550
         }
       ],
       "tf": 0.009231,
       "bmContract": 715000,
-      "timeAdj": 6600,
-      "net": 650,
-      "gross": 12550,
-      "adjusted": 717321,
-      "netPct": 0.0907,
-      "grossPct": 1.7512,
-      "linePct": 0.9209,
-      "ppsf": 471
+      "timeAdj": 6550,
+      "net": -250,
+      "gross": 13350,
+      "adjusted": 712040,
+      "netPct": -0.0351,
+      "grossPct": 1.8742,
+      "linePct": 0.9547,
+      "ppsf": 466
     },
     {
-      "id": "F-E",
+      "id": "G-E",
       "label": "COMP-E",
       "synthetic": true,
       "mls": "C-2004",
@@ -609,9 +512,9 @@ window.MEMO = (function () {
       "contractDate": "2026-02-13",
       "contractMonth": "2026-02",
       "ageDays": 108,
-      "price": 720756,
-      "gla": 1590,
-      "lot": 5942,
+      "price": 717616,
+      "gla": 1560,
+      "lot": 5792,
       "beds": 3,
       "baths": "2F / 1H",
       "basement": "600 sf fin",
@@ -625,13 +528,13 @@ window.MEMO = (function () {
         {
           "key": "gla",
           "label": "Above-grade GLA",
-          "sub": "1,590 sf (+140)",
-          "adj": -11900
+          "sub": "1,560 sf (+110)",
+          "adj": -9350
         },
         {
           "key": "lot",
           "label": "Site / lot",
-          "sub": "5,942 sf (+700)",
+          "sub": "5,792 sf (+550)",
           "adj": 0
         },
         {
@@ -686,16 +589,119 @@ window.MEMO = (function () {
       "tf": 0.013483,
       "bmContract": 712000,
       "timeAdj": 9700,
-      "net": -2200,
-      "gross": 21600,
-      "adjusted": 718556,
-      "netPct": -0.3052,
-      "grossPct": 2.9969,
-      "linePct": 1.651,
-      "ppsf": 453
+      "net": 350,
+      "gross": 19050,
+      "adjusted": 717966,
+      "netPct": 0.0488,
+      "grossPct": 2.6546,
+      "linePct": 1.3517,
+      "ppsf": 460
     }
   ],
-  "rejected": [],
+  "rejected": [
+    {
+      "id": "C-E",
+      "label": "COMP-E",
+      "synthetic": true,
+      "mls": "C-1804",
+      "code": "TOO_STALE",
+      "community": "Lake Bonavista",
+      "district": "South",
+      "contractDate": "2025-04-22",
+      "price": 697407,
+      "gla": 1460,
+      "ppsf": 478,
+      "detail": "Contract 2025-04-22 is 405 days stale — exceeds the tier-2 maximum window (≤ 274 days / ~9 mo). Pre-dates the current benchmark trend; the implied time adjustment would be unreliable.",
+      "metricLabel": "contract age",
+      "metricValue": "405 days",
+      "cap": "≤ 274 days"
+    },
+    {
+      "id": "C-F",
+      "label": "COMP-F",
+      "synthetic": true,
+      "mls": "C-2233",
+      "code": "GROSS_ADJ_TOO_HIGH",
+      "community": "Lake Bonavista",
+      "district": "South",
+      "contractDate": "2026-03-29",
+      "price": 960807,
+      "gla": 2650,
+      "ppsf": 363,
+      "detail": "Cumulative gross adjustment 29.3% exceeds the 25% hard cap. Too dissimilar to bracket the subject — not comparable.",
+      "metricLabel": "gross adjustment",
+      "metricValue": "29.3%",
+      "cap": "≤ 25.0%"
+    },
+    {
+      "id": "C-G",
+      "label": "COMP-G",
+      "synthetic": true,
+      "mls": "C-2170",
+      "code": "WRONG_DISTRICT_AFTER_WIDENING",
+      "community": "Glamorgan",
+      "district": "West",
+      "contractDate": "2026-02-14",
+      "price": 699615,
+      "gla": 1450,
+      "ppsf": 482,
+      "detail": "West is not adjacent to the subject district under the tier-1 topology map (no shared boundary). Excluded before adjustment to avoid a cross-market location bridge.",
+      "metricLabel": "district",
+      "metricValue": "West (non-adj.)",
+      "cap": "South ± adjacent"
+    },
+    {
+      "id": "C-H",
+      "label": "COMP-H",
+      "synthetic": true,
+      "mls": "C-2195",
+      "code": "OUTLIER_PRICE",
+      "community": "Lake Bonavista",
+      "district": "South",
+      "contractDate": "2026-03-12",
+      "price": 396880,
+      "gla": 1470,
+      "ppsf": 270,
+      "detail": "PPSF $270 sits 9.6 MAD low of the candidate median ($482). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
+      "metricLabel": "PPSF deviation",
+      "metricValue": "9.6 MAD low",
+      "cap": "≤ 2.0 MAD"
+    },
+    {
+      "id": "G-A",
+      "label": "COMP-A",
+      "synthetic": true,
+      "mls": "C-2000",
+      "code": "OUTLIER_PRICE",
+      "community": "Lake Bonavista",
+      "district": "South",
+      "contractDate": "2026-05-10",
+      "price": 709642,
+      "gla": 1340,
+      "ppsf": 530,
+      "detail": "PPSF $530 sits 2.2 MAD high of the candidate median ($482). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
+      "metricLabel": "PPSF deviation",
+      "metricValue": "2.2 MAD high",
+      "cap": "≤ 2.0 MAD"
+    },
+    {
+      "id": "C-I",
+      "label": "COMP-I",
+      "synthetic": true,
+      "mls": "C-7741",
+      "code": "DUPLICATE",
+      "community": "Lake Bonavista",
+      "district": "South",
+      "contractDate": "2025-04-22",
+      "price": 697407,
+      "gla": 1460,
+      "ppsf": 478,
+      "detail": "Resolves to the same parcel already represented by COMP-E (re-list under a second MLS number). Deduplicated to avoid double-counting one sale.",
+      "metricLabel": "parcel",
+      "metricValue": "= COMP-E",
+      "cap": "unique parcels"
+    }
+  ],
   "reasonCodes": {
     "TOO_STALE": "Outside the maximum contract-date window even after widening.",
     "WRONG_DISTRICT_AFTER_WIDENING": "Not adjacent to the subject district per the topology map.",
@@ -722,107 +728,99 @@ window.MEMO = (function () {
         ]
       ],
       "rationale": "Tightest comparability band — maximise like-for-like evidence.",
-      "found": 5,
+      "found": 4,
       "note": null,
       "penalty": 0.0
     }
   ],
   "searchSummary": {
-    "retrieved": 5,
-    "selected": 5,
-    "rejected": 0,
+    "retrieved": 10,
+    "selected": 4,
+    "rejected": 6,
     "finalTier": 0,
     "wideningDepth": 0,
     "totalPenalty": 0.0
   },
   "weights": {
-    "F-A": 0.2657,
-    "F-B": 0.2365,
-    "F-C": 0.2078,
-    "F-D": 0.1626,
-    "F-E": 0.1273
+    "G-B": 0.3174,
+    "G-C": 0.2837,
+    "G-D": 0.22,
+    "G-E": 0.1788
   },
   "weightDrivers": {
-    "F-A": {
-      "similarity": "high",
-      "recency": "22 d",
-      "distance": "0.6 km",
-      "burden": "1.6% gross"
-    },
-    "F-B": {
+    "G-B": {
       "similarity": "high",
       "recency": "45 d",
       "distance": "0.9 km",
-      "burden": "1.2% gross"
+      "burden": "1.5% gross"
     },
-    "F-C": {
+    "G-C": {
       "similarity": "high",
       "recency": "68 d",
       "distance": "1.2 km",
       "burden": "0.9% gross"
     },
-    "F-D": {
+    "G-D": {
       "similarity": "high",
       "recency": "90 d",
       "distance": "1.5 km",
-      "burden": "1.8% gross"
+      "burden": "1.9% gross"
     },
-    "F-E": {
+    "G-E": {
       "similarity": "moderate",
       "recency": "108 d",
       "distance": "1.8 km",
-      "burden": "3.0% gross"
+      "burden": "2.7% gross"
     }
   },
   "range": {
-    "low": 714500,
-    "point": 720500,
-    "high": 726500,
-    "spreadPct": 1.67
+    "low": 710000,
+    "point": 715500,
+    "high": 721000,
+    "spreadPct": 1.54
   },
   "adjustedVals": [
-    723539,
-    714706,
-    726953,
-    717321,
-    718556
+    716132,
+    716095,
+    712040,
+    717966
   ],
   "confidence": {
     "base": 0.55,
-    "score": 0.912,
-    "low": 0.862,
-    "high": 0.962,
+    "score": 0.8803,
+    "low": 0.8303,
+    "high": 0.9303,
     "band": "HIGH",
     "drivers": [
       {
         "key": "compCount",
         "label": "Comp count",
-        "detail": "5 selected (≥ minimum 4)",
-        "contrib": 0.11
+        "detail": "4 selected (≥ minimum 4)",
+        "contrib": 0.08
       },
       {
         "key": "spread",
         "label": "Adjusted-value spread",
-        "detail": "$12,247 range · 1.7% of point",
-        "contrib": 0.1382
+        "detail": "$5,926 range · 1.5% of point",
+        "contrib": 0.1415
       },
       {
         "key": "recency",
         "label": "Recency",
-        "detail": "median contract age 68 days",
-        "contrib": 0.0498
+        "detail": "median contract age 79 days",
+        "contrib": 0.0449
       },
       {
         "key": "distance",
         "label": "Distance",
-        "detail": "0.6–1.8 km · 0 adjacent-district",
-        "contrib": 0.042
+        "detail": "0.9–1.8 km · 0 adjacent-district",
+        "contrib": 0.0398
       },
       {
         "key": "burden",
         "label": "Adjustment burden",
-        "detail": "worst comp at 3.0% gross",
-        "contrib": 0.022
+        "detail": "worst comp at 2.7% gross",
+        "contrib": 0.0241
       },
       {
         "key": "widening",
@@ -852,7 +850,7 @@ window.MEMO = (function () {
       "status": "CLEAR",
       "severity": "review",
       "trigger": "selected comp count < 4",
-      "detail": "5 comps selected — at or above the minimum of 4."
+      "detail": "4 comps selected — at or above the minimum of 4."
     },
     {
       "code": "ADJACENT_DISTRICT_COMP",
@@ -880,21 +878,21 @@ window.MEMO = (function () {
       "status": "CLEAR",
       "severity": "tolerance",
       "trigger": "any selected comp net adj > 15%",
-      "detail": "Max net adjustment 1.6% — within the 15% tolerance."
+      "detail": "Max net adjustment 1.5% — within the 15% tolerance."
     },
     {
       "code": "GROSS_ADJ_BREACH",
       "status": "CLEAR",
       "severity": "tolerance",
       "trigger": "any selected comp gross adj > 25%",
-      "detail": "Max gross adjustment 3.0% — within the 25% tolerance."
+      "detail": "Max gross adjustment 2.7% — within the 25% tolerance."
     },
     {
       "code": "LINE_ADJ_BREACH",
       "status": "CLEAR",
       "severity": "tolerance",
       "trigger": "any single line adj > 10%",
-      "detail": "Largest single line 1.7% of price — within the 10% tolerance."
+      "detail": "Largest single line 1.4% of price — within the 10% tolerance."
     },
     {
       "code": "OUTLIER_PRICE_INCLUDED",
@@ -934,17 +932,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This sales comparison analysis values the subject property at 84xx Bonaventure Drive SE as of June 1, 2026. The subject is located in Calgary's south district with an assessed value of $687,500. The analysis utilizes synthetic comparable sales generated from Open Calgary data to establish market value through the sales comparison approach.",
-    "selection": "The engine retrieved 5 comparable sales and selected all 5 for analysis, with zero rejections. All selected comparables (F-A through F-E) are classified as tier 0 properties located within the same south district as the subject. The selection process produced a robust comparable pool without requiring expansion to secondary tiers or cross-district properties.",
-    "adjustment": "Net adjustment percentages range from -0.3% to 1.6%, indicating minimal required adjustments across all comparables. Gross adjustment percentages span 0.9% to 3.0%, with the highest gross adjustment (F-E at 3.0%) resulting in the smallest net adjustment (-0.3%) due to offsetting positive and negative adjustments. The low adjustment burden supports the comparability of selected properties and reliability of adjusted values.",
-    "reconciliation": "The five adjusted comparable values range from $714,706 to $726,953, producing a tight value spread of 1.67%. Weight allocation favors F-A (26.57%) and F-B (23.65%) based on superior comparability metrics, while F-E receives the lowest weight (12.73%) due to higher gross adjustments. The reconciled value range spans $714,500 to $726,500 with a point estimate of $720,500.",
-    "confidence": "The analysis achieves a HIGH confidence score of 0.912. Primary confidence drivers include comparable count contribution (0.11), adjusted-value spread contribution (0.1382), and recency contribution (0.0498). Distance and adjustment burden provide additional positive contributions of 0.042 and 0.022 respectively. The absence of widening depth contribution (0.0) confirms tier 0 selection adequacy.",
-    "limiting": "No threshold flags were triggered during analysis. The value conclusion is subject to standard limiting conditions including the synthetic nature of comparable data, reliance on Open Calgary database accuracy, and market conditions as of the effective date. The tight value spread and high confidence score support the reliability of the $714,500 to $726,500 range conclusion."
+    "scope": "This memo documents a sales-comparison analysis supporting a defensible value RANGE for the subject property as of the effective date, prepared for collateral-underwriting review. It builds and documents the case for a range; it does not render a point value or a lending decision.",
+    "selection": "4 comparable sales were retained from 10 retrieved candidates. Selection began in the tight tier-0 band (subject district, within six months) and widened to tier 0 only as needed to reach the minimum count. 6 candidates were rejected under documented reason codes (duplicate, gross adj too high, outlier price, too stale, wrong district after widening) — the rejections are the tell a black-box AVM cannot give.",
+    "adjustment": "Each comparable was adjusted to the subject on a transparent grid using a fixed rate card, with time adjustments derived from each comparable's contract month against the CREB district benchmark and applied toward the effective date. No comparable exceeded the gross-adjustment review band.",
+    "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $715,500, within a supported range of $710,000 to $721,000 (spread 1.5%) that brackets the adjusted comparables.",
+    "confidence": "Confidence is assessed HIGH (0.88). No human-review flags fired.",
+    "limiting": "All comparable data shown is SYNTHETIC and illustrative, priced from an explicit contributory model (the matched pair). Subject characteristics are grounded in Open Calgary assessment data (source: open_calgary_assessment); physical attributes are intake/district-typical where the free dataset does not publish them. Every non-CREB dollar magnitude is a US/North-American proxy to be locally calibrated. This artifact is render-only and contains no live computation."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "## Subject Property Record\n\n**Identity & Assessment (grounded via Open Calgary):**\n- Address: 84xx Bonaventure Drive SE\n- Roll Number: 074-21-335-07\n- District: South\n- Coordinates: 50.9583, -114.054\n- Assessed Value: $687,500 (2026 assessment roll)\n- Land Use: R-C1\n- Year Built: 1984\n\n**Physical Characteristics:**\n- GLA: 1,450 sq ft (from listing)\n- Lot Size: 5,242 sq ft (from listing)\n- Bedrooms (above grade): 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: Not specified in listing (no district typical available)\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary using the address, establishing the roll number, district designation (South), and assessment details including the 1984 build year. Most physical characteristics were clearly stated in the listing text, including square footages, bedroom/bathroom counts, and garage specifications. Only the basement walkout status was absent from the listing, and no district-typical fallback value was available for this field in the South district.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -1000,11 +998,6 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
-        },
-        {
-          "name": "district_typical",
-          "args": "district=south, field=basement_walkout",
-          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

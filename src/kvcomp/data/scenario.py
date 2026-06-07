@@ -17,7 +17,7 @@ from __future__ import annotations
 import random
 from datetime import date
 
-from kvcomp.data.comp_generator import build_comp
+from kvcomp.data.comp_generator import build_comp, subject_true_value
 from kvcomp.data.constants import DISTRICT_ADJACENCY, DISTRICT_BENCHMARK
 from kvcomp.schemas.comp import Comp
 from kvcomp.schemas.config import AdjustmentConfig
@@ -109,18 +109,28 @@ def _spec() -> list[dict]:
     ]
 
 
-def generate_universe(subject: Subject, cfg: AdjustmentConfig | None = None,
-                      seed: int = 614) -> list[Comp]:
-    """Build the curated 9-comp candidate universe, each priced via the contributory model.
+# Per-spec display/weighting distances for the curated universe (and reused, for the reject
+# subset, by reject_scaffold). Survivors C-A…C-D are close-in; rejects spread per their story.
+_DISTANCES = {"C-A": 0.7, "C-B": 1.1, "C-C": 1.9, "C-D": 3.1, "C-E": 0.9,
+              "C-F": 1.4, "C-G": 6.2, "C-H": 1.2, "C-I": 0.7}
 
-    `duplicate_of`/`price_override` let two specs drive the DUPLICATE and OUTLIER_PRICE
-    rejections deterministically. Distances are assigned per-spec (display + weighting)."""
-    cfg = cfg or AdjustmentConfig()
+# The five planted-reject cids (C-E…C-I) — the shared scaffold the inbox plants in every deal
+# so comp rejection is visible everywhere. The duplicate (C-I) twins C-A in the full curated
+# universe; in the reject-only scaffold there is no C-A, so it twins the stale reject instead
+# (see reject_scaffold). Order matters: the duplicate's twin must be built before it.
+_REJECT_CIDS = ("C-E", "C-F", "C-G", "C-H", "C-I")
+
+
+def _build_universe(subject: Subject, cfg: AdjustmentConfig, seed: int,
+                    specs: list[dict]) -> list[Comp]:
+    """Price a list of candidate specs through the contributory model, in order.
+
+    Shared by `generate_universe` (the full curated 9) and `reject_scaffold` (the 5 rejects)
+    so neither can drift from the other's pricing/districting. `drole` resolves to a concrete
+    district relative to THIS subject; `duplicate_of`/`price_override` drive the DUPLICATE and
+    OUTLIER_PRICE rejections deterministically; `force_fallback_series` keeps the wrong-district
+    reject priced off the city-wide fallback (it never reaches the grid)."""
     rng = random.Random(seed)
-    distances = {"C-A": 0.7, "C-B": 1.1, "C-C": 1.9, "C-D": 3.1, "C-E": 0.9,
-                 "C-F": 1.4, "C-G": 6.2, "C-H": 1.2, "C-I": 0.7}
-    # Resolve each spec's role to a concrete district RELATIVE to this subject, so the demo
-    # universe re-districts (not just re-prices) for any subject (Task 1 robustness).
     drole_to_district = {
         "subject": subject.district,
         "adjacent": adjacent_district(subject.district),
@@ -129,7 +139,7 @@ def generate_universe(subject: Subject, cfg: AdjustmentConfig | None = None,
 
     comps: list[Comp] = []
     by_id: dict[str, Comp] = {}
-    for s in _spec():
+    for s in specs:
         district = drole_to_district[s["drole"]]
         overrides = {
             "gla_sqft": s["gla"], "lot_sqft": s["lot"], "beds_ag": s["beds"],
@@ -152,7 +162,57 @@ def generate_universe(subject: Subject, cfg: AdjustmentConfig | None = None,
             comp = comp.model_copy(update={"sale_price": twin.sale_price})
         if s.get("price_override"):
             comp = comp.model_copy(update={"sale_price": s["price_override"]})
-        comp = comp.model_copy(update={"distance_km": distances.get(s["cid"])})
+        comp = comp.model_copy(update={"distance_km": _DISTANCES.get(s["cid"])})
         comps.append(comp)
         by_id[s["cid"]] = comp
     return comps
+
+
+def generate_universe(subject: Subject, cfg: AdjustmentConfig | None = None,
+                      seed: int = 614) -> list[Comp]:
+    """Build the curated 9-comp candidate universe, each priced via the contributory model.
+
+    `duplicate_of`/`price_override` let two specs drive the DUPLICATE and OUTLIER_PRICE
+    rejections deterministically. Distances are assigned per-spec (display + weighting)."""
+    cfg = cfg or AdjustmentConfig()
+    return _build_universe(subject, cfg, seed, _spec())
+
+
+def reject_scaffold(subject: Subject, cfg: AdjustmentConfig | None = None,
+                    seed: int = 614) -> list[Comp]:
+    """The 5 planted rejects (C-E…C-I) priced for THIS subject — the shared scaffold the inbox
+    plants in every deal so comp rejection is visible on every row (the highest-value domain
+    beat). Built off the SAME specs and pricing path as `generate_universe`, so the two can't
+    drift; only the C-A → C-E remap on the duplicate twin differs, because the reject-only set
+    has no C-A to re-list (the duplicate twins the stale reject instead).
+
+    The set yields all five reason codes when there are ≥3 survivors alongside it (the MAD
+    outlier rule needs ≥5 pre-outlier candidates; C-G and C-H supply two of them).
+
+    Two rejects are re-pegged to the subject so they fire CLEANLY at any value scale (the curated
+    `generate_universe` keeps the fixed South-calibrated values — this only affects the scaffold):
+      * C-H (OUTLIER): the fixed $596k reads as a price outlier only near South's value; here it is
+        a fraction of the subject's true value, so it is a far PPSF outlier (and is always rejected,
+        never leaking into selection) on a $500k East deal or a $720k South deal alike.
+      * C-G (WRONG_DISTRICT): given the subject's own size, its PPSF sits at the cluster median, so
+        it is never mis-caught as an outlier before the topology can reject it as cross-market."""
+    cfg = cfg or AdjustmentConfig()
+    v = subject_true_value(subject, cfg)
+    specs = [dict(s) for s in _spec() if s["cid"] in _REJECT_CIDS]
+    by_cid = {s["cid"]: s for s in specs}
+    for s in specs:
+        if s["cid"] == "C-F":  # ~1,200 sf over subject -> gross blows past the 25% cap at any scale
+            s["gla"] = subject.gla_sqft + 1200
+        if s["cid"] == "C-H":  # deep discount vs the subject -> a reliable low PPSF outlier
+            s["price_override"] = int(v * 0.55)
+        if s["cid"] == "C-G":  # subject-sized -> median PPSF, so only the topology rejects it
+            s["gla"], s["lot"] = subject.gla_sqft, subject.lot_sqft
+        # No C-A in the reject-only set, so the duplicate (C-I) re-lists the stale reject (C-E)
+        # instead. DUPLICATE matches the full parcel signature (gla/lot/year/contract/price), so
+        # the re-list must clone C-E's signature fields — not just copy its price.
+        if s.get("duplicate_of") == "C-A":
+            twin = by_cid["C-E"]
+            s["duplicate_of"] = "C-E"
+            for k in ("gla", "lot", "built", "contract"):
+                s[k] = twin[k]
+    return _build_universe(subject, cfg, seed, specs)
