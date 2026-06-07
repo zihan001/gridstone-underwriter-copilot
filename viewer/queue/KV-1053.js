@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-06",
@@ -850,17 +851,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal develops a market value range for 22xx Acadia Drive SE as of June 1, 2026, using sales comparison methodology. The subject property is located in Calgary's south district with an assessed value of $668,000. Analysis employs synthetic comparable sales grounded in Open Calgary data, processed through a deterministic selection and adjustment engine.",
-    "selection": "The engine retrieved 4 potential comparables and selected all 4 for analysis, with no rejections recorded. The final comparable set includes 2 tier-0 sales (J-A, J-B) from the same south district and 2 tier-1 sales (J-C, J-D) from adjacent districts. All selected comparables demonstrate acceptable similarity metrics and contribute to the final value indication through weighted analysis.",
-    "adjustment": "Net adjustments range from -0.1% to 1.6%, with gross adjustments spanning 0.3% to 1.9%, indicating strong comparable similarity. Sales J-A shows 1.6% net adjustment, J-B achieves near-perfect alignment at -0.0% net, while J-C and J-D exhibit minimal adjustments of -0.1% and 1.1% respectively. The low adjustment burden (2.87% confidence contribution) supports reliable value transfer from the comparable set.",
-    "reconciliation": "Adjusted sale prices range from $704,227 to $713,985, yielding a final value range of $704,500 to $715,500 with a 1.55% spread. The point estimate of $710,000 reflects weighted contributions: J-A (36.06%), J-B (29.24%), J-C (20.42%), and J-D (14.28%). Same-district comparables receive higher weighting, with tier-1 sales appropriately discounted for location variance.",
-    "confidence": "Analysis achieves HIGH confidence (score: 0.8191) supported by adequate comparable count (8.0% contribution), tight value spread (14.12% contribution), and reasonable recency (5.11% contribution). Distance and adjustment burden factors contribute positively (2.81% and 2.87% respectively), while widening search depth creates minor confidence reduction (-6.0%). The confidence band supports reliable value range determination.",
-    "limiting": "Two flags require acknowledgment: (1) ADJACENT_DISTRICT_COMP flag notes comparables J-C and J-D originate from adjacent districts, with location risk mitigated through distance-weighting protocols; (2) UNSUPPORTED_TIME_ADJ flag indicates J-C and J-D utilize city-wide fallback time adjustment series rather than district-specific benchmarks, introducing approximation in temporal adjustments. These conditions are documented for reviewer consideration but do not compromise overall analysis reliability."
+    "scope": "This appraisal establishes a market value range for 22xx Acadia Drive SE as of June 1, 2026, using sales comparison methodology. The subject property is located in Calgary's south district with an assessed value of $668,000. Analysis utilizes synthetic comparables calibrated to Open Calgary market data, with the subject property grounded in the same dataset.",
+    "selection": "The comparable selection engine retrieved 4 transactions and selected all 4 for analysis, with no rejections recorded. The final comparable set includes 2 tier-0 properties (J-A, J-B) from the same south district and 2 tier-1 properties (J-C, J-D) from adjacent districts. Selection methodology prioritized geographic proximity and market similarity while maintaining adequate sample size for reliable range estimation.",
+    "adjustment": "Adjustment analysis shows minimal market resistance across the comparable set. Gross adjustment percentages range from 0.3% to 1.9%, with net adjustments spanning -0.1% to 1.6%. The low adjustment burden (contributing 0.0287 to confidence score) indicates strong comparability between subject and selected transactions. Time, location, and physical adjustments were applied systematically, with COMP-C and COMP-D utilizing city-wide fallback time series due to limited district-specific benchmarks.",
+    "reconciliation": "The adjusted comparable values range from $704,227 to $713,985, supporting a final value range of $704,500 to $715,500 with a 1.55% spread. Weight allocation reflects proximity and reliability: J-A (36.06%), J-B (29.24%), J-C (20.42%), and J-D (14.28%). The tight value clustering and minimal spread demonstrate strong market consensus, with the point estimate of $710,000 representing the weighted midpoint of adjusted comparable indications.",
+    "confidence": "Analysis confidence registers HIGH with a score of 0.8191. Positive contributors include adequate comparable count (+0.08), tight adjusted-value spread (+0.1412), reasonable recency (+0.0511), acceptable distance (+0.0281), and low adjustment burden (+0.0287). The widening depth factor (-0.06) reflects the inclusion of tier-1 comparables from adjacent districts, which provides market breadth while maintaining analytical rigor.",
+    "limiting": "Two analytical flags require disclosure: (1) ADJACENT_DISTRICT_COMP flag indicates COMP-C and COMP-D originate from adjacent districts, with location risk mitigated through distance-weighting protocols; (2) UNSUPPORTED_TIME_ADJ flag notes that COMP-C and COMP-D employ city-wide time adjustment series rather than district-specific benchmarks, introducing temporal adjustment approximation. These conditions are documented for reviewer consideration but do not compromise the overall analytical framework or final value range reliability."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 22xx Acadia Drive SE\n- Roll Number: 074-25-208-05\n- District: south\n- Coordinates: 50.965, -114.056\n- Assessed Value: $668,000 (2026 assessment)\n- Land Use: R-C1\n\n**Physical Characteristics:**\n- GLA: 1,410 sq ft (from listing)\n- Lot Size: 5,100 sq ft (from listing)\n- Bedrooms (above grade): 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 0 (from listing)\n- Year Built: 1982 (grounded from Open Calgary)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: [no district typical available]\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary records, establishing the south district and confirming the 1982 construction year from assessment data. Most physical fields were clearly stated in the listing including square footage, bedrooms, bathrooms, and garage details. The basement walkout status was the only field absent from the listing, but no district-typical fallback was available for this characteristic. All stated measurements and features were directly extracted from the listing text without estimation.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -916,11 +917,6 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
-        },
-        {
-          "name": "district_typical",
-          "args": "district=south, field=basement_walkout",
-          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

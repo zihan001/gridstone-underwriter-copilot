@@ -53,7 +53,10 @@ def build_queue(cfg: AdjustmentConfig | None = None, *, use_llm: bool | None = N
     entries: list[dict] = []
     results: dict[str, object] = {}
     for deal in inbox(cfg):
-        intake_res = run_intake(deal.blurb, effective_date=deal.subject.effective_date, use_llm=use_llm)
+        # Intake uses the FAST deterministic tool sequence (still a real, auditable trace that
+        # grounds the same Subject) — the queue runs many deals, and a multi-turn LLM intake per
+        # deal is far too slow. Prose still follows use_llm. The hero/east/west keep LLM intake.
+        intake_res = run_intake(deal.blurb, effective_date=deal.subject.effective_date, use_llm=False)
         res = run(deal.subject, cfg, candidates=deal.candidates, use_llm=use_llm)
         verdict = triage(res.memo)
         vr = res.memo.value_range

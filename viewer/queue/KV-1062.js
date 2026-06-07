@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-01",
@@ -779,17 +780,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes 29xx Edgemont Boulevard NW (north_west district) as of June 1, 2026, with an assessed value of $712,000. The sales comparison approach utilizes synthetic comparable properties derived from Open Calgary data, while the subject property characteristics are grounded in verified Open Calgary records.",
-    "selection": "The comparable selection process retrieved 3 properties, all of which were selected with no rejections. All comparables are located within the same north_west district as the subject. The THIN_COMP_SET flag indicates the final count of 3 comparables falls below the preferred minimum of 4, requiring commentary on adequacy. The DEEP_WIDENING flag shows tier-2 relaxation was necessary to achieve minimum count thresholds, resulting in degraded recency distribution.",
-    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.3% to 2.1%, with net adjustments from -0.0% to 1.1%. The UNSUPPORTED_TIME_ADJ flag indicates COMP-A, COMP-B, and COMP-C rely on city-wide fallback time adjustment series rather than district-specific benchmarks, rendering time adjustments approximate. Adjusted values range from $783,467 to $801,510, producing a tight cluster with 2.01% spread.",
-    "reconciliation": "The three adjusted comparables support a value range of $788,000 to $804,000, with a point estimate of $796,000. Comparable T-A receives the highest weight at 40.79%, followed by T-B at 32.66% and T-C at 26.56%. The 2.01% spread between high and low range bounds demonstrates strong convergence among the adjusted comparable values.",
-    "confidence": "The confidence assessment yields a MODERATE rating with a score of 0.6012. Positive contributors include adjusted-value spread (+0.1298), recency (+0.0476), distance (+0.0465), and adjustment burden (+0.0273). Negative factors are comp count (-0.1) and widening depth (-0.1), reflecting the limited comparable inventory and tier-2 search relaxation requirements.",
-    "limiting": "Key limiting conditions include reliance on synthetic comparable properties, use of city-wide fallback time adjustments due to insufficient district-specific data, and a below-optimal comparable count of 3 properties. The tier-2 widening required to meet minimum thresholds introduces temporal distribution concerns that impact overall reliability of the indication."
+    "scope": "This appraisal analyzes 29xx Edgemont Boulevard NW in the north_west district as of June 1, 2026, with an assessed value of $712,000. The sales comparison approach utilizes synthetic comparables processed through a deterministic engine, with the subject property grounded in Open Calgary data. The analysis develops a market value range through systematic comparable selection and adjustment protocols.",
+    "selection": "The engine retrieved 3 comparables and selected all 3 for analysis, with no rejections recorded. All selected comparables (T-A, T-B, T-C) are located within the same north_west district as the subject. However, the comp set required tier-2 relaxation to meet minimum count thresholds, resulting in a degraded recency distribution. The final comparable count of 3 falls below the preferred minimum of 4, triggering the THIN_COMP_SET flag for commentary.",
+    "adjustment": "Adjustment analysis reveals varying levels of modification across the comparable set. T-A shows gross adjustments of 0.3% with net adjustments of 0.0%, indicating offsetting modifications. T-B exhibits both gross and net adjustments of 1.0%, while T-C demonstrates the highest adjustment burden with gross adjustments of 2.1% and net adjustments of 1.1%. All comparables utilize city-wide fallback time adjustment series due to absence of encoded district benchmarks, resulting in approximate rather than precise temporal adjustments as flagged by UNSUPPORTED_TIME_ADJ.",
+    "reconciliation": "The adjusted comparable values range from $783,467 (T-C) to $801,510 (T-A), producing a tight 2.01% spread. Weighted analysis assigns the highest weight of 0.4079 to T-A, followed by T-B at 0.3266 and T-C at 0.2656. The reconciliation establishes a value range of $788,000 to $804,000 with a point estimate of $796,000, representing a balanced consideration of all three tier-0 comparables within the same district classification.",
+    "confidence": "The analysis generates a MODERATE confidence score of 0.6012. Positive contributors include adjusted-value spread (+0.1298), recency (+0.0476), distance (+0.0465), and adjustment burden (+0.0273). Negative factors include comp count (-0.1) and widening depth (-0.1), both reflecting the limited comparable inventory requiring tier-2 relaxation. The moderate confidence level appropriately reflects the technical limitations while acknowledging the tight value clustering and same-district positioning.",
+    "limiting": "This appraisal is subject to standard limiting conditions regarding synthetic comparable methodology and Open Calgary data dependencies. The DEEP_WIDENING and THIN_COMP_SET flags indicate constrained comparable availability, potentially affecting range precision. Time adjustments rely on city-wide rather than district-specific benchmarks, introducing approximation in temporal modifications. The 2.01% value spread and moderate confidence score reflect appropriate market positioning given these technical constraints and data limitations."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 29xx Edgemont Boulevard NW\n- Roll Number: 063-22-980-07\n- District: north_west\n- Coordinates: 51.11, -114.13\n- Assessed Value: $712,000 (2026 roll year)\n- Land Use: R-C1\n\n**Physical Characteristics:**\n- GLA: 1,520 sq ft (from listing)\n- Lot Size: 5,400 sq ft (from listing)\n- Bedrooms (AG): 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1992 (grounded from Open Calgary)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: [no district-typical available]\n- Garage Type: ATTACHED (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary which provided identity, assessment, and year built data. Most physical fields were directly extracted from the comprehensive listing text, including square footages, bedroom/bathroom counts, basement details, and garage specifications. Only the basement walkout characteristic was absent from the listing, but no district-typical fallback was available for this field in the north_west district. The listing provided sufficient detail to capture all other key physical attributes without requiring district defaults.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -845,11 +846,6 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
-        },
-        {
-          "name": "district_typical",
-          "args": "district=north_west, field=basement_walkout",
-          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

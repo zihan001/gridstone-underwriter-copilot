@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-06",
@@ -955,17 +956,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This sales comparison analysis values the subject property at 84xx Bonaventure Drive SE in Calgary's south district as of June 1, 2026. The engine retrieved 9 potential comparables from Open Calgary data, applying systematic selection and adjustment protocols. The subject's assessed value of $687,500 provides market context. Four synthetic comparables were selected for final analysis after rejecting 5 candidates for various technical criteria breaches.",
-    "selection": "The engine selected 4 comparables from an initial pool of 9 candidates, with 2 requiring tier-1 widening to achieve minimum count thresholds. Five rejections occurred: C-E (staleness at 405 days), C-F (gross adjustments at 25.7%), C-G (non-adjacent west district placement), C-H (outlier pricing at 5.2 MAD below median), and C-I (duplication with C-A). Three comparables (C-A, C-B, C-C) derive from the same south district, while C-D represents an adjacent district inclusion under relaxed geographic criteria.",
-    "adjustment": "Gross adjustment percentages range from 1.0% (C-A) to 13.5% (C-C), with net adjustments spanning -11.7% to 3.3%. C-C triggers the excessive gross adjustment flag at 13.5% (above the 12% review band) and excessive net adjustment flag at -11.7% (beyond the 8% threshold), requiring narrative support. C-D employs city-wide fallback time adjustment due to absent district-specific benchmarks. Adjustment burden contributes -0.0412 to the confidence score, reflecting moderate complexity in the comparable set.",
-    "reconciliation": "The weighted analysis produces adjusted values of $717,405 (C-A), $705,253 (C-B), $724,023 (C-C), and $726,438 (C-D). Weights reflect proximity, recency, and adjustment reliability: C-A receives highest weight at 0.4669, followed by C-B (0.2781), C-D (0.1534), and C-C (0.1016). The resulting value range spans $708,000 to $724,000 with a point estimate of $716,000, yielding a spread of 2.23%. This tight distribution supports the range despite moderate individual comparable issues.",
-    "confidence": "The analysis achieves a moderate confidence score of 0.6857, reflecting balanced strengths and limitations. Positive contributors include adequate comparable count (+0.08), acceptable adjusted-value spread (+0.1242), reasonable recency (+0.0382), and proximity (+0.0345). Negative factors include adjustment burden complexity (-0.0412) and deep widening requirements (-0.1). The DEEP_WIDENING flag indicates tier-2 relaxation was necessary to achieve minimum count, while STALE_COMP and ADJACENT_DISTRICT_COMP flags document C-D's geographic and temporal compromises.",
-    "limiting": "This analysis is subject to standard appraisal limiting conditions and relies on synthetic comparable data derived from Open Calgary sources. The UNSUPPORTED_TIME_ADJ flag indicates C-D's time adjustment uses city-wide fallback methodology due to insufficient district-specific benchmarks. Deep widening to tier-2 criteria and inclusion of one adjacent-district comparable may introduce location risk. The excessive adjustment flags on C-C require additional narrative support. Market conditions as of the June 1, 2026 effective date reflect the available data snapshot and may not capture subsequent market movements."
+    "scope": "This sales comparison approach analyzes the subject property at 84xx Bonaventure Drive SE as of June 1, 2026, against an assessed value of $687,500. The analysis employs synthetic comparable sales generated from Open Calgary data to establish a defensible value range through systematic comparison and adjustment methodology.",
+    "selection": "The engine retrieved 9 potential comparables and selected 4 for analysis after rejecting 5 properties. Rejections included C-E for staleness (405 days), C-F for excessive gross adjustments (25.7%), C-G for wrong district placement, C-H as an outlier (5.2 MAD low), and C-I as a duplicate. The final tier reached 2, indicating deep widening was required to achieve minimum comparable count, with COMP-D drawn from an adjacent district to supplement the south district pool.",
+    "adjustment": "Selected comparables exhibit gross adjustment percentages ranging from 1.0% to 13.5%, with net adjustments from -11.7% to 3.3%. COMP-C exceeds the 12% gross adjustment review band at 13.5% and the 8% net adjustment band at -11.7%, flagged for narrative support but retained at reduced weight (0.1016). COMP-D required unsupported time adjustment using city-wide fallback series due to insufficient district benchmark data. All south district comparables (C-A, C-B, C-C) maintain same-district status with appropriate weighting.",
+    "reconciliation": "The adjusted comparable values range from $705,253 to $726,438, producing a weighted value indication of $716,000 with a defensible range of $708,000 to $724,000 (2.23% spread). Weighting reflects adjustment burden and reliability, with COMP-A receiving highest weight (0.4669) due to minimal adjustments, while COMP-C receives lowest weight (0.1016) due to excessive adjustment flags. The indicated range brackets the assessed value appropriately, supporting market-level expectations.",
+    "confidence": "Analysis confidence registers as MODERATE with a score of 0.6857. Positive contributors include adequate comparable count (+0.08), tight adjusted-value spread (+0.1242), reasonable recency (+0.0382), and acceptable distance metrics (+0.0345). Negative factors include adjustment burden (-0.0412) and deep widening requirements (-0.10). The DEEP_WIDENING flag indicates tier-2 relaxation was necessary, degrading confidence through expanded search parameters.",
+    "limiting": "This analysis relies on synthetic comparable data derived from Open Calgary sources rather than verified MLS transactions. Deep widening to tier-2 introduces location and temporal variance that may not fully capture micro-market dynamics. COMP-D's adjacent district status and unsupported time adjustment methodology represent data limitations requiring reviewer awareness. The EXCESSIVE_NET_ADJ flag on COMP-C suggests potential model limitations in capturing property-specific value drivers that warrant additional market research or comparable verification."
   },
   "agentTrace": {
     "intake": {
       "source": "llm",
-      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 6 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
+      "reasoning": "## Subject Record Summary\n\n**Identity & Assessment Fields (Open Calgary grounded):**\n- Address: 84xx Bonaventure Drive SE\n- Roll Number: 074-21-335-07\n- District: south\n- Coordinates: 50.9583, -114.054\n- Assessed Value: $687,500 (2026)\n- Land Use: R-C1\n- Year Built: 1984\n\n**Physical Fields:**\n- GLA (sq ft): 1,450 (from listing)\n- Lot Size (sq ft): 5,242 (from listing)\n- Bedrooms Above Grade: 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1984 (grounded via Open Calgary)\n- Basement Finished (sq ft): 600 (from listing)\n- Basement Walkout: No district typical available\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary lookup using the Bonaventure Drive address, establishing the south district and confirming the 1984 construction year. The listing provided comprehensive physical details including square footage, bedroom/bathroom counts, and garage specifications. Only the basement walkout status was not specified in the listing, but no district-typical fallback was available for this field in the south district. All other required physical characteristics were successfully extracted from the listing text.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -1006,6 +1007,26 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=basement_finished_sqft",
           "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        },
+        {
+          "name": "district_typical",
+          "args": "district=south, field=basement_walkout",
+          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

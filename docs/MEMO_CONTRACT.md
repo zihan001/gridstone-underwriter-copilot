@@ -49,6 +49,7 @@ MEMO = {
   aicNote:        string
   narrative:      Narrative
   agentTrace:     AgentTrace | absent              // OPTIONAL, render-only (see below)
+  narrativeSource: "llm" | "template"              // which path wrote the prose (render-only label)
   timeFactor(month) -> float                       // bm[eff]/bm[month] - 1  (helper)
 }
 ```

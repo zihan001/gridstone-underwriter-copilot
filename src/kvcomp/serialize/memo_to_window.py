@@ -189,6 +189,9 @@ def build_window(result, agent_trace: dict | None = None) -> dict:
             "analyst": "model:underwrite-copilot v1.0.0",
             "purpose": "Defend a value RANGE for collateral review — never a point decision.",
         },
+        # Which path wrote the narrative prose: "llm" (model-written) or "template"
+        # (deterministic fallback). Render-only — the prose never carries a number; the core does.
+        "narrativeSource": getattr(result, "narrative_source", "template"),
         "benchmark": benchmark,
         "bm": bm,
         "marketContext": {

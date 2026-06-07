@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-01",
@@ -953,17 +954,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes the market value of 40xx Brentwood Road NW in Calgary's north west district as of June 1, 2026. The subject property carries an assessed value of $765,000. The sales comparison approach utilized synthetic comparable sales generated from Open Calgary data to establish a defensible value range through systematic adjustment and reconciliation procedures.",
-    "selection": "The selection process retrieved 5 comparable sales, all of which met minimum similarity criteria and were retained for analysis. No comparables required rejection, resulting in a robust dataset of 5 tier-0 sales, all located within the same north west district as the subject property. The uniform tier classification and geographic consistency support reliable market analysis.",
-    "adjustment": "Gross adjustment percentages ranged from 0.7% to 3.1%, with net adjustments spanning -0.1% to 1.0%, indicating strong initial comparability. Adjusted values clustered between $795,351 and $821,928. Flag UNSUPPORTED_TIME_ADJ indicates that time adjustments for all five comparables relied on city-wide fallback series due to unavailable district-specific benchmarks, introducing approximation into temporal adjustments that warrants recognition in the analysis.",
-    "reconciliation": "The weighted reconciliation process assigned varying weights from 0.1275 to 0.2661 based on adjustment reliability and similarity metrics. The five adjusted sale prices support a value range of $799,500 to $821,500, with a point estimate of $810,500. The 2.71% spread between range bounds demonstrates strong market consensus and limited dispersion among comparable sales.",
-    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.8853. Primary confidence drivers include adequate comparable count (0.11 contribution), tight adjusted-value spread (0.1122 contribution), and reasonable recency factors (0.0498 contribution). Distance and adjustment burden metrics contribute moderately at 0.042 and 0.0213 respectively, while widening depth shows zero contribution, indicating no resort to secondary market tiers was necessary.",
-    "limiting": "This analysis relies on synthetic comparable sales rather than verified market transactions. The flagged time adjustment approximation due to unavailable district-specific benchmarks introduces uncertainty in temporal adjustments. The subject property data is grounded in Open Calgary records, and all value conclusions are subject to the accuracy and completeness of the underlying municipal data systems as of the effective date."
+    "scope": "This sales comparison analysis supports market value estimation for 40xx Brentwood Road NW as of June 1, 2026. The subject property is located in Calgary's north west district with an assessed value of $765,000. The analysis employs synthetic comparable sales generated from Open Calgary assessment data, with the subject property grounded in the same municipal dataset. All monetary figures are expressed in Canadian dollars.",
+    "selection": "The comparable selection process retrieved 5 potential sales and selected all 5 for analysis, with no rejections recorded. All selected comparables (F-A through F-E) are classified as tier 0 properties located within the same north west district as the subject. The selection demonstrates strong geographic consistency, with all comparables sharing the subject's district classification and meeting primary similarity criteria.",
+    "adjustment": "Individual comparable adjustments range from 0.7% to 3.1% gross adjustment, with net adjustments spanning from -0.1% to 1.0%. Comparable F-E exhibits the highest gross adjustment burden at 3.1%, while F-D shows minimal net adjustment at -0.1%. The adjustment analysis flags reliance on city-wide fallback time adjustment series for all comparables (F-A through F-E), as no district-specific temporal benchmarks were encoded, rendering time adjustments approximate rather than district-calibrated.",
+    "reconciliation": "The weighted analysis produces adjusted values ranging from $795,351 (F-E) to $821,928 (F-A), with weights distributed from 0.1275 to 0.2661 based on reliability metrics. The reconciliation yields a value range of $799,500 to $821,500, with a point estimate of $810,500 and a spread of 2.71%. The narrow spread indicates strong comparable consensus despite the temporal adjustment approximations flagged in the analysis.",
+    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.8853. Primary confidence drivers include comparable count contribution (0.11), adjusted-value spread contribution (0.1122), and recency contribution (0.0498). Distance and adjustment burden factors contribute 0.042 and 0.0213 respectively. Widening depth shows zero contribution, indicating no tier expansion was required. The high confidence score supports the reliability of the $799,500 to $821,500 value range.",
+    "limiting": "This analysis is subject to the limitation that all comparable time adjustments rely on city-wide fallback series rather than district-specific temporal benchmarks, as flagged under code UNSUPPORTED_TIME_ADJ. This condition introduces approximation in temporal adjustments for the north west district market. The synthetic nature of comparable sales data, while grounded in Open Calgary assessment records, may not capture all market nuances present in actual transaction data. These limitations do not invalidate the analysis but require acknowledgment in valuation conclusions."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 40xx Brentwood Road NW\n- Roll Number: 063-18-552-01\n- District: north_west\n- Coordinates: 51.085, -114.134\n- Assessed Value: $765,000 (2026)\n- Land Use: R-C1\n\n**Physical Characteristics:**\n- GLA: 1,600 sq ft\n- Lot Size: 5,600 sq ft\n- Bedrooms (above grade): 4\n- Full Baths: 2\n- Half Baths: 1\n- Year Built: 1990\n- Basement Finished: 600 sq ft\n- Basement Walkout: [No district-typical value available]\n- Garage Type: Attached\n- Garage Stalls: 2\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary using the Brentwood Road NW address, establishing the roll number, assessment data, and north_west district classification. Most physical characteristics were explicitly stated in the listing text, including square footage, lot size, bedroom/bathroom counts, basement finished area, and garage details. The year built was confirmed through both the listing and assessment records. Only basement walkout status was not mentioned in the listing, and no district-typical fallback value was available for this field in the north_west district.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -1019,11 +1020,6 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
-        },
-        {
-          "name": "district_typical",
-          "args": "district=north_west, field=basement_walkout",
-          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

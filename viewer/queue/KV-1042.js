@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-06",
@@ -933,17 +934,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This sales comparison analysis values the subject property at 84xx Bonaventure Drive SE as of June 1, 2026, utilizing a deterministic comparison engine applied to Open Calgary data. The subject property carries an assessed value of $687,500 and is located in Calgary's south district. The analysis employs synthetic comparable sales to establish a market value range through systematic adjustment and weighting protocols.",
-    "selection": "The engine retrieved 5 comparable sales, all of which met selection criteria with 0 rejections recorded. All 5 selected comparables (F-A through F-E) are classified as Tier 0 properties located within the same south district as the subject. The comparable set demonstrates geographic consistency with same-district sourcing at 100%. No rejected comparables require commentary, and no final-tier fallback selections were necessary for this analysis.",
-    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.9% (F-C) to 3.0% (F-E), with net adjustments spanning from -0.3% to 1.6%. Comparable F-C exhibits the lowest adjustment burden at 0.9% gross, while F-E required the highest gross adjustments at 3.0%. Net adjustment spread of 1.9 percentage points reflects reasonable market positioning. The adjustment burden contribution of 0.022 to confidence scoring indicates minimal adjustment-related uncertainty in the analysis.",
-    "reconciliation": "The weighted analysis produces adjusted comparable values ranging from $714,706 (F-B) to $726,953 (F-C). Weighting distribution favors F-A (26.57%) and F-B (23.65%) as primary indicators, with F-C, F-D, and F-E receiving progressively lower weights of 20.78%, 16.26%, and 12.73% respectively. The reconciliation establishes a value range of $714,500 to $726,500 with a point estimate of $720,500, representing a spread of 1.67%.",
-    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.912. Primary confidence drivers include adjusted-value spread (0.1382 contribution) and comparable count (0.11 contribution), both supporting reliability. Secondary factors of recency (0.0498), distance (0.042), and adjustment burden (0.022) provide additional confidence support. Widening depth shows zero contribution, indicating no depth-related concerns. No threshold flags were fired during the analysis process.",
-    "limiting": "This appraisal relies on synthetic comparable sales generated through algorithmic processes rather than verified market transactions. The analysis is conditioned upon the accuracy and completeness of Open Calgary data as of the effective date. Market value conclusions are subject to standard appraisal limiting conditions including inspection assumptions, market condition stability, and the synthetic nature of comparable data inputs. Users should consider these computational limitations when applying valuation conclusions."
+    "scope": "This sales comparison analysis establishes a market value range for the subject property at 84xx Bonaventure Drive SE as of June 1, 2026. The analysis utilizes synthetic comparable sales data processed through a deterministic adjustment engine, with the subject property characteristics grounded in Open Calgary assessment records. The current assessed value of $687,500 provides baseline property attribution for comparison purposes.",
+    "selection": "The comparable selection process retrieved 5 potential sales and selected all 5 for final analysis, with 0 rejections recorded. All selected comparables (F-A through F-E) are classified as tier 0 properties located within the same south district as the subject. The selection demonstrates strong geographic consistency and eliminates location-based market variations that could compromise valuation accuracy.",
+    "adjustment": "Net adjustment percentages range from -0.3% to 1.6%, indicating highly similar properties requiring minimal modification. Gross adjustments span 0.9% to 3.0%, with the differential between gross and net adjustments reflecting offsetting positive and negative modifications. Comparable F-E exhibits the highest gross adjustment burden at 3.0% while requiring only -0.3% net adjustment. The low adjustment requirements across all comparables support the appropriateness of the selected properties for valuation purposes.",
+    "reconciliation": "The weighted analysis produces adjusted sale prices ranging from $714,706 to $726,953, yielding a final value range of $714,500 to $726,500 with a point estimate of $720,500. The 1.67% spread between range endpoints demonstrates strong market evidence convergence. Weighting favors comparables F-A (26.57%) and F-B (23.65%) based on their superior similarity metrics, while comparable F-E receives reduced emphasis (12.73%) due to higher adjustment requirements.",
+    "confidence": "The analysis achieves a HIGH confidence rating with a score of 0.912. Primary confidence drivers include comparable count contribution (0.11), adjusted-value spread contribution (0.1382), and recency contribution (0.0498). Distance and adjustment burden factors provide additional support at 0.042 and 0.022 respectively. The absence of widening depth contribution (0.0) indicates sufficient tier 0 comparables without requiring expanded search parameters.",
+    "limiting": "This valuation relies on synthetic comparable sales data and deterministic adjustment algorithms. Market conditions are assumed stable as of the June 1, 2026 effective date. No data quality flags were triggered during processing. The analysis scope is limited to sales comparison methodology and does not incorporate cost or income approaches. Users should verify that synthetic data parameters align with current market conditions and consider supplementary valuation methods for final value conclusions."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 84xx Bonaventure Drive SE\n- Roll Number: 074-21-335-07\n- District: South\n- Coordinates: 50.9583, -114.054\n- Assessed Value: $687,500\n- Land Use: R-C1\n- Assessment Year: 2026\n\n**Physical Characteristics:**\n- GLA: 1,450 sq ft (from listing)\n- Lot Size: 5,242 sq ft (from listing)\n- Bedrooms (above grade): 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1984 (grounded via Open Calgary)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: Not specified (no district typical available)\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property identity and assessment data were successfully grounded through the Open Calgary dataset, establishing it as a detached home in the south district with 1984 construction. Most physical characteristics were clearly stated in the listing text, including square footage, bedrooms, bathrooms, basement details, and garage specifications. The year built was confirmed through the grounded assessment data. Only the basement walkout status was not mentioned in the listing, and no district-typical fallback was available for this field in the south district.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -999,11 +1000,6 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
-        },
-        {
-          "name": "district_typical",
-          "args": "district=south, field=basement_walkout",
-          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

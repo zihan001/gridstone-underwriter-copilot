@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-06",
@@ -846,17 +847,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes 120xx Canso Place SW in Calgary's west district as of June 1, 2026, against an assessed value of $962,000. The sales comparison approach utilized synthetic comparable sales generated from Open Calgary data to establish market value through systematic adjustment and reconciliation processes.",
-    "selection": "The engine retrieved 5 potential comparables and selected 4 for analysis after rejecting 1 outlier (F-A) for pricing 2.3 MAD above the dataset median. All 4 selected comparables (F-B, F-C, F-D, F-E) are located within the same west district, providing strong geographic consistency. The final tier count of 0 indicates no geographic expansion was required beyond the primary search parameters.",
-    "adjustment": "Gross adjustment percentages ranged from 0.9% to 2.5% across the selected comparables, with net adjustments from 0.2% to 1.0%. Comparable F-B required minimal adjustment (1.0% gross/net), while F-E showed the highest gross adjustment burden at 2.5% despite netting to only 0.2%. The controlled adjustment levels support reliable value transfer from the synthetic comparable database.",
-    "reconciliation": "The weighted analysis produced adjusted values ranging from $1,004,205 to $1,021,899, with weights distributed as F-B (32.19%), F-C (28.01%), F-D (22.18%), and F-E (17.61%). The reconciled value range spans $1,001,500 to $1,017,500 with a 1.58% spread, centering around a point estimate of $1,009,500.",
-    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.8801. Primary confidence drivers include adequate comparable count (0.08 contribution), controlled adjusted-value spread (0.1405), reasonable recency factors (0.0449), acceptable distance metrics (0.0398), and manageable adjustment burden (0.0249). No widening depth penalty was applied.",
-    "limiting": "This valuation relies on synthetic comparable sales derived from Open Calgary municipal data rather than verified MLS transactions. The 1.58% value range spread and HIGH confidence rating support the reliability of the $1,001,500 to $1,017,500 range, though users should consider the synthetic nature of the underlying comparable data in their decision-making process."
+    "scope": "This appraisal applies the sales comparison approach to estimate market value for 120xx Canso Place SW as of June 1, 2026. The subject property is located in Calgary's west district with an assessed value of $962,000. The analysis relies on synthetic comparable sales generated through deterministic modeling, while subject property characteristics are grounded in Open Calgary municipal data. The scope encompasses identification, selection, adjustment, and reconciliation of comparable transactions to derive a supportable value range.",
+    "selection": "The engine retrieved 5 potential comparables and selected 4 for final analysis after rejecting 1 outlier. Comparable F-A was rejected under code OUTLIER_PRICE, registering 2.3 MAD high relative to the dataset median. All 4 selected comparables (F-B, F-C, F-D, F-E) are located within the same west district as the subject, supporting geographical consistency. The final tier contains 0 comparables, indicating all selected sales meet primary similarity thresholds. This selection methodology prioritizes statistical reliability while maintaining locational relevance.",
+    "adjustment": "Gross adjustment percentages across the 4 selected comparables range from 1.0% to 2.5%, with net adjustments ranging from 0.2% to 1.0%. Comparable F-B required minimal adjustment (1.0% gross, 1.0% net), indicating strong similarity to subject characteristics. Comparable F-E showed the highest gross adjustment burden at 2.5% but achieved a low net adjustment of 0.2% through offsetting modifications. The adjustment process produced final indicated values ranging from $1,004,205 to $1,021,899, demonstrating reasonable clustering around the subject's expected value range.",
+    "reconciliation": "The weighted analysis of 4 adjusted comparables produces a value range of $1,001,500 to $1,017,500, with a point estimate of $1,009,500. The range exhibits a spread of 1.58%, indicating strong convergence among indicators. Weighting reflects adjustment reliability, with F-B receiving the highest weight (0.3219) due to minimal adjustment requirements, followed by F-C (0.2801), F-D (0.2218), and F-E (0.1761). The reconciliation emphasizes comparables requiring fewer adjustments while maintaining representation across the selected dataset.",
+    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.8801. Primary confidence drivers include adjusted-value spread contributing 0.1405 to the score, comparable count contributing 0.08, and recency contributing 0.0449. Distance and adjustment burden provide additional support at 0.0398 and 0.0249 respectively. Widening depth contributes 0.0 to confidence, indicating sufficient comparable availability at the primary selection tier. No systematic flags were triggered during the analysis, supporting the reliability of the derived value range.",
+    "limiting": "This appraisal relies on synthetic comparable sales data and assumes accuracy of underlying market modeling. Subject property characteristics are sourced from Open Calgary municipal records, which may not reflect recent modifications or market-relevant features. The analysis is limited to the sales comparison approach and does not incorporate cost or income methodologies. Market conditions are assumed stable as of the June 1, 2026 effective date. Users should consider this appraisal within the context of its synthetic data foundation and intended application scope."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 120xx Canso Place SW\n- Roll Number: 091-44-218-09\n- District: west\n- Coordinates: 51.0207, -114.1573\n- Assessed Value: $962,000 (2026)\n- Land Use: R-C1\n- Year Built: 1998 (grounded)\n\n**Physical Characteristics:**\n- GLA: 1,820 sq ft (from listing)\n- Lot Size: 6,100 sq ft (from listing)\n- Bedrooms: 4 (from listing)\n- Full Baths: 3 (from listing)\n- Half Baths: 1 (from listing)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: Not specified (no district default available)\n- Garage: Attached, 2 stalls (from listing)\n\n**Intake Reasoning:**\nThe property was successfully grounded through Open Calgary records, which provided the roll number, assessed value, and confirmed the year built as 1998. Most physical characteristics were clearly stated in the listing text, including square footage, lot size, bedroom/bathroom counts, finished basement area, and garage details. Only the basement walkout status was not mentioned in the listing, and no district-typical default was available for this field in the west district. The listing provided comprehensive physical details, requiring minimal fallback to district defaults.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -912,11 +913,6 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
-        },
-        {
-          "name": "district_typical",
-          "args": "district=west, field=basement_walkout",
-          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

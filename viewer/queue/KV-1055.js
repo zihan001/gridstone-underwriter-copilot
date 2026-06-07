@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-01",
@@ -991,21 +992,21 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This sales comparison analysis supports valuation of the subject property at 15xx 7th Street NE in Calgary's north_east district as of June 1, 2026. The approach employs a deterministic engine processing Open Calgary data to identify comparable sales and apply systematic adjustments. The subject carries an assessed value of $548,000. Analysis targets a defensible value range through weighted reconciliation of adjusted comparable sales.",
-    "selection": "The engine retrieved 5 potential comparables and selected all 5 for analysis, with no rejections recorded. All selected comparables are located within the same north_east district as the subject property. The final comparable set operates at tier-2 depth, indicating the engine required relaxed selection criteria to achieve minimum count thresholds. This selection process generated a DEEP_WIDENING flag, noting that tier-2 relaxation was necessary and resulted in degraded recency distribution with a -0.10 confidence penalty.",
-    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.7% (S-C) to 4.9% (S-E), with net adjustments between 0.6% and 2.0%. Post-adjustment values span $550,853 to $560,825. Time adjustments applied city-wide fallback series due to absence of encoded district benchmarks, generating an UNSUPPORTED_TIME_ADJ flag affecting all comparables. Additionally, comparable S-E triggered a STALE_COMP flag for exceeding the 120-day recency threshold, resulting in reduced weighting. The synthetic comparable dataset demonstrates controlled adjustment burden with net adjustments remaining under standard tolerance levels.",
-    "reconciliation": "Weighted reconciliation of the five adjusted comparables yields a value range of $552,000 to $561,000 with a point estimate of $556,500. The range spread of 1.62% indicates reasonable comparable consistency. Weighting distribution reflects proximity and adjustment quality, with S-A receiving highest weight (0.2748) and S-E receiving lowest weight (0.0943) due to recency concerns. The reconciled range positions appropriately above the subject's assessed value of $548,000, suggesting market appreciation since the assessment date.",
-    "confidence": "Analysis confidence registers as MODERATE with a score of 0.7964. Primary confidence drivers include comparable count (+0.11), adjusted-value spread (+0.1395), and standard geographic/temporal factors. The widening depth penalty (-0.10) reflects the tier-2 selection requirement and associated recency degradation. Adjustment burden contribution (+0.0105) remains minimal, supporting the reliability of the synthetic comparable adjustments. The moderate confidence band appropriately reflects both the methodological rigor and the flagged selection constraints.",
-    "limiting": "This analysis relies on synthetic comparables derived from Open Calgary data and may not capture all market nuances affecting the subject property. The UNSUPPORTED_TIME_ADJ flag indicates time adjustments use approximate city-wide trends rather than district-specific benchmarks. The DEEP_WIDENING flag signals that optimal recent comparable availability was limited, requiring relaxed selection criteria. Users should consider these methodological constraints when applying the indicated value range. The analysis assumes market conditions consistent with the effective date and standard residential property characteristics."
+    "scope": "This appraisal analyzes the subject property at 15xx 7th Street NE in Calgary's north_east district as of June 1, 2026, with an assessed value of $548,000. The sales comparison approach employs synthetic comparables derived from Open Calgary data to establish a defensible value range through systematic adjustment and weighting protocols.",
+    "selection": "The engine retrieved 5 comparables and selected all 5 for analysis, with no rejections recorded. All selected comparables (S-A through S-E) are located within the same north_east district, ensuring geographic consistency. However, the DEEP_WIDENING flag indicates the comp set required tier-2 relaxation to achieve minimum count thresholds, resulting in a degraded recency distribution and a -0.10 confidence penalty.",
+    "adjustment": "Gross adjustment percentages range from 0.7% (S-C) to 4.9% (S-E), with net adjustments between 0.6% and 2.0%. The UNSUPPORTED_TIME_ADJ flag notes that all comparables rely on city-wide fallback time adjustment series due to absence of encoded district benchmarks, rendering time adjustments approximate. Comparable S-E triggers the STALE_COMP flag for exceeding 120-day recency thresholds, resulting in reduced weighting despite time adjustment off the CREB benchmark.",
+    "reconciliation": "Weighted analysis produces adjusted values from $550,853 to $560,825, establishing a value range of $552,000 to $561,000 with a 1.62% spread. The point estimate of $556,500 reflects differential weighting, with S-A receiving the highest weight (0.2748) due to superior adjustment metrics, while S-E receives reduced weight (0.0943) due to staleness penalties. The tight spread indicates reasonable comparable alignment despite depth widening requirements.",
+    "confidence": "The analysis achieves a MODERATE confidence band with a score of 0.7964. Positive contributors include comparable count (+0.11), adjusted-value spread (+0.1395), recency (+0.0444), distance (+0.042), and adjustment burden (+0.0105). The widening depth penalty (-0.10) reflects the tier-2 relaxation impact on data quality, though overall metrics support the reliability of the established range.",
+    "limiting": "Key limitations include reliance on synthetic comparables rather than actual market transactions, approximate time adjustments due to absent district-specific benchmarks, and tier-2 widening requirements that compromise recency standards. The STALE_COMP flag for S-E and systematic use of city-wide fallback adjustment series introduce additional uncertainty. Users should consider these factors when applying the $552,000-$561,000 range for underwriting decisions."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 6 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
-          "args": "address_or_roll=15xx 7th Street NE",
+          "args": "address_or_roll=Character home at 15xx 7th Street NE. 1,240 sq ft above grad",
           "result": "{\"address\": \"15xx 7th Street NE\", \"district\": \"north_east\", \"lat\": 51.075, \"lon\": -113.985, \"roll_number\": \"047-09-114-06\", \"assessed_value\": 548000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1976}"
         },
         {
@@ -1042,6 +1043,21 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=basement_finished_sqft",
           "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
         }
       ]
     }

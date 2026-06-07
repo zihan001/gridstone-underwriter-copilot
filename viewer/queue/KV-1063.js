@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-01",
@@ -779,17 +780,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This sales comparison appraisal addresses 8xx Inglewood Drive SE in the city_centre district as of June 1, 2026. The subject property carries an assessed value of $942,000. The analysis employs synthetic comparables derived from Open Calgary data to establish a defensible value range through systematic market extraction and adjustment procedures.",
-    "selection": "The selection engine retrieved 3 properties and selected all 3 for analysis, with no rejections recorded. All selected comparables (T-A, T-B, T-C) are located within the same city_centre district as the subject. However, the final tier reached 2, indicating the comp set required relaxation to minimum count standards. Flag THIN_COMP_SET indicates 3 comparables were selected below the preferred minimum of 4, while DEEP_WIDENING reflects tier-2 relaxation that degraded recency distribution.",
-    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.2% (T-A) to 2.0% (T-C), with net adjustments from -0.0% to 1.2%. Adjusted values span $968,124 to $988,486. All comparables trigger flag UNSUPPORTED_TIME_ADJ, indicating reliance on city-wide fallback time adjustment series due to absence of district-specific benchmarks, rendering time adjustments approximate. The adjustment burden contribution of 0.0279 to confidence scoring reflects moderate adjustment loads across the comparable set.",
-    "reconciliation": "The weighted analysis produces a value range of $969,000 to $986,000 with a point estimate of $977,500. The 1.74% spread between range bounds demonstrates reasonable comparable clustering. Weighting reflects T-A at 40.86%, T-B at 32.63%, and T-C at 26.51%, with higher weights assigned to comparables requiring fewer adjustments. The range encompasses all adjusted comparable values while accounting for market variation and adjustment uncertainty.",
-    "confidence": "Confidence scoring yields 0.6085, placing the analysis in the MODERATE band. Positive contributors include adjusted-value spread (0.1365), recency (0.0476), distance (0.0465), and adjustment burden (0.0279). Negative impacts stem from comp count (-0.1) and widening depth (-0.1). The MODERATE confidence reflects adequate comparable support tempered by thin market representation and reliance on tier-2 selection parameters.",
-    "limiting": "This appraisal relies on synthetic comparables and Open Calgary data rather than verified market transactions. The UNSUPPORTED_TIME_ADJ flag indicates approximate time adjustments due to district-specific benchmark absence. THIN_COMP_SET and DEEP_WIDENING flags reflect market data limitations requiring relaxed selection criteria. The MODERATE confidence band and identified flags warrant careful review of market assumptions and potential supplemental analysis for enhanced reliability."
+    "scope": "This appraisal establishes a market value range for 8xx Inglewood Drive SE in the city_centre district as of June 1, 2026. The subject property carries an assessed value of $942,000. The analysis employs a sales comparison approach using synthetic comparable sales matched against Open Calgary data foundations.",
+    "selection": "The comparable search retrieved 3 properties, all of which were selected for analysis with 0 rejections. All selected comparables are located within the same city_centre district as the subject. The final analysis required tier-2 search relaxation to achieve minimum comparable count, triggering the DEEP_WIDENING flag. The THIN_COMP_SET flag indicates the 3-comparable dataset falls below the preferred minimum of 4 comparables.",
+    "adjustment": "Adjustment analysis shows varied modification requirements across the comparable set. Comp T-A required 0.2% gross adjustments with 0.0% net impact. Comp T-B required 1.0% gross adjustments with 1.0% net impact. Comp T-C required 2.0% gross adjustments with 1.2% net impact. The UNSUPPORTED_TIME_ADJ flag indicates all comparables utilize city-wide fallback time adjustment series due to unavailable district-specific benchmarks, resulting in approximate time adjustments.",
+    "reconciliation": "The adjusted comparable values range from $968,124 to $988,486, producing a final value range of $969,000 to $986,000 with a point estimate of $977,500. The 1.74% spread between range endpoints reflects reasonable market variation. Weighting assigns 40.86% to T-A, 32.63% to T-B, and 26.51% to T-C based on relative reliability and adjustment burden.",
+    "confidence": "The analysis achieves a MODERATE confidence band with a 0.6085 confidence score. Positive contributors include adjusted-value spread coherence (+0.1365), recency adequacy (+0.0476), distance proximity (+0.0465), and manageable adjustment burden (+0.0279). Negative factors include limited comparable count (-0.1) and tier-2 search widening requirements (-0.1).",
+    "limiting": "This analysis is subject to several limiting conditions requiring commentary. The DEEP_WIDENING flag indicates search parameters required relaxation to achieve minimum sample size, potentially affecting result reliability. The THIN_COMP_SET condition reflects market data scarcity in the immediate area. The UNSUPPORTED_TIME_ADJ limitation means time adjustments rely on city-wide rather than district-specific trends, introducing approximation into the temporal adjustments."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 8xx Inglewood Drive SE\n- Roll Number: 031-04-221-02\n- District: city_centre\n- Coordinates: 51.035, -114.02\n- Assessed Value: $942,000 (2026)\n- Land Use: R-C1\n- Year Built: 1971 (grounded)\n\n**Physical Characteristics:**\n- GLA: 1,120 sq ft (from listing)\n- Lot Size: 4,400 sq ft (from listing)\n- Bedrooms (AG): 2 (from listing)\n- Full Baths: 1 (from listing)\n- Half Baths: 0 (from listing)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: Not specified (no district default available)\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:**\nThe property was successfully grounded through Open Calgary using the address, establishing the roll number, district (city_centre), coordinates, and year built (1971). Most physical characteristics were clearly stated in the listing including square footages, bedroom/bathroom counts, and garage details. The listing did not specify whether the basement was walkout, and no district-typical value was available for this field in the city_centre district, leaving this as an unknown characteristic requiring further verification.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -845,11 +846,6 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
-        },
-        {
-          "name": "district_typical",
-          "args": "district=city_centre, field=basement_walkout",
-          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

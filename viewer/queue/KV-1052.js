@@ -28,6 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-06",
@@ -830,17 +831,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal establishes a market value range for 98xx Elbow Drive SW, Calgary, effective June 1, 2026. The subject property is located in the south district with an assessed value of $731,000. The analysis employs synthetic comparable sales generated through deterministic modeling, with the subject property grounded in Open Calgary data. The sales comparison approach serves as the primary valuation methodology.",
-    "selection": "The comparable selection process retrieved 4 potential sales and selected all 4 for analysis, with 0 rejections. All selected comparables (U-A through U-D) are classified as tier 0 properties located within the same south district as the subject. The final dataset contains 0 final-tier comparables, indicating a robust initial selection pool. Comparable weights range from 0.2017 to 0.302, reflecting relative similarity and adjustment burden considerations.",
-    "adjustment": "Gross adjustment percentages range from 10.0% to 12.4% across the comparable set. Net adjustments span from -12.1% to -7.4%, with all comparables requiring downward adjustments to align with subject characteristics. Two threshold breaches require commentary: COMP-A exhibits a gross adjustment of 12.4% exceeding the 12% review band (though below the 25% hard cap) and has been retained at reduced weight. Additionally, three comparables (U-A at -12.1%, U-B at -9.0%, and U-C at -9.7%) exceed the 8% net adjustment review threshold, warranting narrative support for the adjustment magnitude.",
-    "reconciliation": "The adjusted comparable values range from $697,298 to $746,355, producing a final value range of $705,000 to $740,000 with a point estimate of $722,500. The range spread of 4.84% demonstrates reasonable comparable performance. The reconciled range brackets the subject's assessed value of $731,000, providing market support for the assessment level. Weight-adjusted consideration of all four tier 0 comparables supports the concluded range parameters.",
-    "confidence": "The analysis yields a MODERATE confidence band with an overall score of 0.7504. Positive confidence drivers include comparable count (+0.08), adjusted-value spread (+0.059), recency (+0.0516), and distance (+0.0442). The primary detractor is adjustment burden (-0.0344), reflecting the magnitude of required adjustments. Widening depth contributes 0.0 to the confidence assessment. The moderate confidence level appropriately reflects the adjustment threshold breaches while acknowledging the robust comparable dataset.",
-    "limiting": "This analysis relies on synthetic comparable data generated through deterministic modeling processes, with actual subject property information sourced from Open Calgary data. The value range represents market conditions as of the June 1, 2026 effective date. Adjustment threshold breaches flagged during analysis require ongoing monitoring and potential refinement of adjustment parameters. The moderate confidence band reflects inherent limitations in synthetic comparable generation and adjustment burden considerations. Users should consider these factors when applying the concluded value range for underwriting decisions."
+    "scope": "This appraisal analyzes a residential property at 98xx Elbow Drive SW in Calgary's south district as of June 1, 2026. The sales comparison approach utilizes synthetic comparable sales generated from Open Calgary data, with the subject property grounded in the same municipal dataset. The analysis retrieved 4 potential comparables from the market database.",
+    "selection": "All 4 retrieved comparables were selected for analysis, with 0 rejections recorded. The selected comparables (U-A, U-B, U-C, U-D) are all located within the same south district as the subject property. No final-tier comparables were required, indicating sufficient primary market data availability. The comparable selection process yielded adequate market representation for reliable value indication.",
+    "adjustment": "Gross adjustment percentages ranged from 10.0% to 12.4% across the four comparables, with net adjustments spanning -12.1% to -7.4%. Two adjustment thresholds were flagged for commentary: COMP-A's gross adjustment of 12.4% exceeds the 12% review band (though remains below the 25% hard cap) and was retained at reduced weight of 0.2817. Additionally, three comparables (U-A at -12.1%, U-B at -9.0%, U-C at -9.7%) exceeded the 8% net adjustment review band, suggesting systematic market differences requiring narrative support. COMP-D showed the lowest net adjustment burden at -7.4%.",
+    "reconciliation": "The four adjusted comparable values range from $697,298 to $746,355, producing a weighted value indication range of $705,000 to $740,000 with a point estimate of $722,500. The adjusted value spread represents 4.84% of the point estimate. Comparable weights were assigned based on adjustment burden and reliability factors: U-B received the highest weight at 0.302, followed by U-A at 0.2817, U-C at 0.2146, and U-D at 0.2017. This range brackets the subject's assessed value of $731,000.",
+    "confidence": "The analysis yields a MODERATE confidence rating with a score of 0.7504. Positive confidence drivers include adequate comparable count (+0.08), reasonable adjusted-value spread (+0.059), acceptable recency (+0.0516), and satisfactory distance metrics (+0.0442). The primary confidence detractor is adjustment burden (-0.0344), reflecting the threshold breaches noted above. Widening depth contributed 0.0 to the confidence score, indicating no successive market tier expansion was required.",
+    "limiting": "This analysis relies on synthetic comparable data and Open Calgary municipal records as of the effective date. The flagged adjustment thresholds require additional market analysis to validate the systematic downward adjustments observed. The MODERATE confidence band suggests the value range should be considered preliminary pending verification of the adjustment patterns identified. Market conditions as of June 1, 2026, may warrant expanded comparable search parameters if additional validation is required."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
-      "reasoning": "## Subject Property Record\n\n**Property Identity & Assessment:**\n- Address: 98xx Elbow Drive SW\n- Roll Number: 074-30-441-08\n- District: South\n- Coordinates: 50.97, -114.072\n- Assessed Value: $731,000 (2026 roll year)\n- Land Use: R-C1\n\n**Physical Characteristics:**\n- GLA: 1,470 sq ft (from listing)\n- Lot Size: 5,300 sq ft (from listing)\n- Bedrooms Above Grade: 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1985 (grounded from Open Calgary)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: [No district-typical available]\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:**\nThe property was successfully grounded using the Open Calgary dataset, establishing the roll number, assessed value, and confirming the 1985 construction year. Most physical characteristics were clearly stated in the listing text, including square footages, bedroom/bathroom counts, and garage details. The basement walkout status was not mentioned in the listing and no district-typical fallback was available for this field in the south district. All other required fields were successfully extracted directly from the listing description.",
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -896,11 +897,6 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
-        },
-        {
-          "name": "district_typical",
-          "args": "district=south, field=basement_walkout",
-          "result": "no district-typical value for basement_walkout."
         }
       ]
     }
