@@ -563,6 +563,68 @@ table.adjgrid tfoot tr:first-child td { border-top: 2px solid var(--line-strong)
 .band-tick .bt-v { font-family: var(--serif); font-size: 15px; }
 .memo-prose { font-family: var(--sans); }
 
+/* ---- triage queue ---------------------------------------------------------
+   Three legible tiers (flagged / review / clean) keyed to the KV palette: a
+   status pill + a status-coloured bar down each row's left edge, with the
+   groups banded apart. Pure CSS — the rows arrive pre-sorted red→yellow→green,
+   so an adjacent-sibling rule bands the tiers without any JS. */
+.queue-page { min-height: 100vh; background: var(--bg); padding: 40px 32px 72px; }
+.queue-wrap { max-width: 1140px; margin: 0 auto; }
+.queue-brand { display: flex; align-items: center; gap: 9px; font-family: var(--mono);
+  font-size: 11px; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 18px; }
+.queue-title { font-family: var(--serif); font-weight: 600; font-size: 30px; letter-spacing: -0.015em;
+  color: var(--ink); margin: 0 0 10px; }
+.queue-lede { font-family: var(--sans); font-size: 14px; line-height: 1.6; color: var(--muted);
+  max-width: 760px; margin: 0 0 22px; }
+
+.queue-strip { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.queue-strip .qs-n { color: var(--ink); font-weight: 600; }
+.queue-strip .qs-sep { color: var(--faint); margin: 0 4px; }
+.queue-strip .qs-good { color: var(--good); }
+.queue-strip .qs-warn { color: var(--warn-2); }
+.queue-strip .qs-bad { color: var(--bad); }
+
+.queue-tbl { table-layout: fixed; border: 1px solid var(--line); border-radius: var(--r2);
+  overflow: hidden; background: var(--panel); }
+.queue-tbl th:nth-child(1), .queue-tbl td:nth-child(1) { width: 100px; }
+.queue-tbl th:nth-child(2), .queue-tbl td:nth-child(2) { width: 236px; }
+.queue-tbl th:nth-child(3), .queue-tbl td:nth-child(3) { width: 280px; }
+.queue-tbl th:nth-child(4), .queue-tbl td:nth-child(4) { width: 100px; }
+.queue-tbl th:nth-child(6), .queue-tbl td:nth-child(6) { width: 68px; }
+.queue-tbl td { vertical-align: middle; }
+.queue-tbl tbody tr { cursor: pointer; transition: background 0.12s ease; }
+.queue-tbl tbody tr:hover td { background: var(--panel-2); }
+
+/* status pill — colour-keyed to the verdict, restrained KV tones */
+.qpill { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 11px; border-radius: 20px;
+  border: 1px solid transparent; }
+.qpill-red    { color: var(--bad);    background: var(--bad-bg);  border-color: var(--bad-bd); }
+.qpill-yellow { color: var(--warn-2); background: var(--warn-bg); border-color: var(--warn-bd); }
+.qpill-green  { color: var(--good);   background: var(--good-bg); border-color: var(--good-bd); }
+
+/* status-coloured bar down each row's left edge */
+.qrow td:first-child { border-left: 3px solid transparent; }
+.qrow-red    td:first-child { border-left-color: var(--bad); }
+.qrow-yellow td:first-child { border-left-color: var(--warn); }
+.qrow-green  td:first-child { border-left-color: var(--good); }
+
+/* band the three tiers apart: a bg-coloured top border on the first row of each
+   new tier reads as breathing room between the flagged / review / clean groups */
+.qrow-red + .qrow-yellow td,
+.qrow-yellow + .qrow-green td { border-top: 12px solid var(--bg); }
+
+/* cell typography */
+.q-addr { font-family: var(--sans); font-size: 13.5px; font-weight: 500; color: var(--ink); }
+.q-sub { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+.q-range { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+.q-range .q-pt { color: var(--ink); font-weight: 600; }
+.q-band { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--muted); }
+.q-reason { font-family: var(--sans); font-size: 12.5px; color: var(--muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.q-open { font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; color: var(--accent-2);
+  text-align: right; white-space: nowrap; }
+
 </style>
 </head>
 <body>
@@ -1740,6 +1802,7 @@ function QueueScreen({ rows, onOpen }) {
           <tbody>
             {rows.map((r) => (
               <tr key={r.id} onClick={() => onOpen(r.id)}
+                  className={"qrow qrow-" + r.verdict}
                   title={"Open memo for " + r.id}>
                 <td><span className={"qpill qpill-" + r.verdict}>{VERDICT_WORD[r.verdict] || r.verdict}</span></td>
                 <td>
