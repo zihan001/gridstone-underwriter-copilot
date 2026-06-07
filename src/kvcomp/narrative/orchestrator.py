@@ -1,20 +1,25 @@
 """
-narrative/orchestrator.py — the agents BRACKET the pipeline; they never run inside it.
+narrative/orchestrator.py — the intake agent runs BEFORE the pipeline; it never runs inside it.
 
-Control flow (the whole point of this layer):
+Control flow:
 
-    intake agent  ─►  pipeline.run() [UNCHANGED]  ─►  sensitivity agent  ─►  render
-       (before)            the spine                       (after)
+    intake agent  ─►  pipeline.run() [UNCHANGED]  ─►  render
+       (before)            the spine
 
-`run_with_agents` is the only place that wires the two bracketing agents around the
-deterministic core. The pipeline remains authoritative for every number; the agents add
-grounding (before) and a robustness probe (after) plus an audit trace. Either agent can be
+`run_with_agents` is the only place that wires the intake agent in front of the deterministic
+core. The pipeline remains authoritative for every number; the agent only adds grounding
+(turning a free-text listing into the frozen Subject) plus an audit trace. The agent can be
 absent (e.g. no listing supplied) and the pipeline still produces a fully valid memo.
 
-`trace_to_window` flattens the collected traces into the read-only `agentTrace` block the
-viewer renders (MEMO_CONTRACT). `demo_listing` renders a deterministic blurb from a subject
-so the demo can drive the hero through the *real* intake agent while keeping the committed
-viewer numbers byte-identical (the blurb round-trips back to the same subject).
+(The post-pipeline sensitivity agent was removed: an LLM choosing from a fixed probe set added
+latency and unauditability with no decision quality — the probe set was deterministic. Intake
+is the one agent that earns its place: it interprets unstructured text, which a function can't
+encode. See README "agent placement".)
+
+`trace_to_window` flattens the collected trace into the read-only `agentTrace` block the
+viewer renders (MEMO_CONTRACT, intake half). `demo_listing` renders a deterministic blurb from
+a subject so the demo can drive the hero through the *real* intake agent while keeping the
+committed viewer numbers byte-identical (the blurb round-trips back to the same subject).
 """
 
 from __future__ import annotations
@@ -23,7 +28,6 @@ from dataclasses import dataclass
 from datetime import date
 
 from kvcomp.narrative.intake_agent import IntakeResult, run_intake
-from kvcomp.narrative.sensitivity_agent import SensitivityResult, run_sensitivity
 from kvcomp.pipeline import PipelineResult, run
 from kvcomp.schemas.config import AdjustmentConfig
 from kvcomp.schemas.subject import GarageType, Subject
@@ -33,9 +37,8 @@ _STALL_WORD = {1: "single", 2: "double", 3: "triple"}
 
 @dataclass(frozen=True)
 class AgentTrace:
-    """The two bracketing agents' results (either may be None)."""
+    """The intake agent's result (may be None when no listing was supplied)."""
     intake: IntakeResult | None = None
-    sensitivity: SensitivityResult | None = None
 
 
 def run_with_agents(
@@ -46,7 +49,7 @@ def run_with_agents(
     effective_date: date | None = None,
     use_llm: bool | None = None,
 ) -> tuple[PipelineResult, AgentTrace]:
-    """Bracket the unchanged pipeline with the intake (before) and sensitivity (after) agents.
+    """Front the unchanged pipeline with the intake (before) agent.
 
     Supply a `listing` to ground the subject via the intake agent, or a ready `subject` to
     skip intake. The pipeline runs exactly as before on whichever subject results."""
@@ -57,8 +60,7 @@ def run_with_agents(
         subject = intake_res.subject
 
     result = run(subject, cfg, use_llm=use_llm)               # the spine — unchanged
-    sens_res = run_sensitivity(result, use_llm=use_llm)
-    return result, AgentTrace(intake=intake_res, sensitivity=sens_res)
+    return result, AgentTrace(intake=intake_res)
 
 
 # ---------------------------------------------------------------------------
@@ -73,19 +75,13 @@ def _calls_to_window(calls) -> list[dict]:
 
 
 def trace_to_window(trace: AgentTrace) -> dict:
-    """Flatten an AgentTrace into the MEMO_CONTRACT `agentTrace` shape (render-only)."""
-    out: dict = {"intake": None, "sensitivity": None}
+    """Flatten an AgentTrace into the MEMO_CONTRACT `agentTrace` shape (render-only, intake)."""
+    out: dict = {"intake": None}
     if trace.intake is not None:
         out["intake"] = {
             "source": trace.intake.source,
             "reasoning": trace.intake.reasoning,
             "calls": _calls_to_window(trace.intake.trace),
-        }
-    if trace.sensitivity is not None:
-        out["sensitivity"] = {
-            "source": trace.sensitivity.source,
-            "note": trace.sensitivity.note,
-            "calls": _calls_to_window(trace.sensitivity.trace),
         }
     return out
 

@@ -1513,10 +1513,12 @@ window.MemoSection = MemoSection;
 const { useState, useEffect } = React;
 
 /* Section 7 — Agent Trace (READ-ONLY).
-   An audit of the two LLM agents that BRACKET the deterministic pipeline: intake grounding
-   before, sensitivity probing after. Pure render — no inputs, no chat, zero interactivity.
-   Every number stays computed by the Python core; the agents only choose tools and write
-   prose. Degrades gracefully when a snapshot carries no agentTrace block. */
+   An audit of the intake agent that FRONTS the deterministic pipeline: it turns the listing
+   blurb into a grounded Subject before any math runs. Pure render — no inputs, no chat, zero
+   interactivity. Every number stays computed by the Python core; the agent only chooses
+   read-only tools and writes prose. Degrades gracefully when a snapshot carries no agentTrace
+   block. (The post-pipeline sensitivity agent was removed — it added latency and
+   unauditability for no decision quality; its probe set was deterministic.) */
 function AgentCallList({ calls }) {
   if (!calls || !calls.length) return null;
   // Each call stacks vertically — the call signature on one line, its result wrapping below —
@@ -1540,10 +1542,10 @@ function AgentCallList({ calls }) {
 }
 
 /* Verbatim readers. Every figure in §07 ALREADY EXISTS inside the prose the core authored
-   (intake.reasoning, sensitivity.note). These helpers RE-READ those figures as substrings —
-   they parse, they never compute. If the grammar ever drifts, a reader returns null and the
-   caller falls back to the original prose, with the full raw trace always present below. So
-   the viewer can never become the author of a number it merely displays. */
+   (intake.reasoning). These helpers RE-READ those figures as substrings — they parse, they
+   never compute. If the grammar ever drifts, a reader returns null and the caller falls back
+   to the original prose, with the full raw trace always present below. So the viewer can never
+   become the author of a number it merely displays. */
 
 // Intake: pull the three provenance counts out of the grounding sentence the core wrote.
 function readIntakeProvenance(reasoning) {
@@ -1554,78 +1556,6 @@ function readIntakeProvenance(reasoning) {
   if (!oc || !ls || !fb) return null;
   const openCalgary = +oc[1], listing = +ls[1], estimated = +fb[1];
   return { openCalgary, listing, estimated, estNames: fb[2], total: openCalgary + listing + estimated };
-}
-
-// Scan any text for per-scenario delta lines and return parsed rows (or null). The grammar is
-// the deterministic engine's compare line: "[label] point $A -> $B (moved); range ...;
-// confidence LVL c1 -> LVL c2; selected s1 -> s2; fired flags f1 -> f2."  We capture only the
-// cells the table shows; pointHeld is decided by comparing the two dollar values, so it is
-// correct whether the point moved or not.
-function scenarioRows(text) {
-  if (!text) return null;
-  const re = /\[([^\]]+)\]\s*point\s+(\$[\d,]+)\s*->\s*(\$[\d,]+)\s*(\([^)]*\))?[^;]*;[^;]*;\s*confidence\s+(\w+)\s+([\d.]+)\s*->\s*(\w+)\s+([\d.]+);\s*selected\s+(\d+)\s*->\s*(\d+);\s*fired flags\s+(\d+)\s*->\s*(\d+)/g;
-  const rows = [];
-  let m;
-  while ((m = re.exec(text)) !== null) {
-    rows.push({
-      label: m[1].trim(),
-      pointFrom: m[2], pointTo: m[3], pointHeld: m[2] === m[3],
-      confLvlFrom: m[5], confFrom: m[6], confLvlTo: m[7], confTo: m[8],
-      confChanged: m[6] !== m[8] || m[5] !== m[7], confLevelDropped: m[5] !== m[7],
-      flagsFrom: m[11], flagsTo: m[12], flagsChanged: m[11] !== m[12],
-    });
-  }
-  return rows.length ? rows : null;
-}
-
-// Read the sensitivity delta rows. PREFER the deterministic tool-call results — they carry the
-// structured compare grammar in BOTH template and LLM mode (the LLM cannot alter a tool's
-// output, only choose which tools to run), so the table survives a model-authored note. Fall
-// back to the prose note for older/truncated snapshots whose call results were capped short.
-function readSensitivityRows(sensitivity) {
-  if (!sensitivity) return null;
-  const fromCalls = (sensitivity.calls || []).map((c) => c.result).join("\n");
-  return scenarioRows(fromCalls) || scenarioRows(sensitivity.note);
-}
-
-// One plain-language sentence, phrased from the rows actually present — not hardcoded.
-function sensitivityVerdict(rows) {
-  const stripParen = (s) => s.replace(/\s*\([^)]*\)/g, "").trim();
-  const held = rows.every((r) => r.pointHeld);
-  const dropped = rows.filter((r) => r.confLevelDropped);
-  if (held && dropped.length === 0) return "Value and confidence hold under every probe.";
-  if (held) {
-    const lvl = dropped[0].confLvlTo;
-    const which = dropped.map((d) => stripParen(d.label)).join(", ");
-    return `Value holds under all ${rows.length} probes; confidence falls to ${lvl} only under ${which}.`;
-  }
-  return "The point indication shifts under at least one probe — see the table below.";
-}
-
-// Compact delta table (sensitivity only). One row per scenario; a cell is highlighted ONLY
-// when it moved, so the eye lands on what changed. Arrow read straight from the payload's "->".
-function SensitivityDeltaTable({ rows }) {
-  if (!rows || !rows.length) return null;
-  const pretty = (s) => s.replace(/\s*->\s*/g, " → ");
-  return (
-    <table className="tbl delta-tbl">
-      <thead>
-        <tr><th>Scenario</th><th>Point</th><th>Confidence</th><th>Flags</th></tr>
-      </thead>
-      <tbody>
-        {rows.map((r, i) => (
-          <tr key={i}>
-            <td className="k">{pretty(r.label)}</td>
-            <td>{r.pointHeld ? `${r.pointFrom} → unchanged` : `${r.pointFrom} → ${r.pointTo}`}</td>
-            <td className={r.confChanged ? "delta-moved" : ""}>
-              {r.confFrom} {"→"} {r.confTo}{r.confLevelDropped ? ` ${r.confLvlTo}` : ""}
-            </td>
-            <td className={r.flagsChanged ? "delta-moved" : ""}>{r.flagsFrom} {"→"} {r.flagsTo}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
 }
 
 // Minimal Markdown renderer for the agent prose. LLM-authored notes arrive as Markdown
@@ -1700,10 +1630,10 @@ function AgentBlock({ title, sub, block, verdict, table, prose }) {
 
 function AgentTraceSection() {
   const at = M.agentTrace;
-  // Each block shows a derived verdict + (sensitivity) delta table when the structured grammar
-  // parses, and the agent's own prose only when it is LLM-authored — or as a fallback when the
-  // structure didn't parse, so no information is ever lost. A deterministic template note is
-  // therefore never shown as a prose wall (the table already says it, more legibly).
+  // The intake block shows a derived verdict (the provenance tally the core already wrote) and
+  // the agent's own prose only when it is LLM-authored — or as a fallback when the structure
+  // didn't parse, so no information is ever lost. A deterministic template note is therefore
+  // never shown as a prose wall (the verdict already says it, more legibly).
   const intake = at && at.intake;
   const prov = intake ? readIntakeProvenance(intake.reasoning) : null;
   // Require a non-zero total: a zero parse means the grounding sentence didn't really describe
@@ -1714,29 +1644,21 @@ function AgentTraceSection() {
     : null;
   const intakeProse = intake && (intake.source === "llm" || !validProv) ? intake.reasoning : null;
 
-  const sensitivity = at && at.sensitivity;
-  const sensRows = sensitivity ? readSensitivityRows(sensitivity) : null;
-  const sensVerdict = sensRows ? sensitivityVerdict(sensRows) : null;
-  const sensProse = sensitivity && (sensitivity.source === "llm" || !sensRows) ? sensitivity.note : null;
-
   return (
     <section className="section" data-screen-label="Agent Trace">
       <SectionTitle
         index="07"
         name="Agent Trace"
-        sub="Read-only audit of the two LLM agents that bracket the deterministic pipeline — intake grounding before, sensitivity probing after. Every number is computed by the core; the agents only choose read-only / core-routed tools and write prose."
-        meta={<React.Fragment><Badge tone="ghost">read-only</Badge><Badge tone="ghost">agents bracket the core</Badge></React.Fragment>}
+        sub="Read-only audit of the intake agent that fronts the deterministic pipeline — it turns the listing blurb into a grounded Subject before any math runs. Every number is computed by the core; the agent only chooses read-only tools and writes prose."
+        meta={<React.Fragment><Badge tone="ghost">read-only</Badge><Badge tone="ghost">intake fronts the core</Badge></React.Fragment>}
       />
       <div className="memo-doc">
         {!at
           ? <div className="memo-sec"><div className="memo-prose"><p>No agent trace in this snapshot.</p></div></div>
-          : (<React.Fragment>
+          : (
               <AgentBlock title="Intake reasoning" sub="before the pipeline · listing text → grounded Subject"
                 block={intake} verdict={intakeVerdict} prose={intakeProse} />
-              <AgentBlock title="Sensitivity analysis" sub="after the pipeline · stress-tests the finished value range"
-                block={sensitivity} verdict={sensVerdict} prose={sensProse}
-                table={<SensitivityDeltaTable rows={sensRows} />} />
-            </React.Fragment>)}
+            )}
       </div>
     </section>
   );

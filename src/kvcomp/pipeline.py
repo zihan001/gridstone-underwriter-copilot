@@ -102,8 +102,8 @@ def main() -> None:
     from kvcomp.narrative.orchestrator import demo_listing, run_with_agents, trace_to_window
     from kvcomp.serialize.memo_to_window import write_data_js
 
-    # The agents BRACKET the unchanged pipeline: intake (from a blurb that round-trips to the
-    # hero subject) before, sensitivity after. data.js carries the read-only agentTrace block.
+    # The intake agent FRONTS the unchanged pipeline: a blurb that round-trips to the hero
+    # subject is grounded before run(). data.js carries the read-only agentTrace block.
     subject = default_subject()
     result, trace = run_with_agents(listing=demo_listing(subject), effective_date=subject.effective_date)
     path = write_data_js(result, agent_trace=trace_to_window(trace))
