@@ -53,10 +53,10 @@ def build_queue(cfg: AdjustmentConfig | None = None, *, use_llm: bool | None = N
     entries: list[dict] = []
     results: dict[str, object] = {}
     for deal in inbox(cfg):
-        # Intake uses the FAST deterministic tool sequence (still a real, auditable trace that
-        # grounds the same Subject) — the queue runs many deals, and a multi-turn LLM intake per
-        # deal is far too slow. Prose still follows use_llm. The hero/east/west keep LLM intake.
-        intake_res = run_intake(deal.blurb, effective_date=deal.subject.effective_date, use_llm=False)
+        # Intake follows use_llm (LLM-driven when the key is set, deterministic otherwise) — same
+        # as the hero/east/west. Multi-turn LLM intake per deal makes a full queue regen slow, but
+        # it produces the richer §07 trace; either path grounds the same Subject.
+        intake_res = run_intake(deal.blurb, effective_date=deal.subject.effective_date, use_llm=use_llm)
         res = run(deal.subject, cfg, candidates=deal.candidates, use_llm=use_llm)
         verdict = triage(res.memo)
         vr = res.memo.value_range
