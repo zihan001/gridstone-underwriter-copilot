@@ -29,7 +29,7 @@ from typing import Callable, NamedTuple
 _DEFAULT_MODEL = "claude-sonnet-4-20250514"
 _ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 _MAX_TURNS = 8           # bounds cost: at most this many model round-trips per agent run
-_SUMMARY_CHARS = 160     # one-line trace summary cap
+_SUMMARY_CHARS = 400     # one-line trace summary cap (fits a full per-scenario delta line)
 
 
 class ToolCall(NamedTuple):
@@ -53,20 +53,26 @@ def run_agent(
     `fallback` is the caller's deterministic text used verbatim when no API key is set or
     anything goes wrong — the harness never fabricates prose of its own. Returns an empty
     trace on the fallback path.
+
+    A callable `fallback` is evaluated LAZILY — only at the moment it is actually returned.
+    This matters when the fallback reads state the tool loop mutates (e.g. intake's reasoning
+    is derived from a ledger the tools populate): computing it eagerly would snapshot that
+    state while it is still empty. It also avoids paying for an expensive fallback when the
+    model succeeds.
     """
-    fb = fallback() if callable(fallback) else fallback
+    fb = lambda: (fallback() if callable(fallback) else fallback)  # noqa: E731 — lazy on purpose
     key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
     if not key:
-        return fb, []
+        return fb(), []
     try:
         text, trace = _run_loop(system_prompt, tools, task, key=key,
                                 model=model, max_turns=max_turns)
         # If the model never produced closing prose, prefer the deterministic fallback
         # text but keep the (real) trace of tool calls that did happen.
-        return (text or fb), trace
+        return (text or fb()), trace
     except Exception:
         # Reliability over cleverness: any failure degrades to the deterministic fallback.
-        return fb, []
+        return fb(), []
 
 
 def _run_loop(

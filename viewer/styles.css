@@ -441,6 +441,24 @@ table.adjgrid tfoot tr:first-child td { border-top: 2px solid var(--line-strong)
 .llm-note { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10px; color: var(--muted);
   border: 1px dashed var(--line-2); border-radius: 5px; padding: 2px 8px; margin-bottom: 12px; }
 
+/* ---- §07 agent trace: verdict line + compact delta table + collapsible raw trace -------- */
+.agent-verdict { font-size: 14px; line-height: 1.6; font-weight: 600; color: var(--ink);
+  margin: 0 0 14px; max-width: 84ch; }
+.delta-tbl { margin: 0 0 16px; }
+.delta-tbl td, .delta-tbl th { font-variant-numeric: tabular-nums; }
+.delta-tbl td.k { width: 280px; color: var(--ink-2); }
+.delta-tbl td.delta-moved { color: var(--warn-2); font-weight: 600; background: var(--warn-bg); }
+.agent-trace-toggle { margin-top: 2px; }
+.trace-toggle-btn { display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  background: none; border: 0; padding: 6px 0; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-2); }
+.trace-toggle-btn:hover { color: var(--accent); }
+.ttb-count { color: var(--faint); letter-spacing: 0.06em; text-transform: none; }
+.agent-md > :first-child { margin-top: 0; }
+.agent-md-h { font-weight: 600; color: var(--ink); margin: 13px 0 5px; font-size: 13px; }
+.agent-md-ul { margin: 5px 0 11px; padding-left: 18px; }
+.agent-md-ul li { margin: 2px 0; }
+
 .note-line { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
 .callout { border-left: 2px solid var(--accent-bd); background: var(--accent-bg); padding: 11px 15px; border-radius: 0 6px 6px 0; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
 .callout.warn { border-left-color: var(--warn-bd); background: var(--warn-bg); }

@@ -253,6 +253,12 @@ def build_window(result, agent_trace: dict | None = None) -> dict:
 def render_data_js(result, agent_trace: dict | None = None) -> str:
     window = build_window(result, agent_trace)
     template = _TEMPLATE.read_text()
+    # The token must appear EXACTLY once (the `const DATA = __MEMO_DATA__;` splice). A second
+    # occurrence — e.g. the token named in a comment — would be clobbered by this global replace,
+    # silently embedding a full copy of the payload and ~2x-bloating every file. Fail loudly.
+    if template.count("__MEMO_DATA__") != 1:
+        raise ValueError(f"data_js.template must contain __MEMO_DATA__ exactly once, "
+                         f"found {template.count('__MEMO_DATA__')}")
     return template.replace("__MEMO_DATA__", json.dumps(window, ensure_ascii=False, indent=2))
 
 

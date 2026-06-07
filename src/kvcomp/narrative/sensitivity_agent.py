@@ -129,7 +129,7 @@ def _deterministic_probe(baseline) -> tuple[str, list[ToolCall]]:
 
     def call(name: str, **args) -> str:
         out = str(tools[name](**args))
-        trace.append(ToolCall(name, args, " ".join(out.split())[:160]))
+        trace.append(ToolCall(name, args, " ".join(out.split())[:400]))
         return out
 
     other = (LenderProfile.GSE_ON if baseline.config.lender_profile == LenderProfile.FNMA_OFF
