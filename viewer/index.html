@@ -1282,22 +1282,29 @@ window.ReconciliationSection = ReconciliationSection;
 /* Section 5 — CONFIDENCE + FLAGS */
 function ConfidenceBand() {
   const cf = M.confidence;
-  const axisMin = 0.45, axisMax = 0.90;
-  const pos = (v) => ((v - axisMin) / (axisMax - axisMin)) * 100;
+  // Full-width 0–1 confidence axis: the score is a probability-like quantity, so the bar reads
+  // honestly when the whole 0–1 range is shown. The filled segment is the confidence interval
+  // [low, high]; the point (score) sits inside it. A HIGH deal lands high-and-tight, a LIMITED/LOW
+  // deal lands left — both visibly positioned, instead of an interval crammed against one edge of a
+  // zoomed-in axis (which left most of the track empty and read as broken).
+  const pos = (v) => Math.max(0, Math.min(100, v * 100));
   return (
     <div className="band-wrap">
       <div style={{ position: "relative", height: 64 }}>
         <div className="band-track" style={{ background: "linear-gradient(90deg, var(--bad-bg), var(--warn-bg), var(--good-bg))" }}>
           <div className="band-fill" style={{ left: pos(cf.low) + "%", width: (pos(cf.high) - pos(cf.low)) + "%" }} />
           <div className="band-point" style={{ left: pos(cf.score) + "%" }} />
-          <div className="band-tick" style={{ left: pos(cf.low) + "%" }}>
-            <div className="bt-v">{cf.low.toFixed(2)}</div><div className="bt-l">floor</div>
+          {/* On the full 0–1 axis the interval is ~0.10 wide, so floor/ceiling ride ABOVE the
+              track at the segment's ends and the score readout sits BELOW the point — they never
+              collide regardless of where the band lands. */}
+          <div className="band-tick" style={{ left: pos(cf.low) + "%", top: -20 }}>
+            <div className="bt-l">floor {cf.low.toFixed(2)}</div>
+          </div>
+          <div className="band-tick" style={{ left: pos(cf.high) + "%", top: -20 }}>
+            <div className="bt-l">ceil {cf.high.toFixed(2)}</div>
           </div>
           <div className="band-tick" style={{ left: pos(cf.score) + "%" }}>
             <div className="bt-v" style={{ color: "var(--accent-2)" }}>{cf.score.toFixed(2)}</div><div className="bt-l" style={{ color: "var(--accent-2)" }}>{cf.band}</div>
-          </div>
-          <div className="band-tick" style={{ left: pos(cf.high) + "%" }}>
-            <div className="bt-v">{cf.high.toFixed(2)}</div><div className="bt-l">ceiling</div>
           </div>
         </div>
       </div>
