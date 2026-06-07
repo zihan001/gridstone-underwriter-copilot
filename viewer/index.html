@@ -1492,6 +1492,71 @@ window.MemoSection = MemoSection;
 /* App shell — nav rail, topbar status strip, section router */
 const { useState, useEffect } = React;
 
+/* Section 7 — Agent Trace (READ-ONLY).
+   An audit of the two LLM agents that BRACKET the deterministic pipeline: intake grounding
+   before, sensitivity probing after. Pure render — no inputs, no chat, zero interactivity.
+   Every number stays computed by the Python core; the agents only choose tools and write
+   prose. Degrades gracefully when a snapshot carries no agentTrace block. */
+function AgentCallList({ calls }) {
+  if (!calls || !calls.length) return null;
+  return (
+    <div style={{ marginTop: 10 }}>
+      {calls.map((c, i) => (
+        <div key={i} className="mono"
+          style={{ fontSize: 11.5, padding: "6px 0", borderTop: "1px solid var(--line)",
+                   display: "grid", gridTemplateColumns: "18px minmax(150px,220px) 1fr", gap: 10, alignItems: "baseline" }}>
+          <span style={{ color: "var(--faint)" }}>{i + 1}</span>
+          <span style={{ color: "var(--accent)" }}>{c.name}
+            <span style={{ color: "var(--faint)" }}>({c.args})</span></span>
+          <span style={{ color: "var(--muted)" }}>{c.result}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AgentBlock({ title, sub, block, proseKey }) {
+  return (
+    <div className="memo-sec">
+      <h4>{title}
+        {block && <span className="mono" style={{ fontWeight: 400, fontSize: 11, color: "var(--faint)", marginLeft: 8 }}>
+          · {sub} · {block.source}</span>}
+      </h4>
+      {!block
+        ? <div className="memo-prose"><p style={{ color: "var(--faint)" }}>Not run for this case.</p></div>
+        : (<React.Fragment>
+            <div className="memo-prose"><p>{block[proseKey]}</p></div>
+            <AgentCallList calls={block.calls} />
+          </React.Fragment>)}
+    </div>
+  );
+}
+
+function AgentTraceSection() {
+  const at = M.agentTrace;
+  return (
+    <section className="section" data-screen-label="Agent Trace">
+      <SectionTitle
+        index="07"
+        name="Agent Trace"
+        sub="Read-only audit of the two LLM agents that bracket the deterministic pipeline — intake grounding before, sensitivity probing after. Every number is computed by the core; the agents only choose read-only / core-routed tools and write prose."
+        meta={<React.Fragment><Badge tone="ghost">read-only</Badge><Badge tone="ghost">agents bracket the core</Badge></React.Fragment>}
+      />
+      <div className="memo-doc">
+        {!at
+          ? <div className="memo-sec"><div className="memo-prose"><p>No agent trace in this snapshot.</p></div></div>
+          : (<React.Fragment>
+              <AgentBlock title="Intake reasoning" sub="before the pipeline · listing text → grounded Subject"
+                block={at.intake} proseKey="reasoning" />
+              <AgentBlock title="Sensitivity analysis" sub="after the pipeline · stress-tests the finished value range"
+                block={at.sensitivity} proseKey="note" />
+            </React.Fragment>)}
+      </div>
+    </section>
+  );
+}
+window.AgentTraceSection = AgentTraceSection;
+
 // Nav tags are DERIVED from the data, not hardcoded literals, so they track any subject:
 //   comps      = selected / retrieved   grid = comps × grid-lines
 //   confidence = count of FIRED flags (must match the top bar and the "N raised" header)
@@ -1504,6 +1569,7 @@ function buildSections() {
   { id: "recon",     num: "04", name: "Reconciliation",     Comp: () => window.ReconciliationSection(),tag: { t: "range", c: "" } },
   { id: "confidence",num: "05", name: "Confidence + Flags", Comp: () => window.ConfidenceSection(),    tag: { t: `${M.flags.filter((f) => f.status === "FIRED").length}`, c: "warn" } },
   { id: "memo",      num: "06", name: "Memo",               Comp: () => window.MemoSection(),          tag: null },
+  { id: "agents",    num: "07", name: "Agent Trace",        Comp: () => window.AgentTraceSection(),     tag: { t: "read-only", c: "" } },
   ];
 }
 
