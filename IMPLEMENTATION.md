@@ -73,14 +73,18 @@ sound, and it genuinely can fail (it caught two real bugs during the build — s
 | | `reconcile.py` | weighted (not averaged) range from inverse evidence-cost; weights sum to 1 |
 | | `confidence.py` | evidence-quality drivers that sum *exactly* to `score − base` |
 | | `flags.py` | the full 14-flag registry (fired + clear) under the two-tier soft-review / hard-tolerance model |
+| | `triage.py` | classifies a finished memo green/yellow/red from its computed band + fired flags (no math); a tolerance breach alone never forces red |
 | **seam** | `pipeline.py` | orchestrates the core in dependency order → `MemoArtifact` |
 | | `narrative/prompts.py` | deterministic template prose + the single batched LLM prompt |
 | | `narrative/llm.py` | one Anthropic call; falls back to the template on no-key / failure / malformed response |
 | | `serialize/memo_to_window.py` | `MemoArtifact` → `out/data.js` in the exact `MEMO_CONTRACT` shape (optional render-only `agentTrace`) |
-| **agents** (bracket the spine) | `narrative/agent.py` | generic Anthropic tool-use harness: `run_agent(system, tools, task)` → `(prose, trace)`; tool schemas derived from callables; no key → caller's deterministic fallback + empty trace |
+| **queue** | `data/inbox.py` | ~12 demo deals (subject + candidate universe + raw blurb) spread across all three triage buckets |
+| | `serialize/queue.py` | runs every deal through the same core, triages each → `window.QUEUE` (sorted) + per-deal `window.MEMO` snapshots |
+| | `serialize/pdf.py` | per-deal fileable PDF from `build_window` (numbers = the memo's); `--pdf <id>` |
+| | `serialize/intake_demo.py` | live intake beat: `--intake` runs the intake agent on a deal blurb → Subject + per-field provenance |
+| **agent** (fronts the spine) | `narrative/agent.py` | generic Anthropic tool-use harness: `run_agent(system, tools, task)` → `(prose, trace)`; tool schemas derived from callables; no key → caller's deterministic fallback + empty trace |
 | | `narrative/intake_agent.py` | **before** the pipeline — listing text → validated `Subject` via read-only tools (`lookup_open_calgary`, `parse_listing_field`, `district_typical`, `geocode`); Subject assembled from a ledger, never from model prose |
-| | `narrative/sensitivity_agent.py` | **after** the pipeline — probes the finished memo with core-routed tools (`rerun_with_profile`, `rerun_widening`, `recompute_dropping_comp`), each re-invoking `pipeline.run` verbatim; prose note + trace |
-| | `narrative/orchestrator.py` | the only place that wires the agents *around* the unchanged pipeline: `run_with_agents` (intake → run → sensitivity) + `trace_to_window` |
+| | `narrative/orchestrator.py` | the only place that wires the intake agent *in front of* the unchanged pipeline: `run_with_agents` (intake → run) + `trace_to_window` |
 
 ---
 
@@ -103,25 +107,26 @@ Reconciled output lands within a whisker of the golden fixture's hand-authored
 $708,000 / $715,500 / $723,500 — but every number here is computed by the matched-pair-tested
 core (ADR-004: the core's numbers win and overwrite the fixture).
 
-### Agents bracket the spine — they never run inside it
+### The intake agent fronts the spine — it never runs inside it
 
-The pipeline above is **unchanged**. Two LLM agents were added *around* it, not in it:
+The pipeline above is **unchanged**. One LLM agent was added *in front of* it, not in it (the
+post-pipeline sensitivity agent was removed — see ADR-006):
 
 ```
 BEFORE:   Subject  ─────────────────►  pipeline.run()  ─►  serialize
-AFTER:    listing ─► intake agent ─► Subject ─► pipeline.run() ─► sensitivity agent ─► serialize
-                     (grounding)          [UNCHANGED SPINE]        (robustness probe)
+AFTER:    listing ─► intake agent ─► Subject ─► pipeline.run() ─► triage ─► queue / memo / PDF
+                     (grounding)          [UNCHANGED SPINE]      (classify)
 ```
 
-`narrative/orchestrator.run_with_agents` is the only wiring point. Both agents act solely
-through tools that are **(a) read-only over already-computed data** (intake) or **(b)
-re-invocations of the deterministic core that return its output verbatim** (sensitivity).
-No agent authors a number: the intake `Subject` is assembled from a ledger of tool results,
-and the sensitivity note only narrates core re-runs. `tests/test_agent_invariant.py` proves
-it — the serialized payload with agents enabled is byte-identical to the disabled payload once
-the additive, render-only `agentTrace` block is removed. Control flow is strict: intake runs
-before `run()`, sensitivity strictly after; if either step would sit *upstream of a number in
-the result*, that would break the round-trip invariant — so it does not.
+`narrative/orchestrator.run_with_agents` is the only wiring point. The intake agent acts solely
+through tools that are **read-only over already-computed / grounded data**. No agent authors a
+number: the intake `Subject` is assembled from a ledger of tool results.
+`tests/test_agent_invariant.py` proves it — the serialized payload with intake enabled is
+byte-identical to the disabled payload once the additive, render-only `agentTrace` block is
+removed. Control flow is strict: intake runs strictly before `run()`; if it sat *upstream of a
+number in the result*, that would break the round-trip invariant — so it does not. **Triage**
+runs strictly *after* `run()` and is pure Python (no agent): it reads the finished memo's band +
+fired flags and classifies, originating no number.
 
 ---
 
