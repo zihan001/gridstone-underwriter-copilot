@@ -1499,16 +1499,20 @@ const { useState, useEffect } = React;
    prose. Degrades gracefully when a snapshot carries no agentTrace block. */
 function AgentCallList({ calls }) {
   if (!calls || !calls.length) return null;
+  // Each call stacks vertically — the call signature on one line, its result wrapping below —
+  // so variable-length args never collide with the result column.
   return (
     <div style={{ marginTop: 10 }}>
       {calls.map((c, i) => (
         <div key={i} className="mono"
-          style={{ fontSize: 11.5, padding: "6px 0", borderTop: "1px solid var(--line)",
-                   display: "grid", gridTemplateColumns: "18px minmax(150px,220px) 1fr", gap: 10, alignItems: "baseline" }}>
-          <span style={{ color: "var(--faint)" }}>{i + 1}</span>
-          <span style={{ color: "var(--accent)" }}>{c.name}
-            <span style={{ color: "var(--faint)" }}>({c.args})</span></span>
-          <span style={{ color: "var(--muted)" }}>{c.result}</span>
+          style={{ fontSize: 11.5, padding: "7px 0", borderTop: "1px solid var(--line)" }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "baseline" }}>
+            <span style={{ color: "var(--faint)", flex: "0 0 16px" }}>{i + 1}</span>
+            <span style={{ color: "var(--accent)", overflowWrap: "anywhere", minWidth: 0 }}>{c.name}
+              <span style={{ color: "var(--faint)" }}>({c.args})</span></span>
+          </div>
+          <div style={{ color: "var(--muted)", margin: "3px 0 0 24px",
+                        overflowWrap: "anywhere", whiteSpace: "pre-wrap" }}>{c.result}</div>
         </div>
       ))}
     </div>
