@@ -846,12 +846,80 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes 120xx Canso Place SW in Calgary's west district as of June 1, 2026, against an assessed value of $962,000. The sales comparison approach utilized synthetic comparable sales generated from Open Calgary data to establish market value through systematic property matching and adjustment protocols.",
-    "selection": "The engine retrieved 5 potential comparables and selected 4 for analysis after rejecting 1 outlier (F-A) for price deviation of 2.3 MAD high. All 4 selected comparables (F-B, F-C, F-D, F-E) are located within the same west district, providing strong geographic consistency. The final tier contains 0 comparables, with all selections drawn from tier 0, indicating robust initial matching quality.",
-    "adjustment": "Gross adjustment percentages range from 1.0% to 2.5% across the selected comparables, with net adjustments between 0.2% and 1.0%. Comparable F-B required minimal adjustment (1.0% gross, 1.0% net), while F-E showed the highest gross adjustment burden at 2.5% but compressed to 0.2% net. The adjustment pattern demonstrates effective comparable selection with F-D showing significant gross-to-net compression from 1.5% to 0.3%.",
-    "reconciliation": "The weighted analysis of 4 comparables produces adjusted values from $1,004,205 to $1,021,899. Weights range from 0.1761 (F-E) to 0.3219 (F-B), appropriately reflecting adjustment burden and reliability. The resulting value range spans $1,001,500 to $1,017,500 with a 1.58% spread and point estimate of $1,009,500. No threshold flags were triggered during reconciliation.",
-    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.8801. Primary confidence drivers include comparable count contribution (0.08), adjusted-value spread (0.1405), recency (0.0449), distance (0.0398), and adjustment burden (0.0249). Widening depth contributed 0.0, indicating no reliance on expanded search criteria. The tight spread and strong geographic matching support the confidence assessment.",
-    "limiting": "This appraisal relies on synthetic comparable sales derived from Open Calgary data rather than verified market transactions. The analysis assumes market conditions remain stable through the effective date. All comparables are located within the same district, which strengthens geographic consistency but may limit broader market perspective. The 1.58% value spread indicates reasonable market support within the established range."
+    "scope": "This appraisal analyzes 120xx Canso Place SW in Calgary's west district as of June 1, 2026, against an assessed value of $962,000. The sales comparison approach utilized synthetic comparable sales generated from Open Calgary data to establish market value through systematic adjustment and reconciliation processes.",
+    "selection": "The engine retrieved 5 potential comparables and selected 4 for analysis after rejecting 1 outlier (F-A) for pricing 2.3 MAD above the dataset median. All 4 selected comparables (F-B, F-C, F-D, F-E) are located within the same west district, providing strong geographic consistency. The final tier count of 0 indicates no geographic expansion was required beyond the primary search parameters.",
+    "adjustment": "Gross adjustment percentages ranged from 0.9% to 2.5% across the selected comparables, with net adjustments from 0.2% to 1.0%. Comparable F-B required minimal adjustment (1.0% gross/net), while F-E showed the highest gross adjustment burden at 2.5% despite netting to only 0.2%. The controlled adjustment levels support reliable value transfer from the synthetic comparable database.",
+    "reconciliation": "The weighted analysis produced adjusted values ranging from $1,004,205 to $1,021,899, with weights distributed as F-B (32.19%), F-C (28.01%), F-D (22.18%), and F-E (17.61%). The reconciled value range spans $1,001,500 to $1,017,500 with a 1.58% spread, centering around a point estimate of $1,009,500.",
+    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.8801. Primary confidence drivers include adequate comparable count (0.08 contribution), controlled adjusted-value spread (0.1405), reasonable recency factors (0.0449), acceptable distance metrics (0.0398), and manageable adjustment burden (0.0249). No widening depth penalty was applied.",
+    "limiting": "This valuation relies on synthetic comparable sales derived from Open Calgary municipal data rather than verified MLS transactions. The 1.58% value range spread and HIGH confidence rating support the reliability of the $1,001,500 to $1,017,500 range, though users should consider the synthetic nature of the underlying comparable data in their decision-making process."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "llm",
+      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 120xx Canso Place SW\n- Roll Number: 091-44-218-09\n- District: west\n- Coordinates: 51.0207, -114.1573\n- Assessed Value: $962,000 (2026)\n- Land Use: R-C1\n- Year Built: 1998 (grounded)\n\n**Physical Characteristics:**\n- GLA: 1,820 sq ft (from listing)\n- Lot Size: 6,100 sq ft (from listing)\n- Bedrooms: 4 (from listing)\n- Full Baths: 3 (from listing)\n- Half Baths: 1 (from listing)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: Not specified (no district default available)\n- Garage: Attached, 2 stalls (from listing)\n\n**Intake Reasoning:**\nThe property was successfully grounded through Open Calgary records, which provided the roll number, assessed value, and confirmed the year built as 1998. Most physical characteristics were clearly stated in the listing text, including square footage, lot size, bedroom/bathroom counts, finished basement area, and garage details. Only the basement walkout status was not mentioned in the listing, and no district-typical default was available for this field in the west district. The listing provided comprehensive physical details, requiring minimal fallback to district defaults.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=120xx Canso Place SW",
+          "result": "{\"address\": \"120xx Canso Place SW\", \"district\": \"west\", \"lat\": 51.0207, \"lon\": -114.1573, \"roll_number\": \"091-44-218-09\", \"assessed_value\": 962000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1998}"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1820 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=6100 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=4 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        },
+        {
+          "name": "district_typical",
+          "args": "district=west, field=basement_walkout",
+          "result": "no district-typical value for basement_walkout."
+        }
+      ]
+    }
   }
 };
 

@@ -21,7 +21,7 @@ window.MEMO = (function () {
   // All data (computed by the deterministic core) is spliced in here.
   const DATA = {
   "meta": {
-    "caseId": "KV-CMP-2026-2-11",
+    "caseId": "KV-CMP-2026-5-04",
     "snapshot": "2026-06-01T00:00:00-06:00",
     "effectiveDate": "2026-06-01",
     "approach": "Sales Comparison Approach",
@@ -129,8 +129,8 @@ window.MEMO = (function () {
   "subject": {
     "real": true,
     "provenance": "source: open_calgary_assessment",
-    "roll": "058·13·902·11",
-    "addr": "7xx Penbrooke Meadows Close SE",
+    "roll": "058·13·915·04",
+    "addr": "9xx Penbrooke Road SE",
     "addrNote": "civic address partially masked for review packet",
     "community": "East district",
     "district": "East",
@@ -933,12 +933,80 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes a residential property at 7xx Penbrooke Meadows Close SE in Calgary's east district, with an effective date of June 1, 2026. The subject property carries an assessed value of $472,000. The sales comparison approach utilized synthetic comparable sales data alongside subject property information grounded in Open Calgary data to develop a market value indication through systematic comparison and adjustment processes.",
-    "selection": "The comparable selection process retrieved 5 potential sales and selected all 5 comparables for analysis, with 0 rejections recorded. All selected comparables (F-A through F-E) are classified as tier 0 properties located within the same east district as the subject. The selection achieved full retention of available comparable data, providing a robust foundation for the sales comparison analysis with consistent geographic and market segment representation.",
-    "adjustment": "Adjustment analysis reveals a disciplined approach with gross adjustment percentages ranging from 0.9% (F-C) to 3.7% (F-E), while net adjustments span from -1.0% (F-E) to 2.2% (F-A). The adjustment burden contribution of 0.0176 to the confidence score indicates minimal adjustment requirements. Notable patterns include F-D and F-E showing negative net adjustments of -0.3% and -1.0% respectively, despite positive gross adjustments, suggesting offsetting adjustment factors. All comparables maintain tier 0 classification, confirming adjustment levels remain within acceptable parameters.",
-    "reconciliation": "The weighted analysis produces adjusted values ranging from $493,935 (F-B) to $503,645 (F-C), with weights distributed from 0.1254 (F-E) to 0.2635 (F-A). This yields a value range of $495,000 to $503,000, with a point estimate of $499,000 and a spread of 1.6%. The tight value clustering and narrow spread demonstrate strong market support for the indicated range, with all comparables contributing meaningfully to the final reconciliation through their respective weighted positions.",
-    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.9094. Primary confidence drivers include comparable count (0.11 contribution), adjusted-value spread (0.14 contribution), and recency (0.0498 contribution). Distance and adjustment burden contribute 0.042 and 0.0176 respectively, while widening depth shows zero contribution. No flags were triggered during the analysis process, indicating all quality and reliability thresholds were satisfied without requiring additional commentary or qualification.",
-    "limiting": "This analysis relies on synthetic comparable sales data combined with subject property information derived from Open Calgary data sources. The appraisal reflects market conditions as of the June 1, 2026 effective date. The value conclusion represents a range indication rather than a single point estimate, acknowledging inherent market variability. Standard limiting conditions regarding data accuracy, market stability assumptions, and the synthetic nature of comparable data apply to this analysis and resulting value range."
+    "scope": "This appraisal analyzes 9xx Penbrooke Road SE in Calgary's east district as of June 1, 2026. The subject property has an assessed value of $472,000. The sales comparison approach utilizes five synthetic comparable sales selected through a deterministic engine, with subject property characteristics grounded in Open Calgary data. All five retrieved comparables met selection criteria, resulting in zero rejections.",
+    "selection": "The engine retrieved and selected five tier-0 comparables (F-A through F-E), all located within the same east district as the subject. No comparables were rejected during the selection process. The uniform tier-0 classification and same-district positioning provide strong locational consistency. Weighting ranges from 0.1254 to 0.2635, with F-A receiving the highest weight due to superior similarity metrics.",
+    "adjustment": "Gross adjustment percentages range from 0.9% (F-C) to 3.7% (F-E), indicating strong initial comparability. Net adjustments span from -1.0% (F-E) to 2.2% (F-A), demonstrating balanced adjustment patterns. The adjustment burden contribution to confidence scoring is minimal at 0.0176, reflecting the engine's ability to identify highly similar comparables requiring limited modification.",
+    "reconciliation": "The five adjusted sale prices cluster tightly between $493,935 and $503,645, producing a final value range of $495,000 to $503,000 with a 1.6% spread. The point estimate of $499,000 falls centrally within this range. The narrow spread reflects strong comparable quality and consistent market evidence supporting the indicated value range.",
+    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.9094. Primary confidence drivers include comparable count (0.11 contribution), adjusted-value spread (0.14), and recency factors (0.0498). Distance and adjustment burden show minimal negative impact. Zero widening depth contribution confirms sufficient tier-0 comparables were available without requiring lower-tier selections.",
+    "limiting": "This analysis relies on synthetic comparable sales generated by the deterministic engine, with subject property data grounded in Open Calgary sources. The effective date of June 1, 2026, represents a future valuation scenario. No threshold flags were triggered during the analysis process. Market conditions and property characteristics should be verified through independent sources for final valuation decisions."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "llm",
+      "reasoning": "## Subject Record\n\n**Property Identity:**\n- Address: 9xx Penbrooke Road SE\n- Roll Number: 058-13-915-04\n- District: east\n- Coordinates: 51.0402, -113.9461\n- Land Use: R-C1\n- Assessed Value: $472,000 (2026 assessment)\n\n**Physical Characteristics:**\n- GLA (sqft): 1,180 (from listing)\n- Lot Size (sqft): 4,600 (from listing)\n- Bedrooms (above grade): 3 (from listing)\n- Full Baths: 1 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1979 (grounded via Open Calgary)\n- Basement Finished (sqft): 600 (from listing)\n- Basement Walkout: [no district typical available]\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary using the Penbrooke Road SE address, establishing the east district and confirming the 1979 construction year. Most physical characteristics were clearly stated in the listing including square footages, bedroom/bathroom counts, and garage details. Only the basement walkout status was absent from the listing, but no district-typical fallback was available for this field in the east district.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=9xx Penbrooke Road SE",
+          "result": "{\"address\": \"9xx Penbrooke Road SE\", \"district\": \"east\", \"lat\": 51.0402, \"lon\": -113.9461, \"roll_number\": \"058-13-915-04\", \"assessed_value\": 472000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1979}"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1180 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=4600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        },
+        {
+          "name": "district_typical",
+          "args": "district=east, field=basement_walkout",
+          "result": "no district-typical value for basement_walkout."
+        }
+      ]
+    }
   }
 };
 

@@ -933,12 +933,80 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This sales comparison analysis values 84xx Bonaventure Drive SE as of June 1, 2026, using a deterministic engine that retrieved 5 comparables from Open Calgary data. All comparables are synthetic properties generated for analytical consistency. The subject property is located in the south district with an assessed value of $687,500.",
-    "selection": "The engine selected all 5 retrieved comparables (F-A through F-E) with no rejections, indicating strong market data availability. All selected comparables are located within the same south district as the subject. The selection process achieved 100% retention rate, providing a robust foundation for the sales comparison approach.",
-    "adjustment": "Net adjustments range from -0.3% to 1.6%, with gross adjustments spanning 0.9% to 3.0%. Comparable F-C required the lowest gross adjustment at 0.9%, while F-E required the highest at 3.0%. The minimal net adjustment spread demonstrates good comparability. All properties required tier 0 adjustments, indicating direct market compatibility without extraordinary modification.",
-    "reconciliation": "The weighted analysis produces adjusted values from $714,706 to $726,953, yielding a value range of $714,500 to $726,500 with a point estimate of $720,500. The 1.67% spread between range endpoints reflects strong market consistency. Weights range from 0.1273 to 0.2657, with F-A receiving highest weighting due to superior adjustment metrics.",
-    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.912. Primary confidence drivers include comparable count (0.11 contribution), adjusted-value spread (0.1382), recency (0.0498), distance (0.042), and adjustment burden (0.022). Widening depth contributed 0.0, indicating sufficient tier 0 comparables. No threshold flags were triggered during processing.",
-    "limiting": "This appraisal relies on synthetic comparable data and Open Calgary information for the subject property. The analysis assumes market conditions remain stable through the June 1, 2026 effective date. All comparable properties are located within the same district, which may limit cross-district market validation. The deterministic engine methodology provides consistency but may not capture all qualitative market nuances."
+    "scope": "This sales comparison analysis values the subject property at 84xx Bonaventure Drive SE as of June 1, 2026, utilizing a deterministic comparison engine applied to Open Calgary data. The subject property carries an assessed value of $687,500 and is located in Calgary's south district. The analysis employs synthetic comparable sales to establish a market value range through systematic adjustment and weighting protocols.",
+    "selection": "The engine retrieved 5 comparable sales, all of which met selection criteria with 0 rejections recorded. All 5 selected comparables (F-A through F-E) are classified as Tier 0 properties located within the same south district as the subject. The comparable set demonstrates geographic consistency with same-district sourcing at 100%. No rejected comparables require commentary, and no final-tier fallback selections were necessary for this analysis.",
+    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.9% (F-C) to 3.0% (F-E), with net adjustments spanning from -0.3% to 1.6%. Comparable F-C exhibits the lowest adjustment burden at 0.9% gross, while F-E required the highest gross adjustments at 3.0%. Net adjustment spread of 1.9 percentage points reflects reasonable market positioning. The adjustment burden contribution of 0.022 to confidence scoring indicates minimal adjustment-related uncertainty in the analysis.",
+    "reconciliation": "The weighted analysis produces adjusted comparable values ranging from $714,706 (F-B) to $726,953 (F-C). Weighting distribution favors F-A (26.57%) and F-B (23.65%) as primary indicators, with F-C, F-D, and F-E receiving progressively lower weights of 20.78%, 16.26%, and 12.73% respectively. The reconciliation establishes a value range of $714,500 to $726,500 with a point estimate of $720,500, representing a spread of 1.67%.",
+    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.912. Primary confidence drivers include adjusted-value spread (0.1382 contribution) and comparable count (0.11 contribution), both supporting reliability. Secondary factors of recency (0.0498), distance (0.042), and adjustment burden (0.022) provide additional confidence support. Widening depth shows zero contribution, indicating no depth-related concerns. No threshold flags were fired during the analysis process.",
+    "limiting": "This appraisal relies on synthetic comparable sales generated through algorithmic processes rather than verified market transactions. The analysis is conditioned upon the accuracy and completeness of Open Calgary data as of the effective date. Market value conclusions are subject to standard appraisal limiting conditions including inspection assumptions, market condition stability, and the synthetic nature of comparable data inputs. Users should consider these computational limitations when applying valuation conclusions."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "llm",
+      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 84xx Bonaventure Drive SE\n- Roll Number: 074-21-335-07\n- District: South\n- Coordinates: 50.9583, -114.054\n- Assessed Value: $687,500\n- Land Use: R-C1\n- Assessment Year: 2026\n\n**Physical Characteristics:**\n- GLA: 1,450 sq ft (from listing)\n- Lot Size: 5,242 sq ft (from listing)\n- Bedrooms (above grade): 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1984 (grounded via Open Calgary)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: Not specified (no district typical available)\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property identity and assessment data were successfully grounded through the Open Calgary dataset, establishing it as a detached home in the south district with 1984 construction. Most physical characteristics were clearly stated in the listing text, including square footage, bedrooms, bathrooms, basement details, and garage specifications. The year built was confirmed through the grounded assessment data. Only the basement walkout status was not mentioned in the listing, and no district-typical fallback was available for this field in the south district.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=84xx Bonaventure Drive SE",
+          "result": "{\"address\": \"84xx Bonaventure Drive SE\", \"district\": \"south\", \"lat\": 50.9583, \"lon\": -114.054, \"roll_number\": \"074-21-335-07\", \"assessed_value\": 687500, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1984}"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1450 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=5242 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=2 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        },
+        {
+          "name": "district_typical",
+          "args": "district=south, field=basement_walkout",
+          "result": "no district-typical value for basement_walkout."
+        }
+      ]
+    }
   }
 };
 

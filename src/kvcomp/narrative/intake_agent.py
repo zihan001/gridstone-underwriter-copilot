@@ -29,6 +29,7 @@ drives the same tools, so the pipeline stays fully runnable with the LLM disable
 
 from __future__ import annotations
 
+import functools
 import json
 import re
 from dataclasses import dataclass, field as dc_field
@@ -87,18 +88,23 @@ class IntakeLedger:
 # ---------------------------------------------------------------------------
 # Pure tool implementations (directly unit-testable; no I/O, no model).
 # ---------------------------------------------------------------------------
-# An offline stand-in for the free Open Calgary parcel dataset: the three demo parcels'
-# grounded identity fields, keyed for matching by address fragment or roll number.
-def _open_calgary_db() -> list[dict]:
-    rows = []
-    for subj in demo_subjects().values():
-        rows.append({
-            "address": subj.address, "district": subj.district.value,
-            "lat": subj.lat, "lon": subj.lon, "roll_number": subj.roll_number,
-            "assessed_value": subj.assessed_value, "land_use": subj.land_use,
-            "assessment_roll_year": subj.assessment_roll_year, "year_built": subj.year_built,
-        })
-    return rows
+# An offline stand-in for the free Open Calgary parcel dataset: the demo parcels' grounded
+# identity fields (the three hero subjects + every inbox/queue deal), keyed for matching by
+# address fragment or roll number. Cached — it is rebuilt only once per process.
+def _parcel_row(subj) -> dict:
+    return {
+        "address": subj.address, "district": subj.district.value,
+        "lat": subj.lat, "lon": subj.lon, "roll_number": subj.roll_number,
+        "assessed_value": subj.assessed_value, "land_use": subj.land_use,
+        "assessment_roll_year": subj.assessment_roll_year, "year_built": subj.year_built,
+    }
+
+
+@functools.lru_cache(maxsize=1)
+def _open_calgary_db() -> tuple[dict, ...]:
+    from kvcomp.data.inbox import inbox_subjects  # lazy: data layer, no import cycle
+    subjects = list(demo_subjects().values()) + inbox_subjects()
+    return tuple(_parcel_row(s) for s in subjects)
 
 
 def lookup_open_calgary(address_or_roll: str) -> dict | None:

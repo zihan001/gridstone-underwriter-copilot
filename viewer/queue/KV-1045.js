@@ -933,12 +933,80 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes the subject property at 51xx Lake Bonavista Drive SE in Calgary's south district as of June 1, 2026. The sales comparison approach utilizes five synthetic comparable sales generated from Open Calgary data, all located within the same district. The subject carries an assessed value of $712,000. No comparables were rejected during the selection process, and all five selected comparables achieved tier 0 status, indicating strong similarity to the subject property.",
-    "selection": "The comparable selection process retrieved and selected all 5 available properties, with zero rejections. All selected comparables are located within the south district, matching the subject's location. The selection achieved complete tier 0 classification across all comparables (F-A through F-E), demonstrating strong property matching. Weights range from 0.1278 to 0.2663, with F-A receiving the highest weight (26.63%) and F-E the lowest (12.78%). The absence of rejections and consistent tier 0 status indicates robust comparable quality within the available dataset.",
-    "adjustment": "Gross adjustment percentages range from 0.9% (F-C) to 3.0% (F-E), indicating relatively minor modifications required. Net adjustments range from -0.3% (F-E) to 1.5% (F-A), with four comparables requiring positive adjustments and one requiring a slight negative adjustment. The modest adjustment burden contributes positively to confidence metrics with a 0.0221 contribution score. Adjustment patterns reflect typical property variations within the south district market, with no extreme modifications required to align comparables with the subject property characteristics.",
-    "reconciliation": "The weighted analysis of five tier 0 comparables produces a value range of $731,500 to $751,500, representing a 2.7% spread around the point estimate of $741,500. Adjusted values span from $727,917 (F-E) to $752,226 (F-A), demonstrating tight clustering. The range represents approximately 4.1% above the subject's assessed value of $712,000. The narrow spread and consistent tier 0 performance across all comparables support the reliability of this value indication within the established range parameters.",
-    "confidence": "Analysis achieves a HIGH confidence band with a score of 0.8864. Primary confidence drivers include comparable count (0.11 contribution), adjusted-value spread (0.1125 contribution), and recency factors (0.0498 contribution). Distance and adjustment burden provide additional positive contributions of 0.042 and 0.0221 respectively. No widening depth penalty applies (0.0 contribution). The absence of fired flags further supports the confidence assessment. This confidence level reflects strong market data availability and consistent property matching within the south district.",
-    "limiting": "This appraisal relies on synthetic comparable sales generated from Open Calgary data rather than verified market transactions. The subject property identification uses a masked address format (51xx) which may limit precise location verification. Analysis is constrained to the effective date of June 1, 2026, and reflects market conditions as captured in the underlying data source. The value range methodology produces bracketed indications rather than point estimates, requiring end-user interpretation for specific valuation applications. All computations reflect algorithmic processing of available data without independent verification of individual property characteristics or market conditions."
+    "scope": "This appraisal analyzes the subject property at 51xx Lake Bonavista Drive SE in Calgary's south district as of June 1, 2026. The sales comparison approach utilizes synthetic comparable sales generated from a deterministic engine, with the subject property grounded in Open Calgary assessment data showing an assessed value of $712,000. The analysis retrieves and evaluates comparable sales to establish a supportable market value range through systematic adjustment and reconciliation processes.",
+    "selection": "The comparable selection process retrieved 5 potential sales, with all 5 selected for analysis and 0 rejected. All selected comparables (F-A through F-E) are located within the same south district as the subject, ensuring geographic consistency. The selection achieved 100% retention with no properties requiring rejection for material dissimilarity or data quality issues. No final tier comparables were included, indicating sufficient primary-tier sales availability within the subject's market area.",
+    "adjustment": "Adjustment analysis reveals a controlled adjustment burden across the comparable set. Gross adjustment percentages range from 0.9% (F-C) to 3.0% (F-E), while net adjustments span from -0.3% (F-E) to 1.5% (F-A). The relatively modest adjustment requirements reflect strong similarity between the subject and selected comparables. Comparable F-E exhibits the highest gross adjustment burden at 3.0% but demonstrates offsetting adjustments resulting in a minimal -0.3% net adjustment, indicating balanced property characteristics relative to the subject.",
+    "reconciliation": "The reconciliation process yields adjusted sale prices ranging from $727,917 to $752,226, producing a final value range of $731,500 to $751,500 with a 2.7% spread. The weighted point estimate of $741,500 reflects relative weighting based on adjustment burden and comparable quality. Comparable F-A receives the highest weight at 26.63% due to minimal net adjustments, while F-E receives the lowest weight at 12.78% reflecting higher gross adjustments. The tight value spread of 2.7% indicates strong market evidence convergence.",
+    "confidence": "The analysis achieves a HIGH confidence rating with a score of 0.8864. Primary confidence drivers include comparable count contribution (0.11), adjusted-value spread contribution (0.1125), and recency contribution (0.0498). Distance and adjustment burden factors contribute 0.042 and 0.0221 respectively, while widening depth shows zero contribution, indicating no reliance on extended market areas. The absence of fired flags supports the integrity of the analytical framework and indicates no threshold breaches requiring additional commentary.",
+    "limiting": "This analysis is subject to standard limiting conditions including reliance on synthetic comparable data generated through deterministic modeling processes. The subject property assessment data derives from Open Calgary public records, while comparable sales represent model-generated transactions rather than actual market sales. Market conditions are assumed stable as of the June 1, 2026 effective date. The value conclusion is expressed as a range rather than a single point estimate, reflecting appropriate recognition of market value variance and analytical uncertainty inherent in the sales comparison approach."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "llm",
+      "reasoning": "## Grounded Subject Record\n\n**Property Identity:**\n- Address: 51xx Lake Bonavista Drive SE\n- Roll Number: 074-22-118-04\n- District: South\n- Coordinates: 50.961, -114.0612\n- Assessed Value: $712,000 (2026 assessment)\n- Land Use: R-C1\n\n**Physical Characteristics:**\n- GLA: 1,560 sq ft (from listing)\n- Lot Size: 5,500 sq ft (from listing)\n- Bedrooms Above Grade: 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1988 (grounded via Open Calgary)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: Not specified (no district typical available)\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:**\nThe property was successfully grounded through Open Calgary, establishing the roll number, assessed value, and confirming the 1988 build year. Most physical characteristics were directly extracted from the listing text, including square footages, bedroom/bathroom counts, and garage details. Only the basement walkout status was not specified in the listing, and no district-typical fallback was available for this field in the south district. The property represents a well-documented two-storey home with comprehensive listing details requiring minimal fallback values.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=51xx Lake Bonavista Drive SE",
+          "result": "{\"address\": \"51xx Lake Bonavista Drive SE\", \"district\": \"south\", \"lat\": 50.961, \"lon\": -114.0612, \"roll_number\": \"074-22-118-04\", \"assessed_value\": 712000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1988}"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1560 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=5500 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=2 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        },
+        {
+          "name": "district_typical",
+          "args": "district=south, field=basement_walkout",
+          "result": "no district-typical value for basement_walkout."
+        }
+      ]
+    }
   }
 };
 

@@ -779,12 +779,80 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal develops a market value range for 29xx Edgemont Boulevard NW as of June 1, 2026, using sales comparison methodology. The subject property is located in Calgary's north_west district with an assessed value of $712,000. Analysis employed synthetic comparables alongside subject data grounded in Open Calgary records.",
-    "selection": "The engine retrieved 3 sales records and selected all 3 comparables with no rejections. Due to limited market depth, the selection process required tier-2 relaxation to meet minimum count thresholds, triggering DEEP_WIDENING and THIN_COMP_SET flags. All selected comparables (T-A, T-B, T-C) are located within the same north_west district, providing geographic consistency despite the constrained sample size.",
-    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.3% (T-A) to 2.1% (T-C), with net adjustments from 0.0% to 1.1%. The relatively modest adjustment burden (contributing +0.0273 to confidence) indicates good comparable quality. However, UNSUPPORTED_TIME_ADJ flag notes that all comparables utilize city-wide fallback time adjustment series due to absence of encoded district benchmarks, rendering time adjustments approximate.",
-    "reconciliation": "Adjusted sale prices range from $783,467 (T-C) to $801,510 (T-A), producing a weighted indication with T-A receiving highest weight (0.4079), followed by T-B (0.3266) and T-C (0.2656). The adjusted-value spread of 2.01% contributed positively (+0.1298) to confidence scoring. Final reconciled range spans $788,000 to $804,000 with a point estimate of $796,000.",
-    "confidence": "Overall confidence scores 0.6012, classified as MODERATE band. Positive contributors include tight adjusted-value spread (+0.1298), recency (+0.0476), distance (+0.0465), and adjustment burden (+0.0273). Negative factors include thin comparable count (-0.1) and deep widening penalties (-0.1) from tier-2 relaxation requirements, highlighting market data limitations.",
-    "limiting": "Valuation reliability is constrained by limited comparable inventory requiring tier-2 widening and thin sample size below optimal thresholds. Time adjustments utilize city-wide approximations rather than district-specific benchmarks. The MODERATE confidence band reflects these data limitations while supporting the $788,000-$804,000 range. Additional market research may strengthen future analyses as transaction volume improves."
+    "scope": "This appraisal analyzes 29xx Edgemont Boulevard NW (north_west district) as of June 1, 2026, with an assessed value of $712,000. The sales comparison approach utilizes synthetic comparable properties derived from Open Calgary data, while the subject property characteristics are grounded in verified Open Calgary records.",
+    "selection": "The comparable selection process retrieved 3 properties, all of which were selected with no rejections. All comparables are located within the same north_west district as the subject. The THIN_COMP_SET flag indicates the final count of 3 comparables falls below the preferred minimum of 4, requiring commentary on adequacy. The DEEP_WIDENING flag shows tier-2 relaxation was necessary to achieve minimum count thresholds, resulting in degraded recency distribution.",
+    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.3% to 2.1%, with net adjustments from -0.0% to 1.1%. The UNSUPPORTED_TIME_ADJ flag indicates COMP-A, COMP-B, and COMP-C rely on city-wide fallback time adjustment series rather than district-specific benchmarks, rendering time adjustments approximate. Adjusted values range from $783,467 to $801,510, producing a tight cluster with 2.01% spread.",
+    "reconciliation": "The three adjusted comparables support a value range of $788,000 to $804,000, with a point estimate of $796,000. Comparable T-A receives the highest weight at 40.79%, followed by T-B at 32.66% and T-C at 26.56%. The 2.01% spread between high and low range bounds demonstrates strong convergence among the adjusted comparable values.",
+    "confidence": "The confidence assessment yields a MODERATE rating with a score of 0.6012. Positive contributors include adjusted-value spread (+0.1298), recency (+0.0476), distance (+0.0465), and adjustment burden (+0.0273). Negative factors are comp count (-0.1) and widening depth (-0.1), reflecting the limited comparable inventory and tier-2 search relaxation requirements.",
+    "limiting": "Key limiting conditions include reliance on synthetic comparable properties, use of city-wide fallback time adjustments due to insufficient district-specific data, and a below-optimal comparable count of 3 properties. The tier-2 widening required to meet minimum thresholds introduces temporal distribution concerns that impact overall reliability of the indication."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "llm",
+      "reasoning": "## Subject Property Record\n\n**Identity & Assessment:**\n- Address: 29xx Edgemont Boulevard NW\n- Roll Number: 063-22-980-07\n- District: north_west\n- Coordinates: 51.11, -114.13\n- Assessed Value: $712,000 (2026 roll year)\n- Land Use: R-C1\n\n**Physical Characteristics:**\n- GLA: 1,520 sq ft (from listing)\n- Lot Size: 5,400 sq ft (from listing)\n- Bedrooms (AG): 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1992 (grounded from Open Calgary)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: [no district-typical available]\n- Garage Type: ATTACHED (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary which provided identity, assessment, and year built data. Most physical fields were directly extracted from the comprehensive listing text, including square footages, bedroom/bathroom counts, basement details, and garage specifications. Only the basement walkout characteristic was absent from the listing, but no district-typical fallback was available for this field in the north_west district. The listing provided sufficient detail to capture all other key physical attributes without requiring district defaults.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=29xx Edgemont Boulevard NW",
+          "result": "{\"address\": \"29xx Edgemont Boulevard NW\", \"district\": \"north_west\", \"lat\": 51.11, \"lon\": -114.13, \"roll_number\": \"063-22-980-07\", \"assessed_value\": 712000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1992}"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1520 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=5400 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=2 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        },
+        {
+          "name": "district_typical",
+          "args": "district=north_west, field=basement_walkout",
+          "result": "no district-typical value for basement_walkout."
+        }
+      ]
+    }
   }
 };
 

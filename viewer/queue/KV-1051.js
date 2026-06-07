@@ -130,7 +130,7 @@ window.MEMO = (function () {
     "real": true,
     "provenance": "source: open_calgary_assessment",
     "roll": "091·44·300·02",
-    "addr": "33xx Signal Hill Heights SW",
+    "addr": "47xx Signal Hill Court SW",
     "addrNote": "civic address partially masked for review packet",
     "community": "West district",
     "district": "West",
@@ -971,12 +971,60 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes the subject property at 33xx Signal Hill Heights SW in Calgary's west district, effective June 1, 2026. The analysis employs a sales comparison approach using synthetic comparable sales generated from Open Calgary data. The subject's assessed value of $985,000 provides a baseline reference point for market value estimation.",
-    "selection": "The engine retrieved 5 comparable sales and selected all 5 for analysis, with no rejections recorded. All selected comparables are located within the same west district as the subject property. The final comparable set operates at tier-0 depth, indicating strong initial market coverage. However, the DEEP_WIDENING flag indicates that tier-2 relaxation was required to achieve minimum count thresholds, resulting in some degradation of the recency distribution.",
-    "adjustment": "Adjustment magnitudes across the comparable set demonstrate controlled variance, with gross adjustment percentages ranging from 0.9% to 3.2% and net adjustments from 0.8% to 1.5%. All comparables required minimal adjustment burdens, contributing positively to confidence metrics with a 0.0208 contribution score. The STALE_COMP flag identifies that comparable S-E exceeds the 120-day recency threshold, resulting in time-adjustment off the CREB benchmark and reduced weighting allocation.",
-    "reconciliation": "The weighted analysis of adjusted sale prices produces a value range of $1,022,000 to $1,039,000, with a point estimate of $1,030,500. The range spread of 1.65% indicates strong comparable convergence. Comparable weights distribute across S-A (0.2782), S-B (0.2444), S-C (0.2121), S-D (0.1674), and S-E (0.0978), with the staleness penalty reducing S-E's influence appropriately.",
-    "confidence": "The analysis achieves a HIGH confidence band with a score of 0.8059. Primary confidence drivers include comparable count (0.11 contribution), adjusted-value spread (0.1387), and distance factors (0.042). The recency contribution remains modest at 0.0444. The widening depth penalty reduces confidence by 0.10, reflecting the tier-relaxation impact on temporal distribution quality.",
-    "limiting": "This analysis relies on synthetic comparable data rather than verified market transactions, which may not capture all relevant market nuances. The DEEP_WIDENING condition indicates potential market data limitations requiring expanded search parameters. The presence of one stale comparable suggests some temporal market coverage gaps. All monetary figures and statistical outputs reflect the deterministic engine's computations and should be considered within these methodological constraints."
+    "scope": "This appraisal analyzes 47xx Signal Hill Court SW in Calgary's west district as of June 1, 2026, with an assessed value of $985,000. The sales comparison approach utilized synthetic comparables grounded in Open Calgary data, with the subject property serving as the benchmark for market analysis.",
+    "selection": "The engine retrieved 5 comparables and selected all 5 for analysis, with no rejections recorded. All selected comparables are located within the same west district. The final tier reached was 2, indicating the comparable set required tier-2 relaxation to achieve minimum count thresholds, triggering the DEEP_WIDENING flag for commentary.",
+    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.9% to 3.2%, with net adjustments between 0.8% and 1.5%. The adjustment burden contribution to confidence was 0.0208, indicating minimal impact from required modifications. Comparable S-E triggered the STALE_COMP flag, exceeding the 120-day recency threshold, resulting in time-adjustment off the CREB benchmark and reduced weighting to 0.0978.",
+    "reconciliation": "The weighted analysis produces adjusted values from $1,016,569 to $1,043,534. Weighting favors comparable S-A at 0.2782, followed by S-B at 0.2444, reflecting superior similarity metrics. The reconciled value range spans $1,022,000 to $1,039,000 with a point estimate of $1,030,500, representing a spread of 1.65%.",
+    "confidence": "The confidence analysis yields a score of 0.8059, classified as HIGH band. Primary positive drivers include comparable count (0.11 contribution), adjusted-value spread (0.1387), recency (0.0444), and distance (0.042). The widening depth penalty of -0.10 reflects the tier-2 relaxation impact, while adjustment burden contributed positively at 0.0208.",
+    "limiting": "Key limiting conditions include the DEEP_WIDENING flag indicating search parameter relaxation to achieve minimum comparable count, and the STALE_COMP flag for comparable S-E exceeding recency thresholds. The synthetic nature of comparables and reliance on Open Calgary data constitute additional limiting factors for this analysis."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "llm",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 6 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=47xx Signal Hill Court SW",
+          "result": "{\"address\": \"47xx Signal Hill Court SW\", \"district\": \"west\", \"lat\": 51.015, \"lon\": -114.16, \"roll_number\": \"091-44-300-02\", \"assessed_value\": 985000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1996}"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1900 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=6400 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=4 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        }
+      ]
+    }
   }
 };
 

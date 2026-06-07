@@ -759,12 +759,80 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes 61xx Maple Ridge Drive SE in Calgary's south district as of June 1, 2026, with an assessed value of $695,000. The sales comparison approach utilizes synthetic comparables grounded in Open Calgary data. The deterministic engine retrieved 3 properties, selected all 3 for analysis, with no rejections. The final comparable set required tier-2 relaxation to meet minimum count thresholds.",
-    "selection": "All 3 retrieved comparables (T-A, T-B, T-C) were selected for analysis, each classified as tier-0 properties within the same south district. The selection process yielded no rejections. However, the THIN_COMP_SET flag indicates the 3 selected comparables fall below the preferred minimum of 4. Additionally, the DEEP_WIDENING flag notes that tier-2 relaxation was necessary to achieve the minimum count, resulting in recency distribution degradation and a confidence penalty of -0.10.",
-    "adjustment": "Adjustment analysis reveals manageable modification levels across the comparable set. Gross adjustment percentages range from 0.7% (T-A) to 1.9% (T-C), while net adjustments span 0.3% to 1.3%. The adjustment burden contribution of 0.0287 positively impacts confidence, indicating the synthetic properties required minimal modifications to achieve comparability. All three comparables maintained tier-0 status, suggesting strong baseline similarity to the subject property.",
-    "reconciliation": "The adjusted comparable values range from $708,008 (T-C) to $726,086 (T-A), producing a value range of $711,000 to $726,000 with a point estimate of $718,500. The 2.09% spread between high and low values demonstrates reasonable consistency. Weighting favors T-A at 0.4072, followed by T-B at 0.3262 and T-C at 0.2667. The adjusted-value spread contributes positively (0.1278) to confidence metrics.",
-    "confidence": "The analysis yields a MODERATE confidence score of 0.6006. Positive contributors include adjusted-value spread (0.1278), recency (0.0476), distance (0.0465), and adjustment burden (0.0287). Negative impacts stem from comp count (-0.1) and widening depth (-0.1) penalties. The moderate confidence level reflects the constrained comparable set size and tier-2 relaxation requirements while acknowledging the quality of available synthetic data.",
-    "limiting": "Key limitations include the thin comparable set of 3 properties below the preferred minimum of 4, and the requirement for tier-2 widening that degraded recency distribution. The DEEP_WIDENING and THIN_COMP_SET flags highlight market data constraints that may affect reliability. The analysis relies on synthetic comparables derived from Open Calgary data rather than verified market transactions. These factors support the moderate confidence classification and suggest the value range should be considered within these methodological constraints."
+    "scope": "This appraisal analyzes 61xx Maple Ridge Drive SE in Calgary's south district as of June 1, 2026, with an assessed value of $695,000. The sales comparison approach employs synthetic comparables derived from Open Calgary data to establish a defensible value range through systematic property matching and adjustment procedures.",
+    "selection": "The engine retrieved 3 properties and selected all 3 as comparables, with no rejections recorded. All selected comparables (T-A, T-B, T-C) are located within the same south district as the subject property. The final comparable tier reached level 2, indicating the search parameters required relaxation beyond the initial criteria to achieve the minimum dataset. This widening process triggered the DEEP_WIDENING flag, noting that recency distribution was compromised during tier expansion.",
+    "adjustment": "Adjustment analysis shows gross adjustment percentages ranging from 0.7% (T-A) to 1.9% (T-C), with net adjustments between 0.3% (T-A) and 1.3% (T-B). The moderate adjustment burden contributes positively to confidence scoring (+0.0287), indicating reasonable property similarity. Post-adjustment values span from $708,008 (T-C) to $726,086 (T-A), demonstrating a tight cluster with minimal adjustment-related variance.",
+    "reconciliation": "The three adjusted comparables support a value range of $711,000 to $726,000, with a point estimate of $718,500 and a spread of 2.09%. Weighting reflects adjustment confidence: T-A receives highest weight (0.4072), followed by T-B (0.3262) and T-C (0.2667). The narrow spread percentage indicates strong comparable consensus despite the limited dataset size.",
+    "confidence": "Overall confidence registers at 0.6006, classified as MODERATE band. Positive contributors include adjusted-value spread (+0.1278), recency (+0.0476), distance (+0.0465), and adjustment burden (+0.0287). Negative factors include comp count (-0.1) and widening depth (-0.1), reflecting the challenges imposed by limited market data availability.",
+    "limiting": "Two flags require commentary: THIN_COMP_SET indicates the 3-comparable dataset falls below the preferred minimum of 4, potentially affecting result stability. DEEP_WIDENING reflects the necessity of tier-2 search relaxation, with associated confidence penalties for degraded recency distribution. These conditions suggest heightened market data constraints but do not invalidate the analysis given the tight value clustering achieved."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "llm",
+      "reasoning": "## Property Record Summary\n\n**Identity & Assessment:**\n- Address: 61xx Maple Ridge Drive SE\n- Roll Number: 074-19-770-03\n- District: South\n- Coordinates: 50.955, -114.05\n- Assessed Value: $695,000 (2026 roll)\n- Land Use: R-C1\n\n**Physical Characteristics:**\n- GLA: 1,440 sq ft\n- Lot Size: 5,200 sq ft\n- Bedrooms (AG): 3\n- Full Baths: 2\n- Half Baths: 1\n- Year Built: 1983 (grounded from Open Calgary)\n- Basement Finished: 600 sq ft\n- Basement Walkout: No district typical available\n- Garage Type: Attached\n- Garage Stalls: 2\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary lookup, establishing the south district and confirming the 1983 build year from assessment records. Most physical fields were clearly stated in the listing including square footages, bedroom/bathroom counts, and garage specifications. The basement walkout status was the only field not mentioned in the listing, but no district typical value was available for this characteristic in the south district.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=61xx Maple Ridge Drive SE",
+          "result": "{\"address\": \"61xx Maple Ridge Drive SE\", \"district\": \"south\", \"lat\": 50.955, \"lon\": -114.05, \"roll_number\": \"074-19-770-03\", \"assessed_value\": 695000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1983}"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1440 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=5200 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=2 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        },
+        {
+          "name": "district_typical",
+          "args": "district=south, field=basement_walkout",
+          "result": "no district-typical value for basement_walkout."
+        }
+      ]
+    }
   }
 };
 

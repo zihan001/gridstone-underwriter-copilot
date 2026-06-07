@@ -191,8 +191,8 @@ def _deals() -> list[tuple[str, str, Subject, str]]:
                   year_built=1998, gla_sqft=1820, lot_sqft=6100, beds_ag=4, full_baths=3, half_baths=1),
          "fresh_clean"),
         ("KV-1044", "Detached family home",
-         _subject(address="7xx Penbrooke Meadows Close SE", district=District.EAST,
-                  lat=51.0381, lon=-113.9492, roll_number="058-13-902-11", assessed_value=472_000,
+         _subject(address="9xx Penbrooke Road SE", district=District.EAST,
+                  lat=51.0402, lon=-113.9461, roll_number="058-13-915-04", assessed_value=472_000,
                   year_built=1979, gla_sqft=1180, lot_sqft=4600, beds_ag=3, full_baths=1, half_baths=1),
          "fresh_clean"),
         ("KV-1045", "Renovated two-storey",
@@ -203,7 +203,7 @@ def _deals() -> list[tuple[str, str, Subject, str]]:
 
         # --- YELLOW: a human should look --------------------------------------
         ("KV-1051", "Detached two-storey",
-         _subject(address="33xx Signal Hill Heights SW", district=District.WEST,
+         _subject(address="47xx Signal Hill Court SW", district=District.WEST,
                   lat=51.0150, lon=-114.1600, roll_number="091-44-300-02", assessed_value=985_000,
                   year_built=1996, gla_sqft=1900, lot_sqft=6400, beds_ag=4, full_baths=3, half_baths=1),
          "one_stale"),
@@ -254,6 +254,12 @@ _FLAVORS = {
     "adjacent": _adjacent_heavy,
     "thin": _thin,
 }
+
+
+def inbox_subjects() -> list[Subject]:
+    """The deal subjects only (no candidate universes built) — cheap. Used by the intake agent's
+    Open Calgary stand-in so a deal blurb grounds to the same parcel the queue values."""
+    return [subj for _, _, subj, _ in _deals()]
 
 
 def inbox(cfg: AdjustmentConfig | None = None) -> list[InboxDeal]:

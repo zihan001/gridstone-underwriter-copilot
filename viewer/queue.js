@@ -67,7 +67,7 @@ window.QUEUE = [
   },
   {
     "id": "KV-1051",
-    "address": "33xx Signal Hill Heights SW",
+    "address": "47xx Signal Hill Court SW",
     "district": "West",
     "rangeLow": 1022000,
     "rangePoint": 1030500,
@@ -132,7 +132,7 @@ window.QUEUE = [
   },
   {
     "id": "KV-1044",
-    "address": "7xx Penbrooke Meadows Close SE",
+    "address": "9xx Penbrooke Road SE",
     "district": "East",
     "rangeLow": 495000,
     "rangePoint": 499000,
