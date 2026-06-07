@@ -946,6 +946,90 @@
     "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $484,500, within a supported range of $478,500 to $490,500 (spread 2.5%) that brackets the adjusted comparables.",
     "confidence": "Confidence is assessed MODERATE (0.64). 7 human-review flags fired and are documented below; none constitutes a failure — each is a prompt for reviewer narrative under AIC guidance. One comparable was drawn from an adjacent district (C-D), absorbed via weighting.",
     "limiting": "All comparable data shown is SYNTHETIC and illustrative, priced from an explicit contributory model (the matched pair). Subject characteristics are grounded in Open Calgary assessment data (source: open_calgary_assessment); physical attributes are intake/district-typical where the free dataset does not publish them. Every non-CREB dollar magnitude is a US/North-American proxy to be locally calibrated. This artifact is render-only and contains no live computation."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=7xx Penbrooke Meadows Close SE",
+          "result": "{\"address\": \"7xx Penbrooke Meadows Close SE\", \"district\": \"east\", \"lat\": 51.0381, \"lon\": -113.9492, \"roll_number\": \"058-13-902-11\", \"assessed_value\": 472000, \"l"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1103 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=4871 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=2 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=0 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        }
+      ]
+    },
+    "sensitivity": {
+      "source": "deterministic",
+      "note": "Sensitivity probe of the $484,500 central indication (range $478,500–$490,500). Three deterministic re-runs were compared against the delivered result: an alternate lender profile, a forced wider comp search, and leave-one-out on the most heavily weighted comp (C-A). Per-scenario engine output: [lender profile -> gse_on] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> MODERATE 0.64; selected 4 -> 4; fired flags 7 -> 7. [forced wider search (min_comp_count=6)] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> LOW 0.36; selected 4 -> 4; fired flags 7 -> 8. [dropping comp C-A] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> MODERATE 0.64; selected 4 -> 4; fired flags 7 -> 7. The lender profile is informational (it changes flag loudness, not value); the range movement under wider search and leave-one-out bounds how sensitive the point is to the comp set. Every figure here is recomputed by the core, not estimated.",
+      "calls": [
+        {
+          "name": "rerun_with_profile",
+          "args": "profile=gse_on",
+          "result": "[lender profile -> gse_on] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> MODERATE 0.64; sele"
+        },
+        {
+          "name": "rerun_widening",
+          "args": "extra_tier=True",
+          "result": "[forced wider search (min_comp_count=6)] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> LOW 0"
+        },
+        {
+          "name": "recompute_dropping_comp",
+          "args": "comp_id=C-A",
+          "result": "[dropping comp C-A] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> MODERATE 0.64; selected 4 "
+        }
+      ]
+    }
   }
 } token with json.dumps(memo_window_dict) and writes the result
    to out/data.js. The helpers must match the originals in the delivered viewer
@@ -1904,6 +1988,90 @@ window.MEMO = (function () {
     "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $484,500, within a supported range of $478,500 to $490,500 (spread 2.5%) that brackets the adjusted comparables.",
     "confidence": "Confidence is assessed MODERATE (0.64). 7 human-review flags fired and are documented below; none constitutes a failure — each is a prompt for reviewer narrative under AIC guidance. One comparable was drawn from an adjacent district (C-D), absorbed via weighting.",
     "limiting": "All comparable data shown is SYNTHETIC and illustrative, priced from an explicit contributory model (the matched pair). Subject characteristics are grounded in Open Calgary assessment data (source: open_calgary_assessment); physical attributes are intake/district-typical where the free dataset does not publish them. Every non-CREB dollar magnitude is a US/North-American proxy to be locally calibrated. This artifact is render-only and contains no live computation."
+  },
+  "agentTrace": {
+    "intake": {
+      "source": "deterministic",
+      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=7xx Penbrooke Meadows Close SE",
+          "result": "{\"address\": \"7xx Penbrooke Meadows Close SE\", \"district\": \"east\", \"lat\": 51.0381, \"lon\": -113.9492, \"roll_number\": \"058-13-902-11\", \"assessed_value\": 472000, \"l"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1103 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=4871 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=2 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=0 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        }
+      ]
+    },
+    "sensitivity": {
+      "source": "deterministic",
+      "note": "Sensitivity probe of the $484,500 central indication (range $478,500–$490,500). Three deterministic re-runs were compared against the delivered result: an alternate lender profile, a forced wider comp search, and leave-one-out on the most heavily weighted comp (C-A). Per-scenario engine output: [lender profile -> gse_on] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> MODERATE 0.64; selected 4 -> 4; fired flags 7 -> 7. [forced wider search (min_comp_count=6)] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> LOW 0.36; selected 4 -> 4; fired flags 7 -> 8. [dropping comp C-A] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> MODERATE 0.64; selected 4 -> 4; fired flags 7 -> 7. The lender profile is informational (it changes flag loudness, not value); the range movement under wider search and leave-one-out bounds how sensitive the point is to the comp set. Every figure here is recomputed by the core, not estimated.",
+      "calls": [
+        {
+          "name": "rerun_with_profile",
+          "args": "profile=gse_on",
+          "result": "[lender profile -> gse_on] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> MODERATE 0.64; sele"
+        },
+        {
+          "name": "rerun_widening",
+          "args": "extra_tier=True",
+          "result": "[forced wider search (min_comp_count=6)] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> LOW 0"
+        },
+        {
+          "name": "recompute_dropping_comp",
+          "args": "comp_id=C-A",
+          "result": "[dropping comp C-A] point $484,500 -> $484,500 (unchanged); range $478,500–$490,500 -> $478,500–$490,500; confidence MODERATE 0.64 -> MODERATE 0.64; selected 4 "
+        }
+      ]
+    }
   }
 };
 

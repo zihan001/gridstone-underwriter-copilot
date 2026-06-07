@@ -48,9 +48,15 @@ MEMO = {
   flags:          [Flag]
   aicNote:        string
   narrative:      Narrative
+  agentTrace:     AgentTrace | absent              // OPTIONAL, render-only (see below)
   timeFactor(month) -> float                       // bm[eff]/bm[month] - 1  (helper)
 }
 ```
+
+`agentTrace` is **additive and optional**. It is present only when the run was bracketed by
+the intake/sensitivity agents (`narrative/orchestrator.run_with_agents`); a snapshot without
+it renders unchanged (the viewer's Agent Trace section degrades to "no agent trace"). It
+carries NO number that feeds underwriting — it is a read-only audit of tool calls + prose.
 
 ---
 
@@ -173,6 +179,22 @@ style chip.
 ```
 All six are plain strings. Template fallback fills them deterministically if the LLM is
 disabled (ARCHITECTURE seam guarantee).
+
+### AgentTrace  (OPTIONAL, render-only — the two agents that bracket the pipeline)
+```
+{
+  intake:      AgentBlock | null      // before the pipeline: listing text → grounded Subject
+  sensitivity: AgentBlock | null      // after the pipeline: stress-tests the value range
+}
+AgentBlock = {
+  source: "llm" | "deterministic"     // which path produced it (no key → deterministic)
+  reasoning | note: string            // prose ONLY (intake uses `reasoning`, sensitivity `note`)
+  calls: [{ name: string, args: string, result: string }]   // ordered tool-call trace
+}
+```
+Every value in a `calls[].result` originates in a read-only / core-routed tool, never in the
+model. The block is rendered read-only (viewer section 07); it never feeds a number back into
+the memo. Produced by `narrative/orchestrator.trace_to_window`.
 
 ---
 

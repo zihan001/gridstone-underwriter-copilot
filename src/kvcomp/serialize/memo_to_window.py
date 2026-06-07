@@ -163,8 +163,12 @@ def _subject_view(subject: Subject) -> dict:
     }
 
 
-def build_window(result) -> dict:
-    """Build the full window.MEMO data dict (everything except the JS helpers)."""
+def build_window(result, agent_trace: dict | None = None) -> dict:
+    """Build the full window.MEMO data dict (everything except the JS helpers).
+
+    `agent_trace`, when supplied, adds the read-only `agentTrace` block (intake + sensitivity
+    reasoning and tool calls). Omitting it leaves the output byte-identical to before, so the
+    frozen serializer contract is unaffected on the no-agent path."""
     memo = result.memo
     cfg = result.config
     subject: Subject = memo.subject
@@ -176,7 +180,7 @@ def build_window(result) -> dict:
     selected = [_selected_view(subject, ac, cfg) for ac in memo.selected]
     weights = {ac.comp.comp_id: ac.weight for ac in memo.selected}
 
-    return {
+    window = {
         "meta": {
             "caseId": f"KV-CMP-{subject.effective_date.year}-{(subject.roll_number or '0000')[-4:]}",
             "snapshot": f"{subject.effective_date.isoformat()}T00:00:00-06:00",
@@ -240,32 +244,38 @@ def build_window(result) -> dict:
             "confidence": memo.narrative.confidence, "limiting": memo.narrative.limiting,
         },
     }
+    # Additive, render-only: present only when the agents bracketed this run.
+    if agent_trace is not None:
+        window["agentTrace"] = agent_trace
+    return window
 
 
-def render_data_js(result) -> str:
-    window = build_window(result)
+def render_data_js(result, agent_trace: dict | None = None) -> str:
+    window = build_window(result, agent_trace)
     template = _TEMPLATE.read_text()
     return template.replace("__MEMO_DATA__", json.dumps(window, ensure_ascii=False, indent=2))
 
 
-def write_data_js(result, path: Path | None = None) -> Path:
+def write_data_js(result, path: Path | None = None, agent_trace: dict | None = None) -> Path:
     out = path or _OUT
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(render_data_js(result))
+    out.write_text(render_data_js(result, agent_trace))
     return out
 
 
 def main(argv: list[str] | None = None) -> None:
     """CLI: serialize a named demo case to a named file.
 
-    No args reproduces the historical behaviour exactly — the South hero to out/data.js — so
-    `python -m kvcomp.serialize` and ./scripts/run.sh are unchanged. `--case east/west` selects
-    a demo subject; `--out` overrides the destination (defaults to out/data.<case>.js for the
-    non-hero cases). Reuses run(subject=...) + write_data_js(...) — no pipeline logic here."""
+    No args reproduces the South hero to out/data.js — so `python -m kvcomp.serialize` and
+    ./scripts/run.sh are unchanged in destination. `--case east/west` selects a demo subject;
+    `--out` overrides the destination (defaults to out/data.<case>.js for the non-hero cases).
+    Each case is bracketed by the intake (before) and sensitivity (after) agents via
+    run_with_agents so data.js carries the read-only agentTrace block; the pipeline numbers
+    are byte-identical to the subject-driven path (the demo blurb round-trips)."""
     import argparse
 
     from kvcomp.data.subject_loader import demo_subjects
-    from kvcomp.pipeline import run
+    from kvcomp.narrative.orchestrator import demo_listing, run_with_agents, trace_to_window
 
     cases = demo_subjects()
     parser = argparse.ArgumentParser(prog="python -m kvcomp.serialize",
@@ -277,7 +287,9 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
 
     out = Path(args.out) if args.out else (_OUT if args.case == "south" else _OUT.with_name(f"data.{args.case}.js"))
-    path = write_data_js(run(cases[args.case]), out)
+    subject = cases[args.case]
+    result, trace = run_with_agents(listing=demo_listing(subject), effective_date=subject.effective_date)
+    path = write_data_js(result, out, agent_trace=trace_to_window(trace))
     print(f"wrote {path} ({args.case})")
 
 

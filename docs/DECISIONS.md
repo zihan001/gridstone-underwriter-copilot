@@ -91,3 +91,36 @@ and we overwrite the fixture, because the core is the matched-pair-tested source
 
 **Why.** Gives `MemoArtifact` a concrete target shape (see MEMO_CONTRACT.md) and a
 regression anchor, without letting hand-authored fiction override tested arithmetic.
+
+## ADR-005 — The LLM gains tool use, but stays strictly read-only or core-routed
+
+**Decision.** The LLM was upgraded from a single prose-only call to genuine **tool use**, via
+two agents that **bracket** the deterministic pipeline (`narrative/orchestrator.run_with_agents`):
+
+- **Intake** (before `pipeline.run`): unstructured listing text → a validated `Subject`. Its
+  tools are read-only / pure — `lookup_open_calgary`, `parse_listing_field`, `district_typical`,
+  `geocode`. Each records its result into a ledger; the `Subject` is assembled from the **ledger**,
+  never from the model's prose, so no model-authored number can enter it. A field absent from the
+  listing falls back to `district_typical` (`DISTRICT_DEFAULT`) — never an estimate.
+- **Sensitivity** (after `pipeline.run`): the finished `MemoArtifact` → a prose robustness note.
+  Its tools — `rerun_with_profile`, `rerun_widening`, `recompute_dropping_comp` — each **re-invoke
+  the deterministic core verbatim** with one knob changed and return the core's recomputed numbers,
+  pre-differenced in Python. The agent only narrates.
+
+The shared harness (`narrative/agent.py`) skips the loop and returns a deterministic fallback +
+empty trace when `ANTHROPIC_API_KEY` is unset, mirroring `narrative/llm.py`. The pipeline is
+**unchanged**; agents never run inside it.
+
+**Why it does not violate the round-trip invariant.** The credibility artifact is that the grid
+is a correct inverse of the generator and every number originates in the matched-pair-tested core.
+The agents are upstream (intake) or downstream (sensitivity) of the valuation, never *between* a
+number and the result. `tests/test_agent_invariant.py` asserts the serialized payload with agents
+enabled is **byte-identical** to the disabled payload once the additive `agentTrace` block is
+removed — enabling the agents can only add the trace, never move a number.
+
+**The trace panel is NOT a reversal of the cut chat UI.** SCOPE cut an interactive chat/editable
+viewer; that cut stands. The viewer remains **render-only**: the new section 07 "Agent Trace" is a
+collapsed, read-only audit of tool calls + prose with zero interactivity — no inputs, no chat, no
+recomputation in the browser. It *documents* the agents' reasoning; it does not let a user drive
+them. A read-only audit trail is the opposite of an interactive surface, so the scope boundary
+(deterministic core is authoritative; the browser computes nothing) is preserved, not relaxed.

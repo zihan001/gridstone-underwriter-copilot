@@ -1,6 +1,6 @@
 # KV Capital — Comp Defensibility Copilot
 
-> **Status: implemented.** Deterministic core, pipeline, narrative seam, and serializer are built and tested (`uv run pytest` → 51 passed); the locked viewer renders the generated memo for the sample subject. See **How to run** below.
+> **Status: implemented.** Deterministic core, pipeline, narrative seam, serializer, and two LLM **tool-use agents that bracket the pipeline** (intake before, sensitivity after) are built and tested (`uv run pytest` → 86 passed); the locked viewer renders the generated memo plus a read-only agent-trace panel for the sample subject. See **How to run** below.
 
 ## Problem
 An underwriter's bottleneck in residential lending isn't computing a value — it's **defending** one. Comp analysis (finding comparable recent sales and reasoning to a supportable value) is manual, slow, and hard to audit. A black-box AVM doesn't help: it produces a number nobody can defend in review.
@@ -18,6 +18,19 @@ A **defensibility copilot** for single-family **detached** homes in **Calgary, A
 
 ## Architecture (one line)
 A **deterministic core does ALL the math**; the **LLM only writes prose** (rejection rationale, memo narrative, exception summaries) from already-computed outputs. The memo is fully valid even if the LLM is disabled.
+
+## Agents bracket the pipeline (tool use)
+Two LLM agents wrap the **unchanged** core — they never run inside the valuation loop:
+
+```
+listing ─► intake agent ─► Subject ─► pipeline.run() ─► sensitivity agent ─► render
+            (grounding)              [UNCHANGED SPINE]     (robustness probe)
+```
+
+- **Intake** turns a free-text listing into a validated `Subject` using read-only tools (Open-Calgary lookup, listing-field parse, CREB district-typical fallback, geocode). The `Subject` is assembled from a ledger of **tool** results, never from model prose; a field absent from the listing falls back to district-typical, never an estimate.
+- **Sensitivity** stress-tests the finished memo with tools that **re-invoke the deterministic core verbatim** (alternate lender profile, forced wider search, leave-one-out) and reports the deltas.
+
+No agent ever authors a number. `tests/test_agent_invariant.py` asserts the serialized payload with agents enabled is **byte-identical** to the disabled payload, modulo the additive, read-only `agentTrace` block. The viewer's new "Agent Trace" section renders that block — read-only, zero interactivity (it is **not** the cut chat UI).
 
 ## Data
 - **Real** public Calgary data for the SUBJECT (Open Calgary parcel assessments).
@@ -48,8 +61,12 @@ uv run python -m http.server 8000 -d viewer
 ```
 
 The deterministic core runs with **no API key** — prose degrades to deterministic templates,
-and every number is identical. To enable LLM-written narrative (prose only; it never produces
-a number that enters the result), set `ANTHROPIC_API_KEY` (see `.env.example`) before step 3.
+the intake/sensitivity agents fall back to a deterministic tool sequence (so the agent-trace
+panel is still populated), and every number is identical. To enable genuine LLM tool use
+(intake agent grounds the `Subject`, sensitivity agent probes the range, memo prose is
+model-written — all prose only; no number ever enters the result), set `ANTHROPIC_API_KEY`
+(see `.env.example`) before step 3. Step 3 runs `pipeline.main`, which brackets the pipeline
+with both agents and writes the `agentTrace` block into `out/data.js` automatically.
 
 **Optional:** the live Open Calgary integration smoke test is skipped by default; run it with
 `KVCOMP_LIVE_OPENCALGARY=1 uv run pytest tests/test_subject_loader.py`.
@@ -69,6 +86,8 @@ repair that makes the frozen contract self-consistent; see the comment at that l
 
 ## Explicit cuts (NOT built — by design)
 Commercial borrowers · new-construction / as-improved / builder-finance / progress-advance · condos & other property types · learned/trained AVM · image / CV condition scoring · live MLS/CREB integration · generic chat UI · auth / persistence / multi-user.
+
+> The cut **chat UI** stays cut. The agents have tool use, but the viewer is still render-only: the "Agent Trace" section is a collapsed, read-only audit of tool calls + prose — no inputs, no chat, no in-browser recomputation. See `docs/DECISIONS.md` ADR-005 for why a read-only trace is not a reversal of that cut.
 
 A **focused agent that works beats a general one that doesn't.** Every dollar adjustment magnitude not sourced from CREB is a **US/North-American proxy** to be locally calibrated — labeled as such throughout.
 

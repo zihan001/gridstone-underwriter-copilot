@@ -76,7 +76,11 @@ sound, and it genuinely can fail (it caught two real bugs during the build — s
 | **seam** | `pipeline.py` | orchestrates the core in dependency order → `MemoArtifact` |
 | | `narrative/prompts.py` | deterministic template prose + the single batched LLM prompt |
 | | `narrative/llm.py` | one Anthropic call; falls back to the template on no-key / failure / malformed response |
-| | `serialize/memo_to_window.py` | `MemoArtifact` → `out/data.js` in the exact `MEMO_CONTRACT` shape |
+| | `serialize/memo_to_window.py` | `MemoArtifact` → `out/data.js` in the exact `MEMO_CONTRACT` shape (optional render-only `agentTrace`) |
+| **agents** (bracket the spine) | `narrative/agent.py` | generic Anthropic tool-use harness: `run_agent(system, tools, task)` → `(prose, trace)`; tool schemas derived from callables; no key → caller's deterministic fallback + empty trace |
+| | `narrative/intake_agent.py` | **before** the pipeline — listing text → validated `Subject` via read-only tools (`lookup_open_calgary`, `parse_listing_field`, `district_typical`, `geocode`); Subject assembled from a ledger, never from model prose |
+| | `narrative/sensitivity_agent.py` | **after** the pipeline — probes the finished memo with core-routed tools (`rerun_with_profile`, `rerun_widening`, `recompute_dropping_comp`), each re-invoking `pipeline.run` verbatim; prose note + trace |
+| | `narrative/orchestrator.py` | the only place that wires the agents *around* the unchanged pipeline: `run_with_agents` (intake → run → sensitivity) + `trace_to_window` |
 
 ---
 
@@ -98,6 +102,26 @@ Subject (real Open Calgary grounding, per-field provenance)
 Reconciled output lands within a whisker of the golden fixture's hand-authored
 $708,000 / $715,500 / $723,500 — but every number here is computed by the matched-pair-tested
 core (ADR-004: the core's numbers win and overwrite the fixture).
+
+### Agents bracket the spine — they never run inside it
+
+The pipeline above is **unchanged**. Two LLM agents were added *around* it, not in it:
+
+```
+BEFORE:   Subject  ─────────────────►  pipeline.run()  ─►  serialize
+AFTER:    listing ─► intake agent ─► Subject ─► pipeline.run() ─► sensitivity agent ─► serialize
+                     (grounding)          [UNCHANGED SPINE]        (robustness probe)
+```
+
+`narrative/orchestrator.run_with_agents` is the only wiring point. Both agents act solely
+through tools that are **(a) read-only over already-computed data** (intake) or **(b)
+re-invocations of the deterministic core that return its output verbatim** (sensitivity).
+No agent authors a number: the intake `Subject` is assembled from a ledger of tool results,
+and the sensitivity note only narrates core re-runs. `tests/test_agent_invariant.py` proves
+it — the serialized payload with agents enabled is byte-identical to the disabled payload once
+the additive, render-only `agentTrace` block is removed. Control flow is strict: intake runs
+before `run()`, sensitivity strictly after; if either step would sit *upstream of a number in
+the result*, that would break the round-trip invariant — so it does not.
 
 ---
 

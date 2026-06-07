@@ -98,10 +98,15 @@ def run(
 
 
 def main() -> None:
+    from kvcomp.data.subject_loader import default_subject
+    from kvcomp.narrative.orchestrator import demo_listing, run_with_agents, trace_to_window
     from kvcomp.serialize.memo_to_window import write_data_js
 
-    result = run()
-    path = write_data_js(result)
+    # The agents BRACKET the unchanged pipeline: intake (from a blurb that round-trips to the
+    # hero subject) before, sensitivity after. data.js carries the read-only agentTrace block.
+    subject = default_subject()
+    result, trace = run_with_agents(listing=demo_listing(subject), effective_date=subject.effective_date)
+    path = write_data_js(result, agent_trace=trace_to_window(trace))
     vr = result.memo.value_range
     print(f"✓ pipeline complete — narrative via {result.narrative_source}")
     print(f"  selected {len(result.memo.selected)} / rejected {len(result.memo.rejected)} / "
