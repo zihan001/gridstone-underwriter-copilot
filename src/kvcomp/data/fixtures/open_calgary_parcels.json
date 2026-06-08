@@ -1,0 +1,2911 @@
+{
+  "_fetched_at": "2026-06-08T21:33:55.074337+00:00",
+  "_query": "assessment_class='RE' AND property_type='LI' AND year_of_construction IS NOT NULL AND land_size_sf between '3000' and '9000'",
+  "_source_url": "https://data.calgary.ca/resource/4bsw-nn7w.json",
+  "rows": [
+    {
+      "address": "820 SADDLECREEK WY NE",
+      "assessed_value": "699500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "SAD",
+      "comm_name": "SADDLE RIDGE",
+      "cpid": "510574582",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.1",
+      "land_size_sf": "4296.0",
+      "land_size_sm": "399.1",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9517367,
+                51.1274895
+              ],
+              [
+                -113.9517719,
+                51.1275118
+              ],
+              [
+                -113.9520942,
+                51.1277156
+              ],
+              [
+                -113.9522117,
+                51.1276397
+              ],
+              [
+                -113.9518455,
+                51.1274202
+              ],
+              [
+                -113.9517367,
+                51.1274895
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "699500.0",
+      "roll_number": "004003604",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026004003604510574582",
+      "year_of_construction": "2001.0"
+    },
+    {
+      "address": "816 SADDLECREEK WY NE",
+      "assessed_value": "797500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "SAD",
+      "comm_name": "SADDLE RIDGE",
+      "cpid": "500574581",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.1",
+      "land_size_sf": "4534.0",
+      "land_size_sm": "421.2",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9518455,
+                51.1274202
+              ],
+              [
+                -113.9522117,
+                51.1276397
+              ],
+              [
+                -113.9523317,
+                51.1275572
+              ],
+              [
+                -113.9519543,
+                51.1273453
+              ],
+              [
+                -113.9518455,
+                51.1274202
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "797500.0",
+      "roll_number": "004003703",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026004003703500574581",
+      "year_of_construction": "2000.0"
+    },
+    {
+      "address": "812 SADDLECREEK WY NE",
+      "assessed_value": "737000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "SAD",
+      "comm_name": "SADDLE RIDGE",
+      "cpid": "490574580",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.1",
+      "land_size_sf": "4534.0",
+      "land_size_sm": "421.2",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9519543,
+                51.1273453
+              ],
+              [
+                -113.9523317,
+                51.1275572
+              ],
+              [
+                -113.9524473,
+                51.1274723
+              ],
+              [
+                -113.9520593,
+                51.1272683
+              ],
+              [
+                -113.9519543,
+                51.1273453
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "737000.0",
+      "roll_number": "004003802",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026004003802490574580",
+      "year_of_construction": "1999.0"
+    },
+    {
+      "address": "808 SADDLECREEK WY NE",
+      "assessed_value": "654000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "SAD",
+      "comm_name": "SADDLE RIDGE",
+      "cpid": "480574579",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.1",
+      "land_size_sf": "4296.0",
+      "land_size_sm": "399.1",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9520593,
+                51.1272683
+              ],
+              [
+                -113.9524473,
+                51.1274723
+              ],
+              [
+                -113.9525528,
+                51.1273898
+              ],
+              [
+                -113.952155,
+                51.1271934
+              ],
+              [
+                -113.9520593,
+                51.1272683
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "654000.0",
+      "roll_number": "004003901",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026004003901480574579",
+      "year_of_construction": "1999.0"
+    },
+    {
+      "address": "121 TARARIDGE CL NE",
+      "assessed_value": "475500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "TAR",
+      "comm_name": "TARADALE",
+      "cpid": "270264158",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.08",
+      "land_size_sf": "3636.0",
+      "land_size_sm": "337.8",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9390634,
+                51.1113053
+              ],
+              [
+                -113.9390637,
+                51.1115929
+              ],
+              [
+                -113.9391308,
+                51.1115928
+              ],
+              [
+                -113.9391493,
+                51.1115916
+              ],
+              [
+                -113.9391671,
+                51.1115881
+              ],
+              [
+                -113.9391834,
+                51.1115825
+              ],
+              [
+                -113.9391976,
+                51.1115749
+              ],
+              [
+                -113.9392091,
+                51.1115657
+              ],
+              [
+                -113.9392174,
+                51.1115553
+              ],
+              [
+                -113.9392223,
+                51.111544
+              ],
+              [
+                -113.9392235,
+                51.1115323
+              ],
+              [
+                -113.9392106,
+                51.1113052
+              ],
+              [
+                -113.9390634,
+                51.1113053
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "475500.0",
+      "roll_number": "005016704",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026005016704270264158",
+      "year_of_construction": "1983.0"
+    },
+    {
+      "address": "119 TARARIDGE CL NE",
+      "assessed_value": "452000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "TAR",
+      "comm_name": "TARADALE",
+      "cpid": "600264191",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.07",
+      "land_size_sf": "3098.0",
+      "land_size_sm": "287.8",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9389349,
+                51.1113054
+              ],
+              [
+                -113.9389352,
+                51.1115929
+              ],
+              [
+                -113.9390637,
+                51.1115929
+              ],
+              [
+                -113.9390634,
+                51.1113053
+              ],
+              [
+                -113.9389349,
+                51.1113054
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "452000.0",
+      "roll_number": "005016803",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026005016803600264191",
+      "year_of_construction": "1983.0"
+    },
+    {
+      "address": "117 TARARIDGE CL NE",
+      "assessed_value": "465000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "TAR",
+      "comm_name": "TARADALE",
+      "cpid": "590264190",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.07",
+      "land_size_sf": "3098.0",
+      "land_size_sm": "287.8",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9388064,
+                51.1113054
+              ],
+              [
+                -113.9388067,
+                51.111593
+              ],
+              [
+                -113.9389352,
+                51.1115929
+              ],
+              [
+                -113.9389349,
+                51.1113054
+              ],
+              [
+                -113.9388064,
+                51.1113054
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "465000.0",
+      "roll_number": "005016902",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026005016902590264190",
+      "year_of_construction": "1985.0"
+    },
+    {
+      "address": "107 TARARIDGE CL NE",
+      "assessed_value": "496000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "TAR",
+      "comm_name": "TARADALE",
+      "cpid": "330264164",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.07",
+      "land_size_sf": "3098.0",
+      "land_size_sm": "287.8",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9381981,
+                51.1113058
+              ],
+              [
+                -113.9381985,
+                51.1115933
+              ],
+              [
+                -113.938327,
+                51.1115933
+              ],
+              [
+                -113.9383266,
+                51.1113057
+              ],
+              [
+                -113.9381981,
+                51.1113058
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "496000.0",
+      "roll_number": "005017405",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026005017405330264164",
+      "year_of_construction": "1987.0"
+    },
+    {
+      "address": "1129 VARSITY ESTATES RI NW",
+      "assessed_value": "1190000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "VAR",
+      "comm_name": "VARSITY",
+      "cpid": "600211035",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.18",
+      "land_size_sf": "7916.0",
+      "land_size_sm": "735.4",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.1679717,
+                51.1003818
+              ],
+              [
+                -114.1684938,
+                51.1003816
+              ],
+              [
+                -114.1684937,
+                51.1002939
+              ],
+              [
+                -114.1684936,
+                51.1002008
+              ],
+              [
+                -114.1679715,
+                51.100201
+              ],
+              [
+                -114.1679717,
+                51.1003818
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1190000.0",
+      "roll_number": "018009001",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026018009001600211035",
+      "year_of_construction": "1971.0"
+    },
+    {
+      "address": "1127 VARSITY ESTATES RI NW",
+      "assessed_value": "1040000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "VAR",
+      "comm_name": "VARSITY",
+      "cpid": "590211034",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.19",
+      "land_size_sf": "8396.0",
+      "land_size_sm": "780.0",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.1679715,
+                51.100201
+              ],
+              [
+                -114.1684936,
+                51.1002008
+              ],
+              [
+                -114.1684935,
+                51.1001241
+              ],
+              [
+                -114.1684933,
+                51.1000091
+              ],
+              [
+                -114.1679712,
+                51.1000093
+              ],
+              [
+                -114.1679715,
+                51.100201
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1040000.0",
+      "roll_number": "018009100",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026018009100590211034",
+      "year_of_construction": "1971.0"
+    },
+    {
+      "address": "1125 VARSITY ESTATES RI NW",
+      "assessed_value": "1240000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "VAR",
+      "comm_name": "VARSITY",
+      "cpid": "580211033",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.19",
+      "land_size_sf": "8396.0",
+      "land_size_sm": "780.0",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-03-26T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.1679712,
+                51.1000093
+              ],
+              [
+                -114.1684933,
+                51.1000091
+              ],
+              [
+                -114.1684932,
+                51.0999515
+              ],
+              [
+                -114.168493,
+                51.0998173
+              ],
+              [
+                -114.1679709,
+                51.0998175
+              ],
+              [
+                -114.1679712,
+                51.1000093
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1240000.0",
+      "roll_number": "018009209",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026018009209580211033",
+      "year_of_construction": "1972.0"
+    },
+    {
+      "address": "1123 VARSITY ESTATES RI NW",
+      "assessed_value": "1220000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "VAR",
+      "comm_name": "VARSITY",
+      "cpid": "570211032",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.18",
+      "land_size_sf": "7916.0",
+      "land_size_sm": "735.4",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.1679709,
+                51.0998175
+              ],
+              [
+                -114.168493,
+                51.0998173
+              ],
+              [
+                -114.168493,
+                51.0997735
+              ],
+              [
+                -114.1684928,
+                51.0996365
+              ],
+              [
+                -114.1679707,
+                51.0996367
+              ],
+              [
+                -114.1679709,
+                51.0998175
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1220000.0",
+      "roll_number": "018009308",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026018009308570211032",
+      "year_of_construction": "1972.0"
+    },
+    {
+      "address": "5439 VALENTINE CR SE",
+      "assessed_value": "493500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "PEN",
+      "comm_name": "PENBROOKE MEADOWS",
+      "cpid": "190235826",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.14",
+      "land_size_sf": "5951.0",
+      "land_size_sm": "552.8000000000001",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9559474,
+                51.0387529
+              ],
+              [
+                -113.9559477,
+                51.0390789
+              ],
+              [
+                -113.956165,
+                51.0390788
+              ],
+              [
+                -113.9561649,
+                51.0387528
+              ],
+              [
+                -113.9559474,
+                51.0387529
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "493500.0",
+      "roll_number": "073012205",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026073012205190235826",
+      "year_of_construction": "1960.0"
+    },
+    {
+      "address": "5437 VALENTINE CR SE",
+      "assessed_value": "463000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "PEN",
+      "comm_name": "PENBROOKE MEADOWS",
+      "cpid": "180235825",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.14",
+      "land_size_sf": "5952.0",
+      "land_size_sm": "552.9",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9561649,
+                51.0387528
+              ],
+              [
+                -113.956165,
+                51.0390788
+              ],
+              [
+                -113.9563823,
+                51.0390787
+              ],
+              [
+                -113.9563824,
+                51.0387527
+              ],
+              [
+                -113.9561649,
+                51.0387528
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "463000.0",
+      "roll_number": "073012304",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026073012304180235825",
+      "year_of_construction": "1960.0"
+    },
+    {
+      "address": "5435 VALENTINE CR SE",
+      "assessed_value": "436000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "PEN",
+      "comm_name": "PENBROOKE MEADOWS",
+      "cpid": "170235824",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.14",
+      "land_size_sf": "5952.0",
+      "land_size_sm": "553.0",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9563824,
+                51.0387527
+              ],
+              [
+                -113.9563823,
+                51.0390787
+              ],
+              [
+                -113.9565995,
+                51.0390786
+              ],
+              [
+                -113.9565999,
+                51.0387525
+              ],
+              [
+                -113.9563824,
+                51.0387527
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "436000.0",
+      "roll_number": "073012403",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026073012403170235824",
+      "year_of_construction": "1960.0"
+    },
+    {
+      "address": "5433 VALENTINE CR SE",
+      "assessed_value": "441500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "PEN",
+      "comm_name": "PENBROOKE MEADOWS",
+      "cpid": "160235823",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.14",
+      "land_size_sf": "5953.0",
+      "land_size_sm": "553.0",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9565999,
+                51.0387525
+              ],
+              [
+                -113.9565995,
+                51.0390786
+              ],
+              [
+                -113.9568168,
+                51.0390785
+              ],
+              [
+                -113.9568174,
+                51.0387524
+              ],
+              [
+                -113.9565999,
+                51.0387525
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "441500.0",
+      "roll_number": "073012502",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026073012502160235823",
+      "year_of_construction": "1960.0"
+    },
+    {
+      "address": "103 SIGNAL HILL CO SW",
+      "assessed_value": "1020000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "SIG",
+      "comm_name": "SIGNAL HILL",
+      "cpid": "150276271",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.17",
+      "land_size_sf": "7268.0",
+      "land_size_sm": "675.2",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.1682763,
+                51.0304315
+              ],
+              [
+                -114.1685186,
+                51.0304318
+              ],
+              [
+                -114.1685197,
+                51.0300712
+              ],
+              [
+                -114.1683558,
+                51.0300616
+              ],
+              [
+                -114.1682876,
+                51.0300982
+              ],
+              [
+                -114.1682796,
+                51.0302053
+              ],
+              [
+                -114.1682767,
+                51.0303126
+              ],
+              [
+                -114.1682763,
+                51.0304315
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1020000.0",
+      "roll_number": "084003508",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026084003508150276271",
+      "year_of_construction": "1987.0"
+    },
+    {
+      "address": "107 SIGNAL HILL CO SW",
+      "assessed_value": "923000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "SIG",
+      "comm_name": "SIGNAL HILL",
+      "cpid": "160276272",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.14",
+      "land_size_sf": "6250.0",
+      "land_size_sm": "580.6",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.1685186,
+                51.0304318
+              ],
+              [
+                -114.1687323,
+                51.0304321
+              ],
+              [
+                -114.1687333,
+                51.0301137
+              ],
+              [
+                -114.1687015,
+                51.030099
+              ],
+              [
+                -114.1686664,
+                51.0300875
+              ],
+              [
+                -114.1686289,
+                51.0300796
+              ],
+              [
+                -114.1685899,
+                51.0300753
+              ],
+              [
+                -114.1685197,
+                51.0300712
+              ],
+              [
+                -114.1685186,
+                51.0304318
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "923000.0",
+      "roll_number": "084003607",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026084003607160276272",
+      "year_of_construction": "1987.0"
+    },
+    {
+      "address": "111 SIGNAL HILL CO SW",
+      "assessed_value": "912000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "SIG",
+      "comm_name": "SIGNAL HILL",
+      "cpid": "420276298",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.13",
+      "land_size_sf": "5572.0",
+      "land_size_sm": "517.7",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.1687323,
+                51.0304321
+              ],
+              [
+                -114.1690035,
+                51.0304324
+              ],
+              [
+                -114.1689319,
+                51.0301587
+              ],
+              [
+                -114.1689068,
+                51.0301603
+              ],
+              [
+                -114.1688816,
+                51.0301601
+              ],
+              [
+                -114.1688566,
+                51.030158
+              ],
+              [
+                -114.1688322,
+                51.0301541
+              ],
+              [
+                -114.1688086,
+                51.0301484
+              ],
+              [
+                -114.1687863,
+                51.030141
+              ],
+              [
+                -114.1687656,
+                51.030132
+              ],
+              [
+                -114.1687467,
+                51.0301215
+              ],
+              [
+                -114.1687333,
+                51.0301137
+              ],
+              [
+                -114.1687323,
+                51.0304321
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "912000.0",
+      "roll_number": "084003706",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026084003706420276298",
+      "year_of_construction": "1987.0"
+    },
+    {
+      "address": "115 SIGNAL HILL CO SW",
+      "assessed_value": "931500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "SIG",
+      "comm_name": "SIGNAL HILL",
+      "cpid": "170276273",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.21",
+      "land_size_sf": "8945.0",
+      "land_size_sm": "831.0",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.1690035,
+                51.0304324
+              ],
+              [
+                -114.1695731,
+                51.030433
+              ],
+              [
+                -114.1690516,
+                51.0301188
+              ],
+              [
+                -114.169026,
+                51.0301332
+              ],
+              [
+                -114.1689969,
+                51.0301449
+              ],
+              [
+                -114.1689653,
+                51.0301534
+              ],
+              [
+                -114.1689319,
+                51.0301587
+              ],
+              [
+                -114.1690035,
+                51.0304324
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "931500.0",
+      "roll_number": "084003805",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026084003805170276273",
+      "year_of_construction": "1987.0"
+    },
+    {
+      "address": "71 LAKE WAPTA RI SE",
+      "assessed_value": "902000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "LKB",
+      "comm_name": "LAKE BONAVISTA",
+      "cpid": "500113734",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.19",
+      "land_size_sf": "8422.0",
+      "land_size_sm": "782.4",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.040838,
+                50.9471399
+              ],
+              [
+                -114.0412468,
+                50.947397
+              ],
+              [
+                -114.0412991,
+                50.9473695
+              ],
+              [
+                -114.0413486,
+                50.94734
+              ],
+              [
+                -114.0413952,
+                50.9473086
+              ],
+              [
+                -114.0414385,
+                50.9472755
+              ],
+              [
+                -114.04103,
+                50.947018
+              ],
+              [
+                -114.040838,
+                50.9471399
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "902000.0",
+      "roll_number": "140017807",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026140017807500113734",
+      "year_of_construction": "1969.0"
+    },
+    {
+      "address": "75 LAKE WAPTA RI SE",
+      "assessed_value": "863500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "LKB",
+      "comm_name": "LAKE BONAVISTA",
+      "cpid": "510113735",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.19",
+      "land_size_sf": "8438.0",
+      "land_size_sm": "783.9",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.040685,
+                50.9472369
+              ],
+              [
+                -114.040915,
+                50.9475096
+              ],
+              [
+                -114.0409596,
+                50.9474995
+              ],
+              [
+                -114.0410034,
+                50.9474883
+              ],
+              [
+                -114.0410464,
+                50.9474759
+              ],
+              [
+                -114.0410886,
+                50.9474623
+              ],
+              [
+                -114.0411298,
+                50.9474476
+              ],
+              [
+                -114.0411699,
+                50.9474318
+              ],
+              [
+                -114.041209,
+                50.9474149
+              ],
+              [
+                -114.0412468,
+                50.947397
+              ],
+              [
+                -114.040838,
+                50.9471399
+              ],
+              [
+                -114.040685,
+                50.9472369
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "863500.0",
+      "roll_number": "140017906",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026140017906510113735",
+      "year_of_construction": "1969.0"
+    },
+    {
+      "address": "79 LAKE WAPTA RI SE",
+      "assessed_value": "787500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "LKB",
+      "comm_name": "LAKE BONAVISTA",
+      "cpid": "520113736",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.16",
+      "land_size_sf": "6784.0",
+      "land_size_sm": "630.2",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0404933,
+                50.9472604
+              ],
+              [
+                -114.0405841,
+                50.9475563
+              ],
+              [
+                -114.0407757,
+                50.9475328
+              ],
+              [
+                -114.040846,
+                50.9475226
+              ],
+              [
+                -114.040915,
+                50.9475096
+              ],
+              [
+                -114.040685,
+                50.9472369
+              ],
+              [
+                -114.0404933,
+                50.9472604
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "787500.0",
+      "roll_number": "140018003",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026140018003520113736",
+      "year_of_construction": "1969.0"
+    },
+    {
+      "address": "83 LAKE WAPTA RI SE",
+      "assessed_value": "901000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "LKB",
+      "comm_name": "LAKE BONAVISTA",
+      "cpid": "530113737",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.14",
+      "land_size_sf": "6048.0",
+      "land_size_sm": "561.9",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0402592,
+                50.947289
+              ],
+              [
+                -114.04035,
+                50.9475849
+              ],
+              [
+                -114.0405841,
+                50.9475563
+              ],
+              [
+                -114.0404933,
+                50.9472604
+              ],
+              [
+                -114.0402592,
+                50.947289
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "901000.0",
+      "roll_number": "140018102",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026140018102530113737",
+      "year_of_construction": "1969.0"
+    },
+    {
+      "address": "1504 EVERGREEN HL SW",
+      "assessed_value": "1060000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "EVE",
+      "comm_name": "EVERGREEN",
+      "cpid": "250104979",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.19",
+      "land_size_sf": "8331.0",
+      "land_size_sm": "774.0",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0949596,
+                50.9310429
+              ],
+              [
+                -114.0950906,
+                50.9311253
+              ],
+              [
+                -114.0953601,
+                50.9308358
+              ],
+              [
+                -114.0953038,
+                50.9308104
+              ],
+              [
+                -114.0952452,
+                50.9307872
+              ],
+              [
+                -114.0951847,
+                50.930766
+              ],
+              [
+                -114.0951223,
+                50.9307471
+              ],
+              [
+                -114.0950834,
+                50.9307385
+              ],
+              [
+                -114.0950428,
+                50.9307339
+              ],
+              [
+                -114.0950015,
+                50.9307335
+              ],
+              [
+                -114.0949607,
+                50.9307373
+              ],
+              [
+                -114.0949596,
+                50.9310429
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1060000.0",
+      "roll_number": "146029707",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026146029707250104979",
+      "year_of_construction": "1989.0"
+    },
+    {
+      "address": "1508 EVERGREEN HL SW",
+      "assessed_value": "1090000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "EVE",
+      "comm_name": "EVERGREEN",
+      "cpid": "20104956",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.17",
+      "land_size_sf": "7313.0",
+      "land_size_sm": "679.4",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0950906,
+                50.9311253
+              ],
+              [
+                -114.0952522,
+                50.931227
+              ],
+              [
+                -114.0955729,
+                50.9309663
+              ],
+              [
+                -114.0955246,
+                50.9309307
+              ],
+              [
+                -114.0954729,
+                50.9308969
+              ],
+              [
+                -114.095418,
+                50.9308653
+              ],
+              [
+                -114.0953601,
+                50.9308358
+              ],
+              [
+                -114.0950906,
+                50.9311253
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1090000.0",
+      "roll_number": "146029806",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202614602980620104956",
+      "year_of_construction": "1990.0"
+    },
+    {
+      "address": "1512 EVERGREEN HL SW",
+      "assessed_value": "1020000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "EVE",
+      "comm_name": "EVERGREEN",
+      "cpid": "30104957",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.15",
+      "land_size_sf": "6749.0",
+      "land_size_sm": "626.9",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0952522,
+                50.931227
+              ],
+              [
+                -114.0954319,
+                50.93134
+              ],
+              [
+                -114.0957324,
+                50.9310959
+              ],
+              [
+                -114.0956756,
+                50.9310534
+              ],
+              [
+                -114.0956232,
+                50.9310088
+              ],
+              [
+                -114.0955729,
+                50.9309663
+              ],
+              [
+                -114.0952522,
+                50.931227
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1020000.0",
+      "roll_number": "146029905",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202614602990530104957",
+      "year_of_construction": "1990.0"
+    },
+    {
+      "address": "1516 EVERGREEN HL SW",
+      "assessed_value": "1010000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "EVE",
+      "comm_name": "EVERGREEN",
+      "cpid": "40104958",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.15",
+      "land_size_sf": "6560.0",
+      "land_size_sm": "609.4",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0954319,
+                50.93134
+              ],
+              [
+                -114.0956116,
+                50.9314531
+              ],
+              [
+                -114.0959173,
+                50.9312048
+              ],
+              [
+                -114.0958682,
+                50.9311796
+              ],
+              [
+                -114.095821,
+                50.931153
+              ],
+              [
+                -114.0957757,
+                50.931125
+              ],
+              [
+                -114.0957324,
+                50.9310959
+              ],
+              [
+                -114.0954319,
+                50.93134
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1010000.0",
+      "roll_number": "146030002",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202614603000240104958",
+      "year_of_construction": "1991.0"
+    },
+    {
+      "address": "56 MT DOUGLAS PT SE",
+      "assessed_value": "1420000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "MCK",
+      "comm_name": "MCKENZIE LAKE",
+      "cpid": "562406",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.2",
+      "land_size_sf": "8754.0",
+      "land_size_sm": "813.2",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9866727,
+                50.9297578
+              ],
+              [
+                -113.9867229,
+                50.9299135
+              ],
+              [
+                -113.987364,
+                50.929831
+              ],
+              [
+                -113.9873138,
+                50.9296753
+              ],
+              [
+                -113.9866727,
+                50.9297578
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1420000.0",
+      "roll_number": "151020203",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026151020203562406",
+      "year_of_construction": "2000.0"
+    },
+    {
+      "address": "64 MT DOUGLAS PT SE",
+      "assessed_value": "1510000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "MCK",
+      "comm_name": "MCKENZIE LAKE",
+      "cpid": "20562408",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.2",
+      "land_size_sf": "8754.0",
+      "land_size_sm": "813.2",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9865705,
+                50.9294411
+              ],
+              [
+                -113.9866207,
+                50.9295968
+              ],
+              [
+                -113.9872618,
+                50.9295142
+              ],
+              [
+                -113.9872115,
+                50.9293586
+              ],
+              [
+                -113.9865705,
+                50.9294411
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1510000.0",
+      "roll_number": "151020401",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202615102040120562408",
+      "year_of_construction": "2001.0"
+    },
+    {
+      "address": "72 MT DOUGLAS PT SE",
+      "assessed_value": "1470000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "MCK",
+      "comm_name": "MCKENZIE LAKE",
+      "cpid": "40562410",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.2",
+      "land_size_sf": "8721.0",
+      "land_size_sm": "810.1",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9864873,
+                50.929122
+              ],
+              [
+                -113.9864838,
+                50.9291376
+              ],
+              [
+                -113.9864827,
+                50.9291534
+              ],
+              [
+                -113.9864841,
+                50.9291692
+              ],
+              [
+                -113.9864878,
+                50.9291848
+              ],
+              [
+                -113.9865186,
+                50.9292801
+              ],
+              [
+                -113.9871597,
+                50.9291975
+              ],
+              [
+                -113.9871094,
+                50.9290419
+              ],
+              [
+                -113.9864873,
+                50.929122
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "1470000.0",
+      "roll_number": "151020609",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202615102060940562410",
+      "year_of_construction": "1998.0"
+    },
+    {
+      "address": "100 MT DOUGLAS PT SE",
+      "assessed_value": "801000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "MCK",
+      "comm_name": "MCKENZIE LAKE",
+      "cpid": "100562416",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.12",
+      "land_size_sf": "5305.0",
+      "land_size_sm": "492.8",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9852504,
+                50.9286648
+              ],
+              [
+                -113.9852503,
+                50.9289673
+              ],
+              [
+                -113.9854583,
+                50.9289673
+              ],
+              [
+                -113.9854584,
+                50.9286645
+              ],
+              [
+                -113.9853977,
+                50.9286646
+              ],
+              [
+                -113.9852504,
+                50.9286648
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "801000.0",
+      "roll_number": "151021201",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026151021201100562416",
+      "year_of_construction": "1998.0"
+    },
+    {
+      "address": "10 ROYAL CREST TC NW",
+      "assessed_value": "761000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "ROY",
+      "comm_name": "ROYAL OAK",
+      "cpid": "600552281",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4908.0",
+      "land_size_sm": "456.0",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.2198366,
+                51.1392555
+              ],
+              [
+                -114.2198748,
+                51.1392886
+              ],
+              [
+                -114.2202677,
+                51.1391089
+              ],
+              [
+                -114.2201551,
+                51.1390114
+              ],
+              [
+                -114.2197621,
+                51.1391911
+              ],
+              [
+                -114.2198366,
+                51.1392555
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "761000.0",
+      "roll_number": "174028209",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026174028209600552281",
+      "year_of_construction": "1998.0"
+    },
+    {
+      "address": "6 ROYAL CREST TC NW",
+      "assessed_value": "769500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "ROY",
+      "comm_name": "ROYAL OAK",
+      "cpid": "590552280",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4908.0",
+      "land_size_sm": "456.0",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.2198748,
+                51.1392886
+              ],
+              [
+                -114.2199875,
+                51.1393861
+              ],
+              [
+                -114.2203804,
+                51.1392064
+              ],
+              [
+                -114.2202677,
+                51.1391089
+              ],
+              [
+                -114.2198748,
+                51.1392886
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "769500.0",
+      "roll_number": "174028308",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026174028308590552280",
+      "year_of_construction": "1997.0"
+    },
+    {
+      "address": "2 ROYAL CREST TC NW",
+      "assessed_value": "768500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "ROY",
+      "comm_name": "ROYAL OAK",
+      "cpid": "580552279",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.14",
+      "land_size_sf": "5975.0",
+      "land_size_sm": "555.1",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.2200031,
+                51.1393996
+              ],
+              [
+                -114.2201547,
+                51.1395308
+              ],
+              [
+                -114.2204486,
+                51.139333
+              ],
+              [
+                -114.2204547,
+                51.1392707
+              ],
+              [
+                -114.2203804,
+                51.1392064
+              ],
+              [
+                -114.2199875,
+                51.1393861
+              ],
+              [
+                -114.2200031,
+                51.1393996
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "768500.0",
+      "roll_number": "174028407",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026174028407580552279",
+      "year_of_construction": "1997.0"
+    },
+    {
+      "address": "116 ROYAL CREST TC NW",
+      "assessed_value": "869000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "ROY",
+      "comm_name": "ROYAL OAK",
+      "cpid": "410557015",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.15",
+      "land_size_sf": "6325.0",
+      "land_size_sm": "587.6",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.2186786,
+                51.1401033
+              ],
+              [
+                -114.2187756,
+                51.1401873
+              ],
+              [
+                -114.2188689,
+                51.1401995
+              ],
+              [
+                -114.2189747,
+                51.1401605
+              ],
+              [
+                -114.219103,
+                51.1401114
+              ],
+              [
+                -114.2192283,
+                51.1400594
+              ],
+              [
+                -114.2190715,
+                51.1399237
+              ],
+              [
+                -114.2186786,
+                51.1401033
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "869000.0",
+      "roll_number": "174029306",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026174029306410557015",
+      "year_of_construction": "1997.0"
+    },
+    {
+      "address": "38 PANORAMA HILLS GR NW",
+      "assessed_value": "769000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "PAN",
+      "comm_name": "PANORAMA HILLS",
+      "cpid": "100538845",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4910.0",
+      "land_size_sm": "456.1",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0785099,
+                51.1480746
+              ],
+              [
+                -114.0785856,
+                51.1481736
+              ],
+              [
+                -114.0790106,
+                51.1480451
+              ],
+              [
+                -114.0789308,
+                51.1479408
+              ],
+              [
+                -114.0784941,
+                51.1480539
+              ],
+              [
+                -114.0785099,
+                51.1480746
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "769000.0",
+      "roll_number": "445032105",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026445032105100538845",
+      "year_of_construction": "1995.0"
+    },
+    {
+      "address": "42 PANORAMA HILLS GR NW",
+      "assessed_value": "712000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "PAN",
+      "comm_name": "PANORAMA HILLS",
+      "cpid": "110538846",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4944.0",
+      "land_size_sm": "459.3",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0784329,
+                51.1479642
+              ],
+              [
+                -114.0784485,
+                51.1479943
+              ],
+              [
+                -114.0784941,
+                51.1480539
+              ],
+              [
+                -114.0789308,
+                51.1479408
+              ],
+              [
+                -114.0788936,
+                51.1478881
+              ],
+              [
+                -114.0788615,
+                51.1478341
+              ],
+              [
+                -114.0784149,
+                51.1479294
+              ],
+              [
+                -114.0784329,
+                51.1479642
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "712000.0",
+      "roll_number": "445032204",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026445032204110538846",
+      "year_of_construction": "1996.0"
+    },
+    {
+      "address": "48 PANORAMA HILLS GR NW",
+      "assessed_value": "815000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "PAN",
+      "comm_name": "PANORAMA HILLS",
+      "cpid": "120538847",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4859.0",
+      "land_size_sm": "451.40000000000003",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0783515,
+                51.1478072
+              ],
+              [
+                -114.0784149,
+                51.1479294
+              ],
+              [
+                -114.0788615,
+                51.1478341
+              ],
+              [
+                -114.0788558,
+                51.1478232
+              ],
+              [
+                -114.0788035,
+                51.1477224
+              ],
+              [
+                -114.0783515,
+                51.1478072
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "815000.0",
+      "roll_number": "445032303",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026445032303120538847",
+      "year_of_construction": "1996.0"
+    },
+    {
+      "address": "52 PANORAMA HILLS GR NW",
+      "assessed_value": "717500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "PAN",
+      "comm_name": "PANORAMA HILLS",
+      "cpid": "130538848",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4767.0",
+      "land_size_sm": "442.90000000000003",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -114.0783487,
+                51.1478018
+              ],
+              [
+                -114.0783515,
+                51.1478072
+              ],
+              [
+                -114.0788035,
+                51.1477224
+              ],
+              [
+                -114.0787626,
+                51.1476435
+              ],
+              [
+                -114.0787552,
+                51.1476252
+              ],
+              [
+                -114.0787515,
+                51.1476065
+              ],
+              [
+                -114.0782922,
+                51.1476927
+              ],
+              [
+                -114.0783487,
+                51.1478018
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "717500.0",
+      "roll_number": "445032402",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026445032402130538848",
+      "year_of_construction": "1997.0"
+    },
+    {
+      "address": "6924 15 AV SE",
+      "assessed_value": "470500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "APP",
+      "comm_name": "APPLEWOOD PARK",
+      "cpid": "50233096",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.12",
+      "land_size_sf": "5404.0",
+      "land_size_sm": "502.0",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9339366,
+                51.0397501
+              ],
+              [
+                -113.9338181,
+                51.0397502
+              ],
+              [
+                -113.9337945,
+                51.0397517
+              ],
+              [
+                -113.9337717,
+                51.039756
+              ],
+              [
+                -113.9337508,
+                51.0397631
+              ],
+              [
+                -113.9337324,
+                51.0397726
+              ],
+              [
+                -113.9337174,
+                51.0397841
+              ],
+              [
+                -113.9337062,
+                51.0397973
+              ],
+              [
+                -113.9336993,
+                51.0398116
+              ],
+              [
+                -113.933697,
+                51.0398265
+              ],
+              [
+                -113.9336968,
+                51.0400273
+              ],
+              [
+                -113.9339363,
+                51.0400274
+              ],
+              [
+                -113.9339366,
+                51.0397501
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "470500.0",
+      "roll_number": "579002403",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202657900240350233096",
+      "year_of_construction": "1982.0"
+    },
+    {
+      "address": "6920 15 AV SE",
+      "assessed_value": "465000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "APP",
+      "comm_name": "APPLEWOOD PARK",
+      "cpid": "40233095",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4614.0",
+      "land_size_sm": "428.6",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9339366,
+                51.0397501
+              ],
+              [
+                -113.9339363,
+                51.0400274
+              ],
+              [
+                -113.9341345,
+                51.0400274
+              ],
+              [
+                -113.9341347,
+                51.0397501
+              ],
+              [
+                -113.9339366,
+                51.0397501
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "465000.0",
+      "roll_number": "579002502",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202657900250240233095",
+      "year_of_construction": "1982.0"
+    },
+    {
+      "address": "6916 15 AV SE",
+      "assessed_value": "484500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "APP",
+      "comm_name": "APPLEWOOD PARK",
+      "cpid": "30233094",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.1",
+      "land_size_sf": "4384.0",
+      "land_size_sm": "407.3",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9341347,
+                51.0397501
+              ],
+              [
+                -113.9341345,
+                51.0400274
+              ],
+              [
+                -113.9343226,
+                51.0400275
+              ],
+              [
+                -113.9343229,
+                51.03975
+              ],
+              [
+                -113.9341347,
+                51.0397501
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "484500.0",
+      "roll_number": "579002601",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202657900260130233094",
+      "year_of_construction": "1982.0"
+    },
+    {
+      "address": "6912 15 AV SE",
+      "assessed_value": "502000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "APP",
+      "comm_name": "APPLEWOOD PARK",
+      "cpid": "20233093",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.1",
+      "land_size_sf": "4386.0",
+      "land_size_sm": "407.40000000000003",
+      "land_use_designation": "R-CG",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9343229,
+                51.03975
+              ],
+              [
+                -113.9343226,
+                51.0400275
+              ],
+              [
+                -113.9345108,
+                51.0400276
+              ],
+              [
+                -113.934511,
+                51.03975
+              ],
+              [
+                -113.9343229,
+                51.03975
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "502000.0",
+      "roll_number": "579002700",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "202657900270020233093",
+      "year_of_construction": "1982.0"
+    },
+    {
+      "address": "6 CRANSTON PL SE",
+      "assessed_value": "737000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "CRA",
+      "comm_name": "CRANSTON",
+      "cpid": "100576578",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4913.0",
+      "land_size_sm": "456.40000000000003",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9877996,
+                50.8913164
+              ],
+              [
+                -113.9874414,
+                50.8915562
+              ],
+              [
+                -113.9875567,
+                50.8916388
+              ],
+              [
+                -113.9879198,
+                50.8913957
+              ],
+              [
+                -113.9878965,
+                50.8913745
+              ],
+              [
+                -113.9878702,
+                50.8913549
+              ],
+              [
+                -113.987841,
+                50.8913369
+              ],
+              [
+                -113.9878092,
+                50.8913207
+              ],
+              [
+                -113.9877996,
+                50.8913164
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "737000.0",
+      "roll_number": "792006702",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026792006702100576578",
+      "year_of_construction": "2001.0"
+    },
+    {
+      "address": "10 CRANSTON PL SE",
+      "assessed_value": "788500.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "CRA",
+      "comm_name": "CRANSTON",
+      "cpid": "110576579",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.11",
+      "land_size_sf": "4831.0",
+      "land_size_sm": "448.8",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9879537,
+                50.8914377
+              ],
+              [
+                -113.9879382,
+                50.8914163
+              ],
+              [
+                -113.9879198,
+                50.8913957
+              ],
+              [
+                -113.9875567,
+                50.8916388
+              ],
+              [
+                -113.9876818,
+                50.8917285
+              ],
+              [
+                -113.9880113,
+                50.8914889
+              ],
+              [
+                -113.9879934,
+                50.8914778
+              ],
+              [
+                -113.9879777,
+                50.8914655
+              ],
+              [
+                -113.9879644,
+                50.891452
+              ],
+              [
+                -113.9879537,
+                50.8914377
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "788500.0",
+      "roll_number": "792006801",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026792006801110576579",
+      "year_of_construction": "1999.0"
+    },
+    {
+      "address": "14 CRANSTON PL SE",
+      "assessed_value": "786000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "CRA",
+      "comm_name": "CRANSTON",
+      "cpid": "120576580",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.16",
+      "land_size_sf": "6910.0",
+      "land_size_sm": "641.9",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9881033,
+                50.8915186
+              ],
+              [
+                -113.9880783,
+                50.8915139
+              ],
+              [
+                -113.9880544,
+                50.8915073
+              ],
+              [
+                -113.988032,
+                50.8914989
+              ],
+              [
+                -113.9880113,
+                50.8914889
+              ],
+              [
+                -113.9876818,
+                50.8917285
+              ],
+              [
+                -113.9878769,
+                50.8918683
+              ],
+              [
+                -113.9879825,
+                50.8918499
+              ],
+              [
+                -113.9881033,
+                50.8915186
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "786000.0",
+      "roll_number": "792006900",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026792006900120576580",
+      "year_of_construction": "1999.0"
+    },
+    {
+      "address": "18 CRANSTON PL SE",
+      "assessed_value": "838000.0",
+      "assessment_class": "RE",
+      "assessment_class_description": "Residential",
+      "comm_code": "CRA",
+      "comm_name": "CRANSTON",
+      "cpid": "130576581",
+      "fl_assessed_value": "0.0",
+      "land_size_ac": "0.13",
+      "land_size_sf": "5623.0",
+      "land_size_sm": "522.4",
+      "land_use_designation": "R-G",
+      "mod_date": "2026-01-14T00:00:00.000Z",
+      "multipolygon": {
+        "coordinates": [
+          [
+            [
+              [
+                -113.9881033,
+                50.8915186
+              ],
+              [
+                -113.9879825,
+                50.8918499
+              ],
+              [
+                -113.9880571,
+                50.891837
+              ],
+              [
+                -113.9883227,
+                50.8917907
+              ],
+              [
+                -113.9882066,
+                50.8915174
+              ],
+              [
+                -113.988181,
+                50.8915207
+              ],
+              [
+                -113.9881551,
+                50.891522
+              ],
+              [
+                -113.988129,
+                50.8915213
+              ],
+              [
+                -113.9881033,
+                50.8915186
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "nr_assessed_value": "0.0",
+      "property_type": "LI",
+      "re_assessed_value": "838000.0",
+      "roll_number": "792007007",
+      "roll_year": "2026",
+      "sub_property_use": "R110",
+      "unique_key": "2026792007007130576581",
+      "year_of_construction": "2001.0"
+    }
+  ]
+}

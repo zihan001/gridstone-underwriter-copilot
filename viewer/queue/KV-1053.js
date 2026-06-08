@@ -21,7 +21,7 @@ window.MEMO = (function () {
   // All data (computed by the deterministic core) is spliced in here.
   const DATA = {
   "meta": {
-    "caseId": "KV-CMP-2026-0-01",
+    "caseId": "KV-CMP-2026-3901",
     "snapshot": "2026-06-01T00:00:00-06:00",
     "effectiveDate": "2026-06-01",
     "approach": "Sales Comparison Approach",
@@ -150,20 +150,20 @@ window.MEMO = (function () {
   "subject": {
     "real": true,
     "provenance": "source: open_calgary_assessment",
-    "roll": "047·12·330·01",
-    "addr": "38xx Marbank Drive NE",
+    "roll": "004003901",
+    "addr": "808 SADDLECREEK WY NE",
     "addrNote": "civic address partially masked for review packet",
     "community": "North East district",
     "district": "North East",
     "quadrant": "NE",
-    "landUse": "R-C1 · Residential Contextual One Dwelling",
-    "assessedValue": 561000,
+    "landUse": "R-G · Residential Contextual One Dwelling",
+    "assessedValue": 654000,
     "assessmentRollYear": 2026,
     "assessmentValDate": "2025-07-01",
-    "ppsfAssessed": 452,
+    "ppsfAssessed": 546,
     "propertyType": "Single-family detached",
-    "gla": 1240,
-    "lot": 4800,
+    "gla": 1198,
+    "lot": 4296,
     "beds": 3,
     "bathFull": 2,
     "bathHalf": 1,
@@ -172,11 +172,11 @@ window.MEMO = (function () {
     "walkout": false,
     "garageStalls": 2,
     "garageType": "attached",
-    "yearBuilt": 1980,
+    "yearBuilt": 1999,
     "effDate": "2026-06-01",
     "condition": "C3",
     "quality": "Q3",
-    "age": 46,
+    "age": 27,
     "attrs": [
       [
         "Property type",
@@ -184,11 +184,11 @@ window.MEMO = (function () {
       ],
       [
         "Above-grade GLA",
-        "1,240 sf"
+        "1,198 sf"
       ],
       [
         "Site / lot",
-        "4,800 sf"
+        "4,296 sf"
       ],
       [
         "Bedrooms",
@@ -208,7 +208,7 @@ window.MEMO = (function () {
       ],
       [
         "Year built",
-        "1980 (46 yr)"
+        "1999 (27 yr)"
       ],
       [
         "Condition rating",
@@ -220,7 +220,7 @@ window.MEMO = (function () {
       ],
       [
         "Land use",
-        "R-C1"
+        "R-G"
       ],
       [
         "Effective date",
@@ -241,14 +241,14 @@ window.MEMO = (function () {
       "contractDate": "2026-04-22",
       "contractMonth": "2026-04",
       "ageDays": 40,
-      "price": 549386,
-      "gla": 1150,
-      "lot": 4800,
+      "price": 558994,
+      "gla": 1108,
+      "lot": 4296,
       "beds": 3,
       "baths": "2F / 1H",
       "basement": "600 sf fin",
       "garage": "2 · att.",
-      "built": 1980,
+      "built": 1999,
       "cond": "C3",
       "qual": "Q3",
       "tier": 0,
@@ -257,13 +257,13 @@ window.MEMO = (function () {
         {
           "key": "gla",
           "label": "Above-grade GLA",
-          "sub": "1,150 sf (−90)",
+          "sub": "1,108 sf (−90)",
           "adj": 7650
         },
         {
           "key": "lot",
           "label": "Site / lot",
-          "sub": "4,800 sf (=)",
+          "sub": "4,296 sf (=)",
           "adj": 0
         },
         {
@@ -293,7 +293,7 @@ window.MEMO = (function () {
         {
           "key": "age",
           "label": "Age / eff-age",
-          "sub": "1980 (=)",
+          "sub": "1999 (=)",
           "adj": 0
         },
         {
@@ -320,11 +320,11 @@ window.MEMO = (function () {
       "timeAdj": 600,
       "net": 8250,
       "gross": 8250,
-      "adjusted": 557636,
-      "netPct": 1.5017,
-      "grossPct": 1.5017,
-      "linePct": 1.3925,
-      "ppsf": 478
+      "adjusted": 567244,
+      "netPct": 1.4759,
+      "grossPct": 1.4759,
+      "linePct": 1.3685,
+      "ppsf": 505
     },
     {
       "id": "G-B",
@@ -338,14 +338,14 @@ window.MEMO = (function () {
       "contractDate": "2026-03-23",
       "contractMonth": "2026-03",
       "ageDays": 70,
-      "price": 563813,
-      "gla": 1320,
-      "lot": 4800,
+      "price": 573424,
+      "gla": 1278,
+      "lot": 4296,
       "beds": 3,
       "baths": "2F / 1H",
       "basement": "600 sf fin",
       "garage": "2 · att.",
-      "built": 1980,
+      "built": 1999,
       "cond": "C3",
       "qual": "Q3",
       "tier": 0,
@@ -354,13 +354,13 @@ window.MEMO = (function () {
         {
           "key": "gla",
           "label": "Above-grade GLA",
-          "sub": "1,320 sf (+80)",
+          "sub": "1,278 sf (+80)",
           "adj": -6800
         },
         {
           "key": "lot",
           "label": "Site / lot",
-          "sub": "4,800 sf (=)",
+          "sub": "4,296 sf (=)",
           "adj": 0
         },
         {
@@ -390,7 +390,7 @@ window.MEMO = (function () {
         {
           "key": "age",
           "label": "Age / eff-age",
-          "sub": "1980 (=)",
+          "sub": "1999 (=)",
           "adj": 0
         },
         {
@@ -409,19 +409,19 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-03-23 → 2026-06-01",
-          "adj": 3750
+          "adj": 3800
         }
       ],
       "tf": 0.00665,
       "bmContract": 741300,
-      "timeAdj": 3750,
-      "net": -3050,
-      "gross": 10550,
-      "adjusted": 560763,
-      "netPct": -0.541,
-      "grossPct": 1.8712,
-      "linePct": 1.2061,
-      "ppsf": 427
+      "timeAdj": 3800,
+      "net": -3000,
+      "gross": 10600,
+      "adjusted": 570424,
+      "netPct": -0.5232,
+      "grossPct": 1.8485,
+      "linePct": 1.1859,
+      "ppsf": 449
     },
     {
       "id": "G-C",
@@ -435,14 +435,14 @@ window.MEMO = (function () {
       "contractDate": "2026-04-02",
       "contractMonth": "2026-04",
       "ageDays": 60,
-      "price": 559219,
-      "gla": 1260,
-      "lot": 4800,
+      "price": 568838,
+      "gla": 1218,
+      "lot": 4296,
       "beds": 3,
       "baths": "2F / 1H",
       "basement": "600 sf fin",
       "garage": "2 · att.",
-      "built": 1980,
+      "built": 1999,
       "cond": "C3",
       "qual": "Q3",
       "tier": 1,
@@ -453,13 +453,13 @@ window.MEMO = (function () {
         {
           "key": "gla",
           "label": "Above-grade GLA",
-          "sub": "1,260 sf (+20)",
+          "sub": "1,218 sf (+20)",
           "adj": -1700
         },
         {
           "key": "lot",
           "label": "Site / lot",
-          "sub": "4,800 sf (=)",
+          "sub": "4,296 sf (=)",
           "adj": 0
         },
         {
@@ -489,7 +489,7 @@ window.MEMO = (function () {
         {
           "key": "age",
           "label": "Age / eff-age",
-          "sub": "1980 (=)",
+          "sub": "1999 (=)",
           "adj": 0
         },
         {
@@ -508,19 +508,19 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-04-02 → 2026-06-01",
-          "adj": 2750
+          "adj": 2800
         }
       ],
       "tf": 0.004931,
       "bmContract": 486700,
-      "timeAdj": 2750,
-      "net": 1050,
-      "gross": 4450,
-      "adjusted": 560269,
-      "netPct": 0.1878,
-      "grossPct": 0.7958,
-      "linePct": 0.4918,
-      "ppsf": 444
+      "timeAdj": 2800,
+      "net": 1100,
+      "gross": 4500,
+      "adjusted": 569938,
+      "netPct": 0.1934,
+      "grossPct": 0.7911,
+      "linePct": 0.4922,
+      "ppsf": 467
     },
     {
       "id": "G-D",
@@ -534,14 +534,14 @@ window.MEMO = (function () {
       "contractDate": "2026-03-01",
       "contractMonth": "2026-03",
       "ageDays": 92,
-      "price": 560288,
-      "gla": 1200,
-      "lot": 4800,
+      "price": 570013,
+      "gla": 1158,
+      "lot": 4296,
       "beds": 3,
       "baths": "2F / 1H",
       "basement": "600 sf fin",
       "garage": "2 · att.",
-      "built": 1980,
+      "built": 1999,
       "cond": "C3",
       "qual": "Q3",
       "tier": 1,
@@ -552,13 +552,13 @@ window.MEMO = (function () {
         {
           "key": "gla",
           "label": "Above-grade GLA",
-          "sub": "1,200 sf (−40)",
+          "sub": "1,158 sf (−40)",
           "adj": 3400
         },
         {
           "key": "lot",
           "label": "Site / lot",
-          "sub": "4,800 sf (=)",
+          "sub": "4,296 sf (=)",
           "adj": 0
         },
         {
@@ -588,7 +588,7 @@ window.MEMO = (function () {
         {
           "key": "age",
           "label": "Age / eff-age",
-          "sub": "1980 (=)",
+          "sub": "1999 (=)",
           "adj": 0
         },
         {
@@ -607,19 +607,19 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-03-01 → 2026-06-01",
-          "adj": 5200
+          "adj": 5300
         }
       ],
       "tf": 0.009286,
       "bmContract": 484600,
-      "timeAdj": 5200,
-      "net": 8600,
-      "gross": 8600,
-      "adjusted": 568888,
-      "netPct": 1.5349,
-      "grossPct": 1.5349,
-      "linePct": 0.9281,
-      "ppsf": 467
+      "timeAdj": 5300,
+      "net": 8700,
+      "gross": 8700,
+      "adjusted": 578713,
+      "netPct": 1.5263,
+      "grossPct": 1.5263,
+      "linePct": 0.9298,
+      "ppsf": 492
     }
   ],
   "rejected": [
@@ -632,9 +632,9 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "North East",
       "contractDate": "2025-04-22",
-      "price": 604117,
+      "price": 616549,
       "gla": 1460,
-      "ppsf": 414,
+      "ppsf": 422,
       "detail": "Contract 2025-04-22 is 405 days stale — exceeds the tier-2 maximum window (≤ 274 days / ~9 mo). Pre-dates the current benchmark trend; the implied time adjustment would be unreliable.",
       "metricLabel": "contract age",
       "metricValue": "405 days",
@@ -649,12 +649,12 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "North East",
       "contractDate": "2026-03-29",
-      "price": 852565,
-      "gla": 2440,
-      "ppsf": 349,
-      "detail": "Cumulative gross adjustment 33.6% exceeds the 25% hard cap. Too dissimilar to bracket the subject — not comparable.",
+      "price": 855065,
+      "gla": 2398,
+      "ppsf": 357,
+      "detail": "Cumulative gross adjustment 32.7% exceeds the 25% hard cap. Too dissimilar to bracket the subject — not comparable.",
       "metricLabel": "gross adjustment",
-      "metricValue": "33.6%",
+      "metricValue": "32.7%",
       "cap": "≤ 25.0%"
     },
     {
@@ -666,9 +666,9 @@ window.MEMO = (function () {
       "community": "Glamorgan",
       "district": "West",
       "contractDate": "2026-02-14",
-      "price": 557212,
-      "gla": 1240,
-      "ppsf": 449,
+      "price": 553707,
+      "gla": 1198,
+      "ppsf": 462,
       "detail": "West is not adjacent to the subject district under the tier-1 topology map (no shared boundary). Excluded before adjustment to avoid a cross-market location bridge.",
       "metricLabel": "district",
       "metricValue": "West (non-adj.)",
@@ -683,12 +683,12 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "North East",
       "contractDate": "2026-03-12",
-      "price": 310183,
+      "price": 315535,
       "gla": 1470,
-      "ppsf": 211,
-      "detail": "PPSF $211 sits 11.8 MAD low of the candidate median ($446). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
+      "ppsf": 215,
+      "detail": "PPSF $215 sits 11.6 MAD low of the candidate median ($464). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
       "metricLabel": "PPSF deviation",
-      "metricValue": "11.8 MAD low",
+      "metricValue": "11.6 MAD low",
       "cap": "≤ 2.0 MAD"
     },
     {
@@ -700,9 +700,9 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "North East",
       "contractDate": "2025-04-22",
-      "price": 604117,
+      "price": 616549,
       "gla": 1460,
-      "ppsf": 414,
+      "ppsf": 422,
       "detail": "Resolves to the same parcel already represented by COMP-E (re-list under a second MLS number). Deduplicated to avoid double-counting one sale.",
       "metricLabel": "parcel",
       "metricValue": "= COMP-E",
@@ -767,10 +767,10 @@ window.MEMO = (function () {
     "totalPenalty": -0.06
   },
   "weights": {
-    "G-A": 0.3609,
-    "G-B": 0.2925,
-    "G-C": 0.2041,
-    "G-D": 0.1425
+    "G-A": 0.3608,
+    "G-B": 0.2924,
+    "G-C": 0.2042,
+    "G-D": 0.1426
   },
   "weightDrivers": {
     "G-A": {
@@ -783,7 +783,7 @@ window.MEMO = (function () {
       "similarity": "high",
       "recency": "70 d",
       "distance": "0.9 km",
-      "burden": "1.9% gross"
+      "burden": "1.8% gross"
     },
     "G-C": {
       "similarity": "high",
@@ -792,29 +792,29 @@ window.MEMO = (function () {
       "burden": "0.8% gross"
     },
     "G-D": {
-      "similarity": "high",
+      "similarity": "moderate",
       "recency": "92 d",
       "distance": "3.8 km",
       "burden": "1.5% gross"
     }
   },
   "range": {
-    "low": 556000,
-    "point": 560500,
-    "high": 565000,
-    "spreadPct": 1.61
+    "low": 566000,
+    "point": 570500,
+    "high": 575000,
+    "spreadPct": 1.58
   },
   "adjustedVals": [
-    557636,
-    560763,
-    560269,
-    568888
+    567244,
+    570424,
+    569938,
+    578713
   ],
   "confidence": {
     "base": 0.55,
-    "score": 0.8177,
-    "low": 0.7677,
-    "high": 0.8677,
+    "score": 0.8186,
+    "low": 0.7686,
+    "high": 0.8686,
     "band": "HIGH",
     "drivers": [
       {
@@ -826,8 +826,8 @@ window.MEMO = (function () {
       {
         "key": "spread",
         "label": "Adjusted-value spread",
-        "detail": "$11,252 range · 1.6% of point",
-        "contrib": 0.1397
+        "detail": "$11,469 range · 1.6% of point",
+        "contrib": 0.1405
       },
       {
         "key": "recency",
@@ -844,8 +844,8 @@ window.MEMO = (function () {
       {
         "key": "burden",
         "label": "Adjustment burden",
-        "detail": "worst comp at 1.9% gross",
-        "contrib": 0.0288
+        "detail": "worst comp at 1.8% gross",
+        "contrib": 0.0289
       },
       {
         "key": "widening",
@@ -910,7 +910,7 @@ window.MEMO = (function () {
       "status": "CLEAR",
       "severity": "tolerance",
       "trigger": "any selected comp gross adj > 25%",
-      "detail": "Max gross adjustment 1.9% — within the 25% tolerance."
+      "detail": "Max gross adjustment 1.8% — within the 25% tolerance."
     },
     {
       "code": "LINE_ADJ_BREACH",
@@ -960,7 +960,7 @@ window.MEMO = (function () {
     "scope": "This memo documents a sales-comparison analysis supporting a defensible value RANGE for the subject property as of the effective date, prepared for collateral-underwriting review. It builds and documents the case for a range; it does not render a point value or a lending decision.",
     "selection": "4 comparable sales were retained from 9 retrieved candidates. Selection began in the tight tier-0 band (subject district, within six months) and widened to tier 1 only as needed to reach the minimum count. 5 candidates were rejected under documented reason codes (duplicate, gross adj too high, outlier price, too stale, wrong district after widening) — the rejections are the tell a black-box AVM cannot give.",
     "adjustment": "Each comparable was adjusted to the subject on a transparent grid using a fixed rate card, with time adjustments derived from each comparable's contract month against the CREB district benchmark and applied toward the effective date. No comparable exceeded the gross-adjustment review band.",
-    "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $560,500, within a supported range of $556,000 to $565,000 (spread 1.6%) that brackets the adjusted comparables.",
+    "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $570,500, within a supported range of $566,000 to $575,000 (spread 1.6%) that brackets the adjusted comparables.",
     "confidence": "Confidence is assessed HIGH (0.82). 2 human-review flags fired and are documented below; none constitutes a failure — each is a prompt for reviewer narrative under AIC guidance. One comparable was drawn from an adjacent district (G-C), absorbed via weighting.",
     "limiting": "All comparable data shown is SYNTHETIC and illustrative, priced from an explicit contributory model (the matched pair). Subject characteristics are grounded in Open Calgary assessment data (source: open_calgary_assessment); physical attributes are intake/district-typical where the free dataset does not publish them. Every non-CREB dollar magnitude is a US/North-American proxy to be locally calibrated. This artifact is render-only and contains no live computation."
   },
@@ -971,18 +971,18 @@ window.MEMO = (function () {
       "calls": [
         {
           "name": "lookup_open_calgary",
-          "args": "address_or_roll=38xx Marbank Drive NE",
-          "result": "{\"address\": \"38xx Marbank Drive NE\", \"district\": \"north_east\", \"lat\": 51.071, \"lon\": -113.976, \"roll_number\": \"047-12-330-01\", \"assessed_value\": 561000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1980}"
+          "args": "address_or_roll=808 SADDLECREEK WY NE",
+          "result": "{\"address\": \"808 SADDLECREEK WY NE\", \"district\": \"north_east\", \"lat\": 51.12733095, \"lon\": -113.95230360000002, \"roll_number\": \"004003901\", \"assessed_value\": 654000, \"land_use\": \"R-G\", \"assessment_roll_year\": 2026, \"year_built\": 1999}"
         },
         {
           "name": "parse_listing_field",
           "args": "field=gla_sqft",
-          "result": "gla_sqft=1240 (from listing)"
+          "result": "gla_sqft=1198 (from listing)"
         },
         {
           "name": "parse_listing_field",
           "args": "field=lot_sqft",
-          "result": "lot_sqft=4800 (from listing)"
+          "result": "lot_sqft=4296 (from listing)"
         },
         {
           "name": "parse_listing_field",
