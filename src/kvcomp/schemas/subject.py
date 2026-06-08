@@ -1,13 +1,18 @@
 """
 schemas/subject.py — the shared attribute schema (grid rows).
 
-Provenance change (Jun 5): the free Open Calgary parcel dataset grounds only
-identity, assessed value, land use, and (ROLL_YEAR >= 2020) year built. Above-grade
+Provenance change (Jun 5): the free Open Calgary parcel dataset grounds identity,
+assessed value, land use, LOT SIZE, and (ROLL_YEAR >= 2020) year built. Above-grade
 GLA, beds, baths, basement, garage, condition, and quality are NOT in the open data —
 they live in the paid Assessment Details Report. So those fields are an inspection/
 intake step, defaulted here to CREB district-typical values. Subject now carries a
 per-field provenance map so the memo can show, line by line, where each value came
 from. This is good audit practice, not a workaround.
+
+Lot-size correction (Jun 7): `land_size_sf` IS published in the free dataset, so
+`lot_sqft` is genuinely Open-Calgary-grounded and moved into OPEN_CALGARY_GROUNDED.
+Everything else physical remains intake/district-default. The validator still fails
+loud if a TRULY-not-in-dataset field (e.g. gla_sqft) claims open-data grounding.
 """
 
 from __future__ import annotations
@@ -50,15 +55,18 @@ class FieldSource(str, Enum):
 
 # Which Subject fields the free Open Calgary parcel dataset can actually ground.
 # Everything else defaults to INSPECTION (or DISTRICT_DEFAULT when auto-filled).
+# lot_sqft is here because `land_size_sf` is published in the free dataset (Jun-7 fix);
+# the GLA above grade is NOT, so it stays in PHYSICAL_INTAKE_FIELDS below.
 OPEN_CALGARY_GROUNDED: frozenset[str] = frozenset({
     "address", "district", "lat", "lon", "roll_number",
-    "assessed_value", "land_use", "year_built",   # year_built only if ROLL_YEAR >= 2020
+    "assessed_value", "land_use", "lot_sqft", "year_built",   # year_built only if ROLL_YEAR >= 2020
 })
 
 # The physical attributes the open data does NOT contain — grid rows that must be
-# inspected or defaulted. Asserting this set keeps the provenance map honest.
+# inspected or defaulted. Asserting this set keeps the provenance map honest. Lot size is
+# NOT here: it is grounded (land_size_sf). Everything below is intake/default only.
 PHYSICAL_INTAKE_FIELDS: frozenset[str] = frozenset({
-    "gla_sqft", "lot_sqft", "beds_ag", "full_baths", "half_baths",
+    "gla_sqft", "beds_ag", "full_baths", "half_baths",
     "basement_finished_sqft", "basement_walkout",
     "garage_type", "garage_stalls", "condition", "quality",
 })

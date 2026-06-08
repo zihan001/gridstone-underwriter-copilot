@@ -34,14 +34,24 @@ from dataclasses import dataclass
 from datetime import date, timedelta
 
 from kvcomp.data.comp_generator import build_comp
+from kvcomp.data.open_calgary import load_fixture
 from kvcomp.data.scenario import adjacent_district, reject_scaffold
-from kvcomp.data.subject_loader import build_subject
+from kvcomp.data.subject_loader import subject_from_open_calgary
 from kvcomp.schemas.comp import Comp
 from kvcomp.schemas.config import AdjustmentConfig
 from kvcomp.schemas.subject import Condition, District, GarageType, Quality, Subject
 
 _EFF = date(2026, 6, 1)
 _STALL_WORD = {1: "single", 2: "double", 3: "triple"}
+
+# Real Open Calgary detached parcels, cached offline (data/open_calgary.py). Grouped by
+# community code so each deal can ground its subject IDENTITY (address, roll number, assessed
+# value, lot size, year built) in a record a reviewer can look up. Physical attributes above
+# grade are still CREB district-typical (not in the free dataset) — the loader tags them
+# DISTRICT_DEFAULT, so the memo stays honest about what is real and what is intake-default.
+_PARCELS_BY_COMM: dict[str, list[dict]] = {}
+for _row in load_fixture():
+    _PARCELS_BY_COMM.setdefault(_row["comm_code"], []).append(_row)
 
 
 @dataclass(frozen=True)
@@ -57,12 +67,20 @@ class InboxDeal:
 # ---------------------------------------------------------------------------
 # Subject + blurb helpers.
 # ---------------------------------------------------------------------------
-def _subject(**kw) -> Subject:
-    """Thin wrapper over build_subject with the shared effective date + R-C1 land use."""
-    kw.setdefault("effective_date", _EFF)
-    kw.setdefault("land_use", "R-C1")
-    kw.setdefault("assessment_roll_year", 2026)
-    return build_subject(**kw)
+def _ground(comm_code: str, district: District, target_value: int, used: set[str]) -> Subject:
+    """Ground a deal's subject in a REAL cached parcel from `comm_code`, choosing the unused
+    one whose assessed value is closest to `target_value` (so each flavor keeps its value-tier
+    intent) and tagging it with the deal's demo district. Distinct per deal within a community.
+
+    Identity + lot + year built are real (Open Calgary); the physical grid rows come from the
+    loader's CREB district-typical defaults, exactly as before — only the grounding got honest."""
+    pool = [r for r in _PARCELS_BY_COMM.get(comm_code, []) if r["roll_number"] not in used]
+    if not pool:
+        raise LookupError(f"no unused cached parcel for community {comm_code!r}")
+    pick = min(pool, key=lambda r: (abs(int(float(r["assessed_value"])) - target_value),
+                                    r["roll_number"]))
+    used.add(pick["roll_number"])
+    return subject_from_open_calgary(pick, effective_date=_EFF, district=district)
 
 
 def _blurb(subject: Subject, *, opener: str) -> str:
@@ -244,73 +262,43 @@ def _deals() -> list[tuple[str, str, Subject, str]]:
     (South East / North / North East): every in-district comp prices off the city-wide fallback,
     so UNSUPPORTED_TIME_ADJ (review) fires for any healthy survivor set — a robust yellow floor
     that the per-flavor flag (STALE_COMP, EXCESSIVE_NET_ADJ, ADJACENT_DISTRICT_COMP) sits on top
-    of. RED deals get there on survivor structure alone (thin set, or too-wide raw spread)."""
+    of. RED deals get there on survivor structure alone (thin set, or too-wide raw spread).
+
+    Each subject is now grounded in a REAL cached Open Calgary parcel (data/open_calgary.py),
+    picked by community + assessed-value band so the demo district and value tier are preserved
+    — every deal keeps its original district, so the bucket logic above is unchanged. The
+    `used` set keeps the picks distinct within a community. (id, opener, subject, flavor)."""
+    used: set[str] = set()
     return [
         # --- GREEN: clean, fresh, well-bracketed (series-backed, mid-value) ----
         ("KV-1042", "Detached two-storey",
-         _subject(address="84xx Bonaventure Drive SE", district=District.SOUTH,
-                  lat=50.9583, lon=-114.0540, roll_number="074-21-335-07", assessed_value=687_500,
-                  year_built=1984, gla_sqft=1450, lot_sqft=5242, beds_ag=3, full_baths=2, half_baths=1),
-         "green"),
+         _ground("LKB", District.SOUTH, 687_500, used), "green"),
         ("KV-1043", "Detached family home",
-         _subject(address="9xx Penbrooke Road SE", district=District.EAST,
-                  lat=51.0402, lon=-113.9461, roll_number="058-13-915-04", assessed_value=472_000,
-                  year_built=1979, gla_sqft=1180, lot_sqft=4600, beds_ag=3, full_baths=1, half_baths=1),
-         "green"),
+         _ground("APP", District.EAST, 472_000, used), "green"),
         ("KV-1044", "Renovated two-storey",
-         _subject(address="51xx Lake Bonavista Drive SE", district=District.SOUTH,
-                  lat=50.9610, lon=-114.0612, roll_number="074-22-118-04", assessed_value=712_000,
-                  year_built=1988, gla_sqft=1560, lot_sqft=5500, beds_ag=3, full_baths=2, half_baths=1),
-         "green"),
+         _ground("LKB", District.SOUTH, 712_000, used), "green"),
         ("KV-1045", "Updated bungalow",
-         _subject(address="74xx 21A Street SE", district=District.EAST,
-                  lat=51.0380, lon=-113.9520, roll_number="058-15-402-06", assessed_value=448_000,
-                  year_built=1977, gla_sqft=1140, lot_sqft=4500, beds_ag=3, full_baths=1, half_baths=0),
-         "green"),
+         _ground("APP", District.EAST, 448_000, used), "green"),
 
         # --- YELLOW: a human should look (no-series districts) ----------------
         ("KV-1051", "Detached two-storey",
-         _subject(address="14xx Lake Sylvan Drive SE", district=District.SOUTH_EAST,
-                  lat=50.9210, lon=-113.9750, roll_number="081-30-441-08", assessed_value=706_000,
-                  year_built=1992, gla_sqft=1530, lot_sqft=4400, beds_ag=3, full_baths=2, half_baths=1),
-         "stale_survivor"),
+         _ground("MCK", District.SOUTH_EAST, 706_000, used), "stale_survivor"),
         ("KV-1052", "Larger detached home",
-         _subject(address="52xx 4th Street NE", district=District.NORTH,
-                  lat=51.0930, lon=-114.0560, roll_number="029-30-118-02", assessed_value=651_000,
-                  year_built=1996, gla_sqft=1420, lot_sqft=4400, beds_ag=3, full_baths=2, half_baths=1),
-         "superior"),
+         _ground("PAN", District.NORTH, 651_000, used), "superior"),
         ("KV-1053", "Detached bungalow",
-         _subject(address="38xx Marbank Drive NE", district=District.NORTH_EAST,
-                  lat=51.0710, lon=-113.9760, roll_number="047-12-330-01", assessed_value=561_000,
-                  year_built=1980, gla_sqft=1240, lot_sqft=4800, beds_ag=3, full_baths=2, half_baths=1),
-         "adjacent"),
+         _ground("SAD", District.NORTH_EAST, 561_000, used), "adjacent"),
         ("KV-1054", "Detached two-storey",
-         _subject(address="92xx Auburn Bay Avenue SE", district=District.SOUTH_EAST,
-                  lat=50.8970, lon=-113.9580, roll_number="081-34-552-01", assessed_value=698_000,
-                  year_built=1998, gla_sqft=1560, lot_sqft=4500, beds_ag=4, full_baths=2, half_baths=1),
-         "superior"),
+         _ground("CRA", District.SOUTH_EAST, 698_000, used), "superior"),
         ("KV-1055", "Character home",
-         _subject(address="15xx 7th Street NE", district=District.NORTH,
-                  lat=51.0750, lon=-113.9850, roll_number="029-09-114-06", assessed_value=638_000,
-                  year_built=1986, gla_sqft=1400, lot_sqft=4300, beds_ag=3, full_baths=2, half_baths=1),
-         "stale_survivor"),
+         _ground("PAN", District.NORTH, 638_000, used), "stale_survivor"),
 
         # --- RED: evidence can't defend a range yet ---------------------------
         ("KV-1061", "Detached two-storey",
-         _subject(address="61xx Maple Ridge Drive SE", district=District.SOUTH,
-                  lat=50.9550, lon=-114.0500, roll_number="074-19-770-03", assessed_value=695_000,
-                  year_built=1983, gla_sqft=1440, lot_sqft=5200, beds_ag=3, full_baths=2, half_baths=1),
-         "thin"),
+         _ground("LKB", District.SOUTH, 695_000, used), "thin"),
         ("KV-1062", "Detached family home",
-         _subject(address="3xx Penworth Road SE", district=District.EAST,
-                  lat=51.0360, lon=-113.9510, roll_number="058-18-980-07", assessed_value=466_000,
-                  year_built=1981, gla_sqft=1200, lot_sqft=4600, beds_ag=3, full_baths=2, half_baths=0),
-         "wide"),
+         _ground("PEN", District.EAST, 466_000, used), "wide"),
         ("KV-1063", "Detached bungalow",
-         _subject(address="51xx Rundlehorn Drive NE", district=District.NORTH_EAST,
-                  lat=51.0820, lon=-113.9560, roll_number="047-24-117-05", assessed_value=548_000,
-                  year_built=1978, gla_sqft=1220, lot_sqft=4700, beds_ag=3, full_baths=1, half_baths=1),
-         "wide"),
+         _ground("TAR", District.NORTH_EAST, 548_000, used), "wide"),
     ]
 
 

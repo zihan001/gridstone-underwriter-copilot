@@ -1,16 +1,17 @@
 """
 data/subject_loader.py — real Open Calgary assessment record → Subject (subject grounding).
 
-The FREE Open Calgary parcel dataset grounds only identity, assessed value, land use, and
-(when ROLL_YEAR >= 2020) year built. Above-grade GLA, beds, baths, basement, garage,
+The FREE Open Calgary parcel dataset grounds identity, assessed value, land use, LOT SIZE,
+and (when ROLL_YEAR >= 2020) year built. Above-grade GLA, beds, baths, basement, garage,
 condition and quality are NOT in the open data — they live in the paid Assessment Details
 Report — so those default to CREB district-typical values and are tagged DISTRICT_DEFAULT
 in the per-field provenance map. The memo then shows, line by line, where each value came
 from (good audit practice; see schemas/subject.py).
 
-Network access is optional: `fetch_open_calgary` hits the SODA API, but the pipeline and
-tests run off `default_subject()` / a mocked record (TESTING §3 — one integration smoke
-test, mock otherwise).
+The network lives in data/open_calgary.py (the curated comm_code -> District map and the
+SODA fetch); this module only MAPS a raw row (cached or live) into a Subject. The pipeline
+and tests run off `default_subject()` / the cached fixture / a mocked record (TESTING §3 —
+one optional integration smoke test, mock otherwise).
 """
 
 from __future__ import annotations
@@ -18,6 +19,7 @@ from __future__ import annotations
 from datetime import date
 
 from kvcomp.data.constants import DISTRICT_TYPICAL
+from kvcomp.data.open_calgary import CURATED_COMMUNITIES, OPEN_CALGARY_ASSESSMENTS_URL
 from kvcomp.schemas.subject import (
     Condition,
     District,
@@ -27,10 +29,8 @@ from kvcomp.schemas.subject import (
     Subject,
 )
 
-# Open Calgary SODA endpoint (Property Assessments). Used only by the optional fetch path.
-OPEN_CALGARY_ASSESSMENTS_URL = "https://data.calgary.ca/resource/4bsw-nn7w.json"
-
-# Community / quadrant -> District (coarse map for the grounding step).
+# Community / quadrant -> District (coarse fallback, used only when comm_code is unknown to
+# the curated map). The curated comm_code map in data/open_calgary.py is the primary source.
 _QUADRANT_DISTRICT = {
     "SE": District.SOUTH_EAST, "SW": District.SOUTH, "NE": District.NORTH_EAST,
     "NW": District.NORTH_WEST,
@@ -41,12 +41,35 @@ _COMMUNITY_DISTRICT = {
 }
 
 
-def _district_for(community: str | None, quadrant: str | None) -> District:
+def _district_for(comm_code: str | None, community: str | None, quadrant: str | None) -> District:
+    """Resolve a District: curated comm_code map first (the dataset's real codes), then a
+    coarse community/quadrant fallback, then SOUTH."""
+    if comm_code and comm_code in CURATED_COMMUNITIES:
+        return CURATED_COMMUNITIES[comm_code]
     if community and community.upper() in _COMMUNITY_DISTRICT:
         return _COMMUNITY_DISTRICT[community.upper()]
     if quadrant and quadrant.upper() in _QUADRANT_DISTRICT:
         return _QUADRANT_DISTRICT[quadrant.upper()]
     return District.SOUTH
+
+
+def _centroid(multipolygon: dict) -> tuple[float, float]:
+    """Average the UNIQUE vertices of the first ring of a GeoJSON MultiPolygon -> (lat, lon).
+
+    The dataset stores each vertex as [lon, lat] and there are NO flat latitude/longitude
+    fields, so coordinates must be derived from the parcel geometry. Missing or empty geometry
+    RAISES — a real assessment row always carries a multipolygon, and silently defaulting the
+    coordinates (the old bug) pinned every parcel to one fake point."""
+    try:
+        ring = multipolygon["coordinates"][0][0]
+    except (KeyError, IndexError, TypeError):
+        ring = None
+    if not ring:
+        raise ValueError("Open Calgary record has no usable multipolygon geometry")
+    unique = {(float(lon), float(lat)) for lon, lat in ring}
+    lon = sum(p[0] for p in unique) / len(unique)
+    lat = sum(p[1] for p in unique) / len(unique)
+    return (lat, lon)
 
 
 def build_subject(
@@ -61,6 +84,10 @@ def build_subject(
     land_use: str | None = None,
     assessment_roll_year: int | None = None,
     year_built: int | None = None,
+    # lot size is grounded in the free dataset when it comes from a real row; the caller
+    # passes lot_source=OPEN_CALGARY then. Hand-built subjects with no real land_size leave
+    # the default, so their lot_sqft stays an honest DISTRICT_DEFAULT.
+    lot_source: FieldSource = FieldSource.DISTRICT_DEFAULT,
     # physical overrides (else district-typical)
     gla_sqft: int | None = None,
     lot_sqft: int | None = None,
@@ -78,6 +105,9 @@ def build_subject(
     typ = DISTRICT_TYPICAL[district]
     yb = year_built if year_built is not None else typ.year_built
     yb_grounded = assessment_roll_year is not None and assessment_roll_year >= 2020 and year_built is not None
+    # Lot size is only Open-Calgary-grounded when a real land_size was supplied; a defaulted
+    # lot is district-typical no matter what the caller claims.
+    lot_src = lot_source if lot_sqft is not None else FieldSource.DISTRICT_DEFAULT
 
     provenance: dict[str, FieldSource] = {
         # grounded in the free dataset
@@ -85,9 +115,10 @@ def build_subject(
         "lat": FieldSource.OPEN_CALGARY, "lon": FieldSource.OPEN_CALGARY,
         "roll_number": FieldSource.OPEN_CALGARY, "assessed_value": FieldSource.OPEN_CALGARY,
         "land_use": FieldSource.OPEN_CALGARY,
+        "lot_sqft": lot_src,
         "year_built": FieldSource.OPEN_CALGARY if yb_grounded else FieldSource.DISTRICT_DEFAULT,
         # physical attributes — not in the free dataset -> district-typical default
-        "gla_sqft": FieldSource.DISTRICT_DEFAULT, "lot_sqft": FieldSource.DISTRICT_DEFAULT,
+        "gla_sqft": FieldSource.DISTRICT_DEFAULT,
         "beds_ag": FieldSource.DISTRICT_DEFAULT, "full_baths": FieldSource.DISTRICT_DEFAULT,
         "half_baths": FieldSource.DISTRICT_DEFAULT,
         "basement_finished_sqft": FieldSource.INSPECTION, "basement_walkout": FieldSource.INSPECTION,
@@ -114,24 +145,41 @@ def build_subject(
     )
 
 
+def _as_int(value: object) -> int | None:
+    """Parse a SODA string-typed number ('729000.0') -> int; None/'' -> None."""
+    if value in (None, ""):
+        return None
+    return int(round(float(value)))
+
+
 def subject_from_open_calgary(record: dict, *, effective_date: date, district: District | None = None) -> Subject:
-    """Map a raw Open Calgary assessment row to a Subject (physical fields district-typical)."""
-    community = record.get("comm_name") or record.get("community")
-    quadrant = record.get("quadrant") or (record.get("address_quadrant"))
-    dist = district or _district_for(community, quadrant)
+    """Map a raw Open Calgary assessment row to a Subject.
+
+    Grounds identity, assessed value, land use, lot size (land_size_sf), and year built
+    (roll year is 2026 for the current dataset, so >= 2020). lat/lon come from the parcel's
+    multipolygon ring centroid — NOT a fabricated default. Above-grade physical attributes
+    are filled from CREB district-typical and tagged DISTRICT_DEFAULT (they are not in the
+    free dataset)."""
+    dist = district or _district_for(
+        record.get("comm_code"), record.get("comm_name") or record.get("community"),
+        record.get("quadrant") or record.get("address_quadrant"),
+    )
+    lat, lon = _centroid(record.get("multipolygon"))
     roll_year = record.get("roll_year") or record.get("assessment_year")
     yb = record.get("year_of_construction") or record.get("year_built")
+    lot_sqft = _as_int(record.get("land_size_sf"))
     return build_subject(
         address=record.get("address") or record.get("addr") or "Calgary parcel",
         district=dist,
-        lat=float(record.get("latitude", record.get("lat", 50.95))),
-        lon=float(record.get("longitude", record.get("lon", -114.05))),
+        lat=lat, lon=lon,
         effective_date=effective_date,
         roll_number=record.get("roll_number"),
-        assessed_value=int(float(record["assessed_value"])) if record.get("assessed_value") else None,
+        assessed_value=_as_int(record.get("assessed_value")),
         land_use=record.get("land_use_designation") or record.get("land_use"),
         assessment_roll_year=int(roll_year) if roll_year else None,
-        year_built=int(yb) if yb else None,
+        year_built=int(float(yb)) if yb else None,
+        lot_sqft=lot_sqft,
+        lot_source=FieldSource.OPEN_CALGARY,
     )
 
 
