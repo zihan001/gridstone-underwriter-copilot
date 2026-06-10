@@ -21,21 +21,48 @@ class GarageType(str, Enum):
 class LenderProfile(str, Enum):
     FNMA_OFF="fnma_off"     # 15/25 informational only
     GSE_ON="gse_on"         # 15/25 flagged louder (Freddie/FHA/VA/USDA)
+
+class FieldSource(str, Enum):  # per-field provenance; drives the memo's provenance column
+    OPEN_CALGARY="open_calgary"            # grounded in the free parcel dataset
+    INSPECTION="inspection"                # appraiser/underwriter-supplied (intake)
+    DISTRICT_DEFAULT="district_typical"    # CREB district-typical fallback
+    ASSESSMENT_DETAIL="assessment_detail"  # paid Assessment Details Report (optional)
 ```
 
-## Subject — the shared attribute schema (grid rows)
+## Subject — the shared attribute schema (grid rows) + per-field provenance
+
+The flat `source: str` field was replaced by a **per-field `provenance` map** so the memo
+can show, line by line, where each value came from. Two frozensets in `schemas/subject.py`
+draw the honesty boundary:
+
+- `OPEN_CALGARY_GROUNDED` — what the free parcel dataset can actually ground: `address`,
+  `district`, `lat`, `lon`, `roll_number`, `assessed_value`, `land_use`, **`lot_sqft`**
+  (`land_size_sf` is published in the free dataset), and `year_built` (only when
+  `assessment_roll_year >= 2020`).
+- `PHYSICAL_INTAKE_FIELDS` — what it cannot: `gla_sqft`, `beds_ag`, `full_baths`,
+  `half_baths`, `basement_finished_sqft`, `basement_walkout`, `garage_type`,
+  `garage_stalls`, `condition`, `quality`. These live in the paid Assessment Details
+  Report, so here they are an inspection/intake step, defaulted to CREB district-typical
+  values and tagged `DISTRICT_DEFAULT`.
+
+A model validator backfills any unspecified field with a defensible default source (the
+memo never shows an unlabeled value) and enforces the invariant **loudly**: a physical
+intake field claiming `OPEN_CALGARY` provenance raises a `ValueError`, because the free
+dataset does not contain it.
+
 ```python
 class Subject(BaseModel, frozen=True):
-    # identity / grounding
+    # identity / grounding (Open Calgary)
     address: str
     district: District
     lat: float; lon: float
-    source: str = "open_calgary_assessment"     # REAL data provenance
     roll_number: str | None = None
     assessed_value: int | None = None            # from Open Calgary
-    # physical attributes (grid rows)
+    land_use: str | None = None                  # zoning designation, e.g. "R-C1"
+    assessment_roll_year: int | None = None      # year_built grounded only if >= 2020
+    # physical attributes (grid rows) — NOT in free open data; intake/default
     gla_sqft: int                                # above grade only (RMS excludes basement)
-    lot_sqft: int
+    lot_sqft: int                                # GROUNDED when from a real row (land_size_sf)
     beds_ag: int
     full_baths: int
     half_baths: int
@@ -47,7 +74,14 @@ class Subject(BaseModel, frozen=True):
     condition: Condition = Condition.C3
     quality: Quality = Quality.Q3
     effective_date: date                         # valuation date
+    # provenance: field name -> where its value came from (validator backfills + checks)
+    provenance: dict[str, FieldSource] = Field(default_factory=dict)
 ```
+
+`data/subject_loader.py` builds the map per actual fetch result: e.g. `lot_sqft` is tagged
+`OPEN_CALGARY` only when a real `land_size_sf` was supplied (a defaulted lot stays an
+honest `DISTRICT_DEFAULT` no matter what the caller claims), and `year_built` is grounded
+only for current-roll records.
 
 ## Comp = Subject attributes + sale facts + synthetic flag + provenance
 ```python

@@ -1,5 +1,8 @@
 # BUILD_PLAN
 
+> **Historical document:** this is the ORIGINAL Jun-5 plan, kept as written;
+> `docs/DECISIONS.md` (ADR-001…011) records where execution diverged from it.
+
 Jun 5 → Jun 12, 2026 (due Fri Jun 12, 11:59 PM MST). Solo. Strict dependency order, demo beats built first, buffer built in. Permit-aware red-flag panel is an OPTIONAL stretch only if core lands with 2 days to spare — assessment grounding already banks the "real data" point, so permits earn no demo beat.
 
 Principle: the matched pair (generator + grid + round-trip test) is built BEFORE the pipeline, TDD-style, so the invariant is enforced from the start.

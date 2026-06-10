@@ -95,3 +95,51 @@ All flags are advisory; they direct underwriter attention, never block. The regi
 (`TOO_STALE`, `GROSS_ADJ_TOO_HIGH`, `WRONG_DISTRICT_AFTER_WIDENING`, `OUTLIER_PRICE`, `DUPLICATE` are rejection **reason codes**, not flags — they remove a candidate *before* selection; see `ReasonCode`.)
 
 Flag thresholds live in `AdjustmentConfig`/profile so they're tunable and testable at the boundary (TESTING.md): one case just below each threshold (CLEAR) and one just above (FIRED), covering both the soft band and the hard tolerance for net/gross/line.
+
+## 9. Comp scoring — the data reasoning behind the numbers
+
+The similarity function (`domain/retrieval.py`) blends three components into a [0,1] score:
+
+> score = **0.6 × structural + 0.2 × distance + 0.2 × recency**
+
+with structural closeness itself a weighted blend of relative deltas
+(0.9·GLA + 0.5·lot + 0.6·age + 0.3·beds + 0.3·baths + 0.3·basement, capped at 1), distance
+decaying linearly to zero at 8 km, and recency decaying to zero at 274 days (the same ~9-month
+horizon as the hard `TOO_STALE` cut, so the score and the rejection rule agree on what "too
+old" means).
+
+**Why structural dominates the score — and location doesn't.** Calgary's detached market is
+district-bifurcated roughly 2:1 (West ~$1.005M vs East ~$489k benchmark, per the Research
+Report / CREB), which is exactly why location is **not** trusted to a soft weight: a
+cross-market comp shouldn't score 20% worse, it should be *out*. So geography is enforced
+upstream as hard rules — the tiered widening loop only admits adjacent districts at tier 1
+(per the encoded adjacency topology; South never reaches West across the Glenmore corridor),
+and a comp from a non-adjacent district is rejected outright (`WRONG_DISTRICT_AFTER_WIDENING`).
+By the time the similarity score ranks candidates, they are already in-market, and *within* a
+market the structural attributes (GLA above all — the 0.9 inner weight) are what drive price
+comparability; distance and recency then act as tie-breakers feeding the widening preference
+order and the reconciliation weights.
+
+**Why these features, and why condition is deliberately NOT in similarity.** Structure,
+distance, and recency are the three axes a comp can be a *bad analogue* on. Condition and
+quality are excluded from the score on purpose, though both carry real money in the grid
+($12,000/$15,000 per step): they are subjective intake fields (UAD-analog labels, not measured
+quantities), and a condition delta is exactly what the adjustment grid corrects — penalizing
+it again in retrieval would double-count it and bury the C4 fixer that is otherwise the best
+comp on the street. The rule of thumb: **measured, price-driving deltas score; subjective,
+grid-correctable deltas adjust.**
+
+**Edge case the data forced: MAD on tiny samples.** PPSF outlier rejection uses median
+absolute deviation (robust to the very outliers it hunts). On small candidate sets it is
+unstable — with 3–4 comps a single legitimately larger, lower-PPSF comp can read as >2 MAD
+from the median and get falsely rejected (this happened; see IMPLEMENTATION.md §6). Fix:
+`rejection.outliers` requires a **minimum sample of 5** before the rule may fire at all, and
+the planted-reject scaffold (DECISIONS.md ADR-007) was designed so its own members help meet
+that floor on thin decks.
+
+**The framing.** The data thinking here went into making every scoring and adjustment decision
+a defensible **rule** rather than a learned weight — because the hard problem in this domain is
+traceability, not prediction accuracy. When real sales data exists (an MLS/CREB feed),
+regression against it is the named path to extract these coefficients from the market
+(paired-sales at scale); the architecture already isolates every coefficient in
+`AdjustmentConfig` so calibration replaces constants, not code.

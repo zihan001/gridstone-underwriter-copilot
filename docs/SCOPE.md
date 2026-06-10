@@ -27,6 +27,29 @@ It is not an AVM. It does not decide value. It builds the case and points the un
 | Generic chat UI | The product is a memo, not a chatbot; chat invites scope creep. |
 | Auth / persistence / multi-user | Demo is single-run; not judged; pure plumbing. |
 
+## Why this scope (the invited path, taken deliberately)
+
+KV's brief invites "focus on residential," permits "any public dataset or synthesize your
+own," and says it is testing how you scope down to something focused and shippable.
+Residential + synthetic comps is that invited path:
+
+- **Detached resale only** — condos need different comp logic (strata, floor, exposure);
+  the classic over-general trap.
+- **Synthetic comps** — no MLS/CREB license; a principled, matched-pair-tested generator is
+  the defensible substitute, and the brief explicitly permits synthesizing data.
+- **No learned AVM** — an unexplainable model is the opposite of a defensible value; the
+  cut IS the thesis.
+- **Residential over commercial** — sales-comparison is a deep, nameable, demonstrable
+  discipline with real public data; a shallow income-approach toy would score worse on
+  domain authenticity.
+
+The engine itself is approach-agnostic: an explicit contributory model, weighted
+reconciliation to a range, and advisory flags. For commercial income-approach collateral,
+the contributory lines become cap-rate and NOI drivers (lease terms, vacancy, condition of
+income), reconciliation weights stabilized-income comps instead of sales, and the same
+reason-coded rejection and evidence-quality confidence carry over unchanged. That next ring
+is understood — and deliberately deferred.
+
 ## Judging criteria → where addressed
 | Criterion (KV) | Where in build | Evidence in demo/repo |
 |---|---|---|

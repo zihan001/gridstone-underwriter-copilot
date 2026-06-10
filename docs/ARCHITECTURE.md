@@ -8,7 +8,13 @@
 src/
   schemas/          frozen pydantic models (Subject, Comp, AdjustmentConfig, grid/result types)
   data/
-    subject_loader.py    real Open Calgary assessment → Subject (subject grounding)
+    open_calgary.py      the ONLY module that touches the network: fetches real detached
+                         parcels (Socrata 4bsw-nn7w, curated comm_code→District map) into a
+                         committed offline fixture (data/fixtures/) — run as a module to
+                         (re)build the cache; everything else reads the fixture offline,
+                         so a fresh clone never needs the network (hermetic repo)
+    subject_loader.py    Open Calgary row (cached or live) → Subject with a per-field
+                         provenance map (subject grounding)
     comp_generator.py    SYNTHETIC principled comps (one half of the matched pair)
   domain/                ← DETERMINISTIC CORE, no LLM, no I/O
     retrieval.py         candidate retrieval + similarity scoring

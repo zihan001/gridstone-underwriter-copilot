@@ -1,9 +1,13 @@
 # KV Capital — Underwriting Triage Copilot
 
 > **Status: implemented.** Deterministic core, pipeline, narrative seam, serializer, a triage
-> classifier, a queue of demo deals, and one LLM **intake agent that fronts the pipeline** are
-> built and tested (`uv run pytest` → 100 passed). The locked viewer opens on a triage queue
-> and drills into the audit-ready memo for any deal. See **How to run** below.
+> classifier, a queue of 12 real-parcel demo deals, and one LLM **intake agent that fronts the
+> pipeline** are built and tested (`uv run pytest` → 113 passed, 2 skipped). The locked viewer
+> opens on a triage queue and drills into the audit-ready memo for any deal. See **How to run**
+> below.
+>
+> **Key decisions:** the reasoning trail — including everything that changed after the original
+> plan — is in [`docs/DECISIONS.md`](docs/DECISIONS.md) (ADR-001…011).
 
 ## Problem
 Deals don't arrive one at a time. Brokers, originators, and builders send them — by email, by
@@ -85,10 +89,18 @@ No agent ever authors a number. `tests/test_agent_invariant.py` asserts the seri
 with intake enabled is **byte-identical** to the disabled payload, modulo the additive,
 read-only `agentTrace` block the viewer renders.
 
-## Data
-- **Real** public Calgary data for the SUBJECT (Open Calgary parcel assessments).
-- **Synthetic, principled, clearly-labeled** sold comps. The generator and the adjustment grid
-  are a **matched pair**.
+## Data — what is real, exactly
+Subject identity, assessed value, and lot size are grounded in real Open Calgary records
+(every queue deal is a real parcel — look up its roll number); above-grade physical
+attributes (GLA, beds, baths, condition) are an inspection step, defaulted here to CREB
+district-typical values and labeled as such; comps are synthetic and labeled.
+
+- The real parcels are fetched once (`data/open_calgary.py`, the only module that touches
+  the network) into a committed offline fixture, so a fresh clone runs hermetically. Each
+  subject carries a **per-field provenance map** (`FieldSource`) that the memo renders —
+  the honesty is enforced in code, not just claimed here.
+- The **synthetic, principled, clearly-labeled** sold comps and the adjustment grid are a
+  **matched pair**.
 
 ### Engineer-facing credibility artifact: the matched-pair round-trip test
 Generate comps with known attribute deltas, run them through the grid, and assert the adjusted

@@ -24,6 +24,7 @@ Boundary variants worth having: single-attribute deltas (vary only GLA, only bat
 - **lender_profile behavior:** `fnma_off` emits net/gross as informational; `gse_on` raises severity. Same numbers, different flag treatment.
 - **Sign convention:** superior comp → negative adjustment, inferior → positive (one assertion per direction).
 - **Schema freeze:** `Subject`/`Comp`/`AdjustmentConfig` are frozen; mutation raises.
+- **Assessed-value anchor (queue regression guard):** every inbox deal's reconciled point lands within ±5% of its subject's real assessed value × `ASSESSMENT_TO_MARKET` (`tests/test_inbox.py`; DECISIONS.md ADR-010 — observed gap is under ±3%, the guard trips the benchmark-collapse bug that ran it to −20%).
 
 ## 3. Explicitly NOT worth testing
 - The render-only web viewer (navigation only; no logic).
