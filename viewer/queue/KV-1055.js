@@ -241,7 +241,7 @@ window.MEMO = (function () {
       "contractDate": "2026-04-27",
       "contractMonth": "2026-04",
       "ageDays": 35,
-      "price": 626068,
+      "price": 709246,
       "gla": 1286,
       "lot": 4217,
       "beds": 3,
@@ -312,19 +312,19 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-04-27 → 2026-06-01",
-          "adj": 700
+          "adj": 800
         }
       ],
       "tf": 0.001113,
       "bmContract": 745400,
-      "timeAdj": 700,
-      "net": 10050,
-      "gross": 10050,
-      "adjusted": 636118,
-      "netPct": 1.6053,
-      "grossPct": 1.6053,
-      "linePct": 1.4934,
-      "ppsf": 487
+      "timeAdj": 800,
+      "net": 10150,
+      "gross": 10150,
+      "adjusted": 719396,
+      "netPct": 1.4311,
+      "grossPct": 1.4311,
+      "linePct": 1.3183,
+      "ppsf": 552
     },
     {
       "id": "G-B",
@@ -338,7 +338,7 @@ window.MEMO = (function () {
       "contractDate": "2026-04-04",
       "contractMonth": "2026-04",
       "ageDays": 58,
-      "price": 644443,
+      "price": 729720,
       "gla": 1316,
       "lot": 4367,
       "beds": 3,
@@ -409,19 +409,19 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-04-04 → 2026-06-01",
-          "adj": 700
+          "adj": 800
         }
       ],
       "tf": 0.001113,
       "bmContract": 745400,
-      "timeAdj": 700,
-      "net": 7500,
-      "gross": 7500,
-      "adjusted": 651943,
-      "netPct": 1.1638,
-      "grossPct": 1.1638,
-      "linePct": 1.0552,
-      "ppsf": 490
+      "timeAdj": 800,
+      "net": 7600,
+      "gross": 7600,
+      "adjusted": 737320,
+      "netPct": 1.0415,
+      "grossPct": 1.0415,
+      "linePct": 0.9319,
+      "ppsf": 554
     },
     {
       "id": "G-C",
@@ -435,7 +435,7 @@ window.MEMO = (function () {
       "contractDate": "2026-03-13",
       "contractMonth": "2026-03",
       "ageDays": 80,
-      "price": 644765,
+      "price": 729188,
       "gla": 1396,
       "lot": 4767,
       "beds": 3,
@@ -506,19 +506,19 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-03-13 → 2026-06-01",
-          "adj": 4300
+          "adj": 4850
         }
       ],
       "tf": 0.00665,
       "bmContract": 741300,
-      "timeAdj": 4300,
-      "net": 4300,
-      "gross": 4300,
-      "adjusted": 649065,
-      "netPct": 0.6669,
-      "grossPct": 0.6669,
-      "linePct": 0.6669,
-      "ppsf": 462
+      "timeAdj": 4850,
+      "net": 4850,
+      "gross": 4850,
+      "adjusted": 734038,
+      "netPct": 0.6651,
+      "grossPct": 0.6651,
+      "linePct": 0.6651,
+      "ppsf": 522
     },
     {
       "id": "G-D",
@@ -532,7 +532,7 @@ window.MEMO = (function () {
       "contractDate": "2026-02-20",
       "contractMonth": "2026-02",
       "ageDays": 101,
-      "price": 644635,
+      "price": 728162,
       "gla": 1476,
       "lot": 5167,
       "beds": 3,
@@ -603,19 +603,19 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-02-20 → 2026-06-01",
-          "adj": 10450
+          "adj": 11850
         }
       ],
       "tf": 0.016247,
       "bmContract": 734300,
-      "timeAdj": 10450,
-      "net": 3650,
-      "gross": 17250,
-      "adjusted": 648285,
-      "netPct": 0.5662,
-      "grossPct": 2.6759,
-      "linePct": 1.6211,
-      "ppsf": 437
+      "timeAdj": 11850,
+      "net": 5050,
+      "gross": 18650,
+      "adjusted": 733212,
+      "netPct": 0.6935,
+      "grossPct": 2.5612,
+      "linePct": 1.6274,
+      "ppsf": 493
     },
     {
       "id": "G-E",
@@ -629,7 +629,7 @@ window.MEMO = (function () {
       "contractDate": "2025-12-28",
       "contractMonth": "2025-12",
       "ageDays": 155,
-      "price": 635253,
+      "price": 717245,
       "gla": 1506,
       "lot": 5317,
       "beds": 3,
@@ -702,19 +702,19 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2025-12-28 → 2026-06-01",
-          "adj": 17450
+          "adj": 19700
         }
       ],
       "tf": 0.02744,
       "bmContract": 726300,
-      "timeAdj": 17450,
-      "net": 8100,
-      "gross": 26800,
-      "adjusted": 643353,
-      "netPct": 1.2751,
-      "grossPct": 4.2188,
-      "linePct": 2.7469,
-      "ppsf": 422
+      "timeAdj": 19700,
+      "net": 10350,
+      "gross": 29050,
+      "adjusted": 727595,
+      "netPct": 1.443,
+      "grossPct": 4.0502,
+      "linePct": 2.7466,
+      "ppsf": 476
     }
   ],
   "rejected": [
@@ -727,9 +727,9 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "North",
       "contractDate": "2025-04-22",
-      "price": 665600,
+      "price": 753248,
       "gla": 1460,
-      "ppsf": 456,
+      "ppsf": 516,
       "detail": "Contract 2025-04-22 is 405 days stale — exceeds the tier-2 maximum window (≤ 274 days / ~9 mo). Pre-dates the current benchmark trend; the implied time adjustment would be unreliable.",
       "metricLabel": "contract age",
       "metricValue": "405 days",
@@ -744,12 +744,12 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "North",
       "contractDate": "2026-03-29",
-      "price": 911553,
+      "price": 995786,
       "gla": 2596,
-      "ppsf": 351,
-      "detail": "Cumulative gross adjustment 30.2% exceeds the 25% hard cap. Too dissimilar to bracket the subject — not comparable.",
+      "ppsf": 384,
+      "detail": "Cumulative gross adjustment 27.7% exceeds the 25% hard cap. Too dissimilar to bracket the subject — not comparable.",
       "metricLabel": "gross adjustment",
-      "metricValue": "30.2%",
+      "metricValue": "27.7%",
       "cap": "≤ 25.0%"
     },
     {
@@ -761,9 +761,9 @@ window.MEMO = (function () {
       "community": "Glamorgan",
       "district": "West",
       "contractDate": "2026-02-14",
-      "price": 637138,
+      "price": 721660,
       "gla": 1396,
-      "ppsf": 456,
+      "ppsf": 517,
       "detail": "West is not adjacent to the subject district under the tier-1 topology map (no shared boundary). Excluded before adjustment to avoid a cross-market location bridge.",
       "metricLabel": "district",
       "metricValue": "West (non-adj.)",
@@ -778,10 +778,10 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "North",
       "contractDate": "2026-03-12",
-      "price": 355575,
+      "price": 402132,
       "gla": 1470,
-      "ppsf": 242,
-      "detail": "PPSF $242 sits 6.9 MAD low of the candidate median ($456). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
+      "ppsf": 274,
+      "detail": "PPSF $274 sits 6.9 MAD low of the candidate median ($517). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
       "metricLabel": "PPSF deviation",
       "metricValue": "6.9 MAD low",
       "cap": "≤ 2.0 MAD"
@@ -795,9 +795,9 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "North",
       "contractDate": "2025-04-22",
-      "price": 665600,
+      "price": 753248,
       "gla": 1460,
-      "ppsf": 456,
+      "ppsf": 516,
       "detail": "Resolves to the same parcel already represented by COMP-E (re-list under a second MLS number). Deduplicated to avoid double-counting one sale.",
       "metricLabel": "parcel",
       "metricValue": "= COMP-E",
@@ -880,24 +880,24 @@ window.MEMO = (function () {
     "totalPenalty": -0.1
   },
   "weights": {
-    "G-A": 0.2785,
+    "G-A": 0.2786,
     "G-B": 0.2416,
-    "G-C": 0.2166,
+    "G-C": 0.2164,
     "G-D": 0.1653,
-    "G-E": 0.098
+    "G-E": 0.0981
   },
   "weightDrivers": {
     "G-A": {
       "similarity": "high",
       "recency": "35 d",
       "distance": "0.6 km",
-      "burden": "1.6% gross"
+      "burden": "1.4% gross"
     },
     "G-B": {
       "similarity": "high",
       "recency": "58 d",
       "distance": "0.9 km",
-      "burden": "1.2% gross"
+      "burden": "1.0% gross"
     },
     "G-C": {
       "similarity": "high",
@@ -909,33 +909,33 @@ window.MEMO = (function () {
       "similarity": "high",
       "recency": "101 d",
       "distance": "1.5 km",
-      "burden": "2.7% gross"
+      "burden": "2.6% gross"
     },
     "G-E": {
       "similarity": "moderate",
       "recency": "155 d",
       "distance": "1.8 km",
-      "burden": "4.2% gross"
+      "burden": "4.1% gross"
     }
   },
   "range": {
-    "low": 640000,
-    "point": 645500,
-    "high": 651000,
-    "spreadPct": 1.7
+    "low": 723500,
+    "point": 730000,
+    "high": 736500,
+    "spreadPct": 1.78
   },
   "adjustedVals": [
-    636118,
-    651943,
-    649065,
-    648285,
-    643353
+    719396,
+    737320,
+    734038,
+    733212,
+    727595
   ],
   "confidence": {
     "base": 0.55,
-    "score": 0.7986,
-    "low": 0.7486,
-    "high": 0.8486,
+    "score": 0.7976,
+    "low": 0.7476,
+    "high": 0.8476,
     "band": "MODERATE",
     "drivers": [
       {
@@ -947,8 +947,8 @@ window.MEMO = (function () {
       {
         "key": "spread",
         "label": "Adjusted-value spread",
-        "detail": "$15,825 range · 1.7% of point",
-        "contrib": 0.1375
+        "detail": "$17,924 range · 1.8% of point",
+        "contrib": 0.1355
       },
       {
         "key": "recency",
@@ -965,8 +965,8 @@ window.MEMO = (function () {
       {
         "key": "burden",
         "label": "Adjustment burden",
-        "detail": "worst comp at 4.2% gross",
-        "contrib": 0.0147
+        "detail": "worst comp at 4.1% gross",
+        "contrib": 0.0157
       },
       {
         "key": "widening",
@@ -1024,14 +1024,14 @@ window.MEMO = (function () {
       "status": "CLEAR",
       "severity": "tolerance",
       "trigger": "any selected comp net adj > 15%",
-      "detail": "Max net adjustment 1.6% — within the 15% tolerance."
+      "detail": "Max net adjustment 1.4% — within the 15% tolerance."
     },
     {
       "code": "GROSS_ADJ_BREACH",
       "status": "CLEAR",
       "severity": "tolerance",
       "trigger": "any selected comp gross adj > 25%",
-      "detail": "Max gross adjustment 4.2% — within the 25% tolerance."
+      "detail": "Max gross adjustment 4.1% — within the 25% tolerance."
     },
     {
       "code": "LINE_ADJ_BREACH",
@@ -1081,7 +1081,7 @@ window.MEMO = (function () {
     "scope": "This memo documents a sales-comparison analysis supporting a defensible value RANGE for the subject property as of the effective date, prepared for collateral-underwriting review. It builds and documents the case for a range; it does not render a point value or a lending decision.",
     "selection": "5 comparable sales were retained from 10 retrieved candidates. Selection began in the tight tier-0 band (subject district, within six months) and widened to tier 2 only as needed to reach the minimum count. 5 candidates were rejected under documented reason codes (duplicate, gross adj too high, outlier price, too stale, wrong district after widening) — the rejections are the tell a black-box AVM cannot give.",
     "adjustment": "Each comparable was adjusted to the subject on a transparent grid using a fixed rate card, with time adjustments derived from each comparable's contract month against the CREB district benchmark and applied toward the effective date. No comparable exceeded the gross-adjustment review band.",
-    "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $645,500, within a supported range of $640,000 to $651,000 (spread 1.7%) that brackets the adjusted comparables.",
+    "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $730,000, within a supported range of $723,500 to $736,500 (spread 1.8%) that brackets the adjusted comparables.",
     "confidence": "Confidence is assessed MODERATE (0.80). 3 human-review flags fired and are documented below; none constitutes a failure — each is a prompt for reviewer narrative under AIC guidance.",
     "limiting": "All comparable data shown is SYNTHETIC and illustrative, priced from an explicit contributory model (the matched pair). Subject characteristics are grounded in Open Calgary assessment data (source: open_calgary_assessment); physical attributes are intake/district-typical where the free dataset does not publish them. Every non-CREB dollar magnitude is a US/North-American proxy to be locally calibrated. This artifact is render-only and contains no live computation."
   },

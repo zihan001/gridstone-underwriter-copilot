@@ -28,7 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
-  "narrativeSource": "llm",
+  "narrativeSource": "template",
   "benchmark": [
     {
       "m": "2025-06",
@@ -221,7 +221,7 @@ window.MEMO = (function () {
       "contractDate": "2026-04-11",
       "contractMonth": "2026-04",
       "ageDays": 51,
-      "price": 961529,
+      "price": 961034,
       "gla": 1485,
       "lot": 5350,
       "beds": 3,
@@ -300,10 +300,10 @@ window.MEMO = (function () {
       "timeAdj": 4800,
       "net": 38040,
       "gross": 38040,
-      "adjusted": 999569,
-      "netPct": 3.9562,
-      "grossPct": 3.9562,
-      "linePct": 2.5106,
+      "adjusted": 999074,
+      "netPct": 3.9582,
+      "grossPct": 3.9582,
+      "linePct": 2.5119,
       "ppsf": 647
     },
     {
@@ -318,7 +318,7 @@ window.MEMO = (function () {
       "contractDate": "2026-02-19",
       "contractMonth": "2026-02",
       "ageDays": 102,
-      "price": 921022,
+      "price": 920540,
       "gla": 1390,
       "lot": 5050,
       "beds": 3,
@@ -397,11 +397,11 @@ window.MEMO = (function () {
       "timeAdj": 12450,
       "net": 62165,
       "gross": 62165,
-      "adjusted": 983187,
-      "netPct": 6.7496,
-      "grossPct": 6.7496,
-      "linePct": 3.4977,
-      "ppsf": 663
+      "adjusted": 982705,
+      "netPct": 6.7531,
+      "grossPct": 6.7531,
+      "linePct": 3.4996,
+      "ppsf": 662
     },
     {
       "id": "C-C",
@@ -415,7 +415,7 @@ window.MEMO = (function () {
       "contractDate": "2026-03-06",
       "contractMonth": "2026-03",
       "ageDays": 87,
-      "price": 1060600,
+      "price": 1060103,
       "gla": 1820,
       "lot": 7100,
       "beds": 4,
@@ -494,11 +494,11 @@ window.MEMO = (function () {
       "timeAdj": 9800,
       "net": -52239,
       "gross": 74639,
-      "adjusted": 1008361,
-      "netPct": -4.9254,
-      "grossPct": 7.0374,
-      "linePct": 1.6881,
-      "ppsf": 583
+      "adjusted": 1007864,
+      "netPct": -4.9277,
+      "grossPct": 7.0407,
+      "linePct": 1.6889,
+      "ppsf": 582
     },
     {
       "id": "C-D",
@@ -512,7 +512,7 @@ window.MEMO = (function () {
       "contractDate": "2026-01-08",
       "contractMonth": "2026-01",
       "ageDays": 144,
-      "price": 944080,
+      "price": 943591,
       "gla": 1430,
       "lot": 5150,
       "beds": 3,
@@ -586,18 +586,18 @@ window.MEMO = (function () {
           "key": "time",
           "label": "Time / market cond.",
           "sub": "2026-01-08 → 2026-06-01",
-          "adj": 29000
+          "adj": 28950
         }
       ],
       "tf": 0.030704,
       "bmContract": 724000,
-      "timeAdj": 29000,
-      "net": 67615,
-      "gross": 69015,
-      "adjusted": 1011695,
-      "netPct": 7.162,
-      "grossPct": 7.3103,
-      "linePct": 3.0718,
+      "timeAdj": 28950,
+      "net": 67565,
+      "gross": 68965,
+      "adjusted": 1011156,
+      "netPct": 7.1604,
+      "grossPct": 7.3088,
+      "linePct": 3.0681,
       "ppsf": 660
     }
   ],
@@ -611,9 +611,9 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "West",
       "contractDate": "2025-04-22",
-      "price": 928204,
+      "price": 927725,
       "gla": 1460,
-      "ppsf": 636,
+      "ppsf": 635,
       "detail": "Contract 2025-04-22 is 405 days stale — exceeds the tier-2 maximum window (≤ 274 days / ~9 mo). Pre-dates the current benchmark trend; the implied time adjustment would be unreliable.",
       "metricLabel": "contract age",
       "metricValue": "405 days",
@@ -628,7 +628,7 @@ window.MEMO = (function () {
       "community": "Glamorgan",
       "district": "East",
       "contractDate": "2026-02-14",
-      "price": 952645,
+      "price": 952156,
       "gla": 1505,
       "ppsf": 633,
       "detail": "East is not adjacent to the subject district under the tier-1 topology map (no shared boundary). Excluded before adjustment to avoid a cross-market location bridge.",
@@ -645,12 +645,12 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "West",
       "contractDate": "2026-03-29",
-      "price": 1193231,
+      "price": 1192734,
       "gla": 2210,
       "ppsf": 540,
-      "detail": "PPSF $540 sits 3.1 MAD low of the candidate median ($633). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
+      "detail": "PPSF $540 sits 3.2 MAD low of the candidate median ($633). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
       "metricLabel": "PPSF deviation",
-      "metricValue": "3.1 MAD low",
+      "metricValue": "3.2 MAD low",
       "cap": "≤ 2.0 MAD"
     },
     {
@@ -665,9 +665,9 @@ window.MEMO = (function () {
       "price": 596000,
       "gla": 1470,
       "ppsf": 405,
-      "detail": "PPSF $405 sits 7.6 MAD low of the candidate median ($633). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
+      "detail": "PPSF $405 sits 7.9 MAD low of the candidate median ($633). Probable non-arm's-length / distressed transfer — excluded as a price outlier rather than market evidence.",
       "metricLabel": "PPSF deviation",
-      "metricValue": "7.6 MAD low",
+      "metricValue": "7.9 MAD low",
       "cap": "≤ 2.0 MAD"
     },
     {
@@ -679,7 +679,7 @@ window.MEMO = (function () {
       "community": "Lake Bonavista",
       "district": "West",
       "contractDate": "2026-04-11",
-      "price": 961529,
+      "price": 961034,
       "gla": 1485,
       "ppsf": 647,
       "detail": "Resolves to the same parcel already represented by COMP-A (re-list under a second MLS number). Deduplicated to avoid double-counting one sale.",
@@ -780,7 +780,7 @@ window.MEMO = (function () {
       "similarity": "low",
       "recency": "102 d",
       "distance": "1.1 km",
-      "burden": "6.7% gross"
+      "burden": "6.8% gross"
     },
     "C-C": {
       "similarity": "low",
@@ -796,16 +796,16 @@ window.MEMO = (function () {
     }
   },
   "range": {
-    "low": 988000,
-    "point": 999000,
-    "high": 1010000,
+    "low": 987500,
+    "point": 998500,
+    "high": 1009500,
     "spreadPct": 2.2
   },
   "adjustedVals": [
-    999569,
-    983187,
-    1008361,
-    1011695
+    999074,
+    982705,
+    1007864,
+    1011156
   ],
   "confidence": {
     "base": 0.55,
@@ -823,7 +823,7 @@ window.MEMO = (function () {
       {
         "key": "spread",
         "label": "Adjusted-value spread",
-        "detail": "$28,508 range · 2.2% of point",
+        "detail": "$28,451 range · 2.2% of point",
         "contrib": 0.125
       },
       {
@@ -954,18 +954,74 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This appraisal analyzes 33xx Signal Hill Heights SW in the west district as of June 1, 2026, with an assessed value of $985,000. The sales comparison approach processed 9 retrieved transactions, selecting 4 comparables after rejecting 5 for various disqualifying factors. The subject property is grounded in Open Calgary data while comparables are synthetic representations for analytical purposes.",
-    "selection": "From 9 retrieved transactions, 4 comparables were selected following systematic screening. Rejections included C-E for staleness (405 days), C-G for non-adjacent east district location, C-F and C-H as price outliers (3.1 and 7.6 MAD low respectively), and C-I as a duplicate of C-A. The final set comprises 3 tier-0 comparables (C-A, C-B, C-C) from the same district and 1 tier-1 comparable (C-D) from an adjacent district, requiring tier-2 relaxation to achieve minimum count thresholds.",
-    "adjustment": "Adjusted values range from $983,187 to $1,011,695 across the 4 selected comparables. Gross adjustment percentages span 4.0% to 7.3%, with net adjustments from -4.9% to 7.2%. Notable adjustment patterns include C-C showing negative net adjustment despite 7.0% gross adjustments, indicating offsetting positive and negative factors. C-D required time adjustment using city-wide fallback series due to unavailable district-specific benchmarks, introducing approximation into the time-adjustment process.",
-    "reconciliation": "Weight-adjusted reconciliation yields a value range of $988,000 to $1,010,000 with a point estimate of $999,000, representing a 2.2% spread. C-A receives highest weighting at 43.58% based on superior similarity metrics, followed by C-B at 23.03%. Cross-district comparable C-D carries reduced weight at 12.74% reflecting location and recency penalties. The reconciled range brackets the assessed value of $985,000, with the point estimate indicating 1.4% premium to assessment.",
-    "confidence": "Confidence scores MODERATE at 0.7238, reflecting mixed reliability indicators. Positive contributors include comparable count (+0.08), adjusted-value spread (+0.125), recency (+0.0382), and distance (+0.0345). Negative factors include adjustment burden (-0.0039) and notably widening depth (-0.10), where tier-2 relaxation was required to achieve minimum comparable count. The moderate confidence band indicates acceptable but not optimal analytical conditions for this market segment.",
-    "limiting": "Four analytical flags require documentation: DEEP_WIDENING necessitated tier-2 relaxation with associated confidence penalty; STALE_COMP identifies C-D exceeding 120-day recency threshold; ADJACENT_DISTRICT_COMP documents C-D's cross-district sourcing with distance-weighting mitigation; UNSUPPORTED_TIME_ADJ flags C-D's reliance on city-wide rather than district-specific time adjustment benchmarks. These conditions are documented for reviewer consideration but do not invalidate the analytical framework or value conclusion."
+    "scope": "This memo documents a sales-comparison analysis supporting a defensible value RANGE for the subject property as of the effective date, prepared for collateral-underwriting review. It builds and documents the case for a range; it does not render a point value or a lending decision.",
+    "selection": "4 comparable sales were retained from 9 retrieved candidates. Selection began in the tight tier-0 band (subject district, within six months) and widened to tier 2 only as needed to reach the minimum count. 5 candidates were rejected under documented reason codes (duplicate, outlier price, too stale, wrong district after widening) — the rejections are the tell a black-box AVM cannot give.",
+    "adjustment": "Each comparable was adjusted to the subject on a transparent grid using a fixed rate card, with time adjustments derived from each comparable's contract month against the CREB district benchmark and applied toward the effective date. No comparable exceeded the gross-adjustment review band.",
+    "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $998,500, within a supported range of $987,500 to $1,009,500 (spread 2.2%) that brackets the adjusted comparables.",
+    "confidence": "Confidence is assessed MODERATE (0.72). 4 human-review flags fired and are documented below; none constitutes a failure — each is a prompt for reviewer narrative under AIC guidance. One comparable was drawn from an adjacent district (C-D), absorbed via weighting.",
+    "limiting": "All comparable data shown is SYNTHETIC and illustrative, priced from an explicit contributory model (the matched pair). Subject characteristics are grounded in Open Calgary assessment data (source: open_calgary_assessment); physical attributes are intake/district-typical where the free dataset does not publish them. Every non-CREB dollar magnitude is a US/North-American proxy to be locally calibrated. This artifact is render-only and contains no live computation."
   },
   "agentTrace": {
     "intake": {
-      "source": "llm",
+      "source": "deterministic",
       "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
-      "calls": []
+      "calls": [
+        {
+          "name": "lookup_open_calgary",
+          "args": "address_or_roll=33xx Signal Hill Heights SW",
+          "result": "{\"address\": \"33xx Signal Hill Heights SW\", \"district\": \"west\", \"lat\": 51.0207, \"lon\": -114.1573, \"roll_number\": \"091-44-218-03\", \"assessed_value\": 985000, \"land_use\": \"R-C1\", \"assessment_roll_year\": 2026, \"year_built\": 1998}"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=gla_sqft",
+          "result": "gla_sqft=1769 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=lot_sqft",
+          "result": "lot_sqft=5608 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=beds_ag",
+          "result": "beds_ag=3 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=full_baths",
+          "result": "full_baths=2 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=half_baths",
+          "result": "half_baths=1 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=year_built",
+          "result": "year_built already grounded in Open Calgary; keeping the grounded value."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_finished_sqft",
+          "result": "basement_finished_sqft=600 (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=basement_walkout",
+          "result": "NOT_FOUND: listing does not state basement_walkout; call district_typical for it."
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_type",
+          "result": "garage_type=GarageType.ATTACHED (from listing)"
+        },
+        {
+          "name": "parse_listing_field",
+          "args": "field=garage_stalls",
+          "result": "garage_stalls=2 (from listing)"
+        }
+      ]
     }
   }
 };

@@ -21,6 +21,7 @@ import random
 from datetime import date, timedelta
 
 from kvcomp.data.constants import (
+    ASSESSMENT_TO_MARKET,
     BENCHMARK_SERIES,
     CITY_BENCHMARK_FALLBACK,
     DISTRICT_BENCHMARK,
@@ -43,8 +44,22 @@ _NOISE_SIGMA = 0.012  # log-normal sigma (~1.2%); only applied when noise=True
 
 
 def subject_true_value(subject: Subject, cfg: AdjustmentConfig) -> int:
-    """The subject's no-noise market value at the effective date: the district benchmark
-    plus the contributory premium of the subject over its district-typical home."""
+    """The subject's no-noise market value at the effective date.
+
+    Two anchors, same structural premium on top:
+      * REAL parcel (`assessed_value` set, Open-Calgary-grounded): anchor to the subject's
+        OWN assessed value lifted to the effective-date market level (ASSESSMENT_TO_MARKET).
+        The assessed roll is a July-1-prior-year valuation; the ratio converts that lag to
+        the effective date. This keeps each real subject's own price signal instead of
+        collapsing every parcel in a district to the bare district benchmark.
+      * SYNTHETIC subject (no `assessed_value`): the district benchmark, as before — the
+        round-trip invariant builds these and must recover the benchmark-anchored value.
+
+    The contributory premium (subject − district-typical home) is added in BOTH paths, so
+    the matched-pair deltas are still driven by the structural model. For a real subject
+    whose physical attributes default to district-typical, the premium is ~0; it is kept so
+    a non-typical real subject (inspected attributes) still re-prices correctly.
+    """
     typ = DISTRICT_TYPICAL[subject.district]
     typical_home = subject.model_copy(
         update={
@@ -59,6 +74,9 @@ def subject_true_value(subject: Subject, cfg: AdjustmentConfig) -> int:
         }
     )
     premium = structural_net(subject, typical_home, cfg)  # subject − typical
+    if subject.assessed_value is not None:
+        base = round(subject.assessed_value * ASSESSMENT_TO_MARKET)
+        return base + premium
     return DISTRICT_BENCHMARK[subject.district] + premium
 
 

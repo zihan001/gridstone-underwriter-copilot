@@ -98,6 +98,19 @@ DISTRICT_BENCHMARK: dict[District, int] = {
 }
 
 
+# Assessed value → effective-date market level. The City of Calgary assessment roll is a
+# point-in-time valuation: the 2026 roll's valuation date is July 1, 2025. Our effective
+# date is June 1, 2026, so the assessed figure lags the market by ~11 months. The CREB
+# city-wide detached benchmark moved from ~$726k (vicinity of Jul 2025) to ~$748k (May
+# 2026) over that window — a ~1.02–1.03× lift. We anchor a real parcel's true value to its
+# OWN assessed value lifted by this single, editable ratio (not to the district benchmark),
+# so each subject keeps its own price signal. This is an honest market-lag conversion, NOT
+# a claim that assessed value IS market value.
+# Source: City of Calgary 2026 assessment valuation date (Jul 1 2025) + CREB Jul-2025→May-2026
+# city-wide detached benchmark move (~$726k→~$748k).
+ASSESSMENT_TO_MARKET: float = 1.02
+
+
 # ---------------------------------------------------------------------------
 # District adjacency topology (tier-1 widening). South is adjacent to SE/East but NOT
 # West — West is separated by the Glenmore corridor (viewer/data.js COMP-G rejection
