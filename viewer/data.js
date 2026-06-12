@@ -28,7 +28,7 @@ window.MEMO = (function () {
     "analyst": "model:underwrite-copilot v1.0.0",
     "purpose": "Defend a value RANGE for collateral review — never a point decision."
   },
-  "narrativeSource": "template",
+  "narrativeSource": "llm",
   "benchmark": [
     {
       "m": "2025-06",
@@ -956,17 +956,17 @@ window.MEMO = (function () {
   ],
   "aicNote": "AIC guidance: lender net/gross/line tolerances are screening aids, not appraisal rules. A breach is a flag for narrative support — it does not supersede good appraisal practice or invalidate an otherwise well-supported comparable.",
   "narrative": {
-    "scope": "This memo documents a sales-comparison analysis supporting a defensible value RANGE for the subject property as of the effective date, prepared for collateral-underwriting review. It builds and documents the case for a range; it does not render a point value or a lending decision.",
-    "selection": "4 comparable sales were retained from 9 retrieved candidates. Selection began in the tight tier-0 band (subject district, within six months) and widened to tier 2 only as needed to reach the minimum count. 5 candidates were rejected under documented reason codes (duplicate, gross adj too high, outlier price, too stale, wrong district after widening) — the rejections are the tell a black-box AVM cannot give.",
-    "adjustment": "Each comparable was adjusted to the subject on a transparent grid using a fixed rate card, with time adjustments derived from each comparable's contract month against the CREB district benchmark and applied toward the effective date. C-C carried an above-review-band gross adjustment and was retained at reduced weight.",
-    "reconciliation": "Adjusted values were reconciled by weight rather than simple average, emphasising the most similar, most recent, and least-adjusted evidence. The weighted central indication is $696,000, within a supported range of $688,000 to $704,000 (spread 2.3%) that brackets the adjusted comparables.",
-    "confidence": "Confidence is assessed MODERATE (0.68). 6 human-review flags fired and are documented below; none constitutes a failure — each is a prompt for reviewer narrative under AIC guidance. One comparable was drawn from an adjacent district (C-D), absorbed via weighting.",
-    "limiting": "All comparable data shown is SYNTHETIC and illustrative, priced from an explicit contributory model (the matched pair). Subject characteristics are grounded in Open Calgary assessment data (source: open_calgary_assessment); physical attributes are intake/district-typical where the free dataset does not publish them. Every non-CREB dollar magnitude is a US/North-American proxy to be locally calibrated. This artifact is render-only and contains no live computation."
+    "scope": "This sales comparison analysis supports a market value opinion for 84xx Bonaventure Drive SE as of June 1, 2026. The engine retrieved 9 potential comparables from Open Calgary data, selecting 4 for adjustment analysis after rejecting 5 for various deficiencies. The final comparable set includes 2 tier-0 and 2 tier-1 properties, with 3 from the same south district and 1 from an adjacent district. All comparables are synthetic constructs designed to test valuation methodologies.",
+    "selection": "From 9 retrieved comparables, 4 were selected and 5 rejected. Rejections included: C-E (staleness at 405 days), C-F (gross adjustments of 26.2% exceeding limits), C-G (wrong district after widening), C-H (outlier pricing at 4.6 MAD low), and C-I (duplicate of C-A). The final set required tier-2 relaxation to meet minimum count requirements, triggering the DEEP_WIDENING flag and a -0.10 confidence penalty. Selection prioritized recency, location similarity, and adjustment feasibility within established tolerance bands.",
+    "adjustment": "Adjusted values range from $685,386 to $705,962. Gross adjustment percentages span 1.0% to 13.9%, with net adjustments from -12.0% to +3.3%. Notable adjustment issues include: C-C exceeding the 12% gross adjustment review band at 13.9% and the 8% net adjustment band at -12.0%, both flagged for narrative support. C-D required time adjustment using city-wide fallback data due to insufficient district-specific benchmarks. Weights range from 0.1012 to 0.4672, with C-A receiving highest weight due to minimal adjustment burden.",
+    "reconciliation": "The weighted analysis supports a value range of $688,000 to $704,000 with a point estimate of $696,000, representing a 2.3% spread. This range brackets the subject's assessed value of $687,500. C-A (adjusted value $697,174, weight 0.4672) provides primary support, while C-B ($685,386, weight 0.2781) anchors the lower bound. C-C and C-D, despite higher adjustment burdens, contribute meaningful cross-validation. The range reflects adjustment uncertainty and market variability inherent in the comparable set.",
+    "confidence": "Confidence score of 0.6821 places this analysis in the MODERATE band. Positive contributors include comparable count (+0.08), adjusted-value spread management (+0.1225), recency (+0.0382), and distance control (+0.0345). Negative factors include adjustment burden (-0.0431) and widening depth (-0.10). Six flags fired during analysis, including deep widening, stale comparables, adjacent district sourcing, and excessive adjustment thresholds. These flags indicate heightened review requirements but do not invalidate the analysis.",
+    "limiting": "This analysis relies on synthetic comparables and Open Calgary data as noted. Limiting conditions include: tier-2 widening required for minimum sample size, one comparable from adjacent district, time adjustments using city-wide benchmarks for C-D, and gross/net adjustment threshold breaches for C-C requiring narrative support. The MODERATE confidence band reflects these analytical constraints. Market conditions as of June 2026 and data availability may impact reliability. This appraisal assumes standard limiting conditions for residential valuation assignments."
   },
   "agentTrace": {
     "intake": {
-      "source": "deterministic",
-      "reasoning": "Intake grounded 9 identity/assessment field(s) from Open Calgary (address, assessed_value, assessment_roll_year, district, land_use, lat, lon, roll_number, year_built); read 8 attribute(s) from the listing (basement_finished_sqft, beds_ag, full_baths, garage_stalls, garage_type, gla_sqft, half_baths, lot_sqft); and fell back to CREB district-typical values for 0 field(s) (none) the listing did not state. No physical value was estimated; absent fields are labelled district_typical.",
+      "source": "llm",
+      "reasoning": "## Property Subject Record\n\n**Identity & Assessment:**\n- Address: 84xx Bonaventure Drive SE\n- Roll Number: 074-21-335-07\n- District: South\n- Coordinates: 50.9583, -114.054\n- Assessed Value: $687,500 (2026 roll)\n- Land Use: R-C1\n\n**Physical Characteristics:**\n- GLA: 1,450 sq ft (from listing)\n- Lot Size: 5,242 sq ft (from listing) \n- Bedrooms Above Grade: 3 (from listing)\n- Full Baths: 2 (from listing)\n- Half Baths: 1 (from listing)\n- Year Built: 1984 (grounded via Open Calgary)\n- Basement Finished: 600 sq ft (from listing)\n- Basement Walkout: No district-typical available\n- Garage Type: Attached (from listing)\n- Garage Stalls: 2 (from listing)\n\n**Intake Reasoning:** The property was successfully grounded through Open Calgary with matching year built validation. Most physical characteristics were clearly stated in the listing including square footages, bedroom/bathroom counts, and garage details. Only basement walkout status was absent from the listing, but no district-typical fallback was available for this field in the south district. The listing provided comprehensive detail with minimal gaps requiring fallback values.",
       "calls": [
         {
           "name": "lookup_open_calgary",
@@ -1022,6 +1022,11 @@ window.MEMO = (function () {
           "name": "parse_listing_field",
           "args": "field=garage_stalls",
           "result": "garage_stalls=2 (from listing)"
+        },
+        {
+          "name": "district_typical",
+          "args": "district=south, field=basement_walkout",
+          "result": "no district-typical value for basement_walkout."
         }
       ]
     }

@@ -8,6 +8,8 @@
 >
 > **Key decisions:** the reasoning trail — including everything that changed after the original
 > plan — is in [`docs/DECISIONS.md`](docs/DECISIONS.md) (ADR-001…011).
+>
+> **🎥 Demo video:** [https://youtu.be/oH3TwaG4oRo](https://youtu.be/oH3TwaG4oRo)
 
 ## Problem
 Deals don't arrive one at a time. Brokers, originators, and builders send them — by email, by

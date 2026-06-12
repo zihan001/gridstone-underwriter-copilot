@@ -36,8 +36,11 @@ def generate(memo: MemoArtifact, *, use_llm: bool | None = None) -> tuple[Narrat
     try:
         narrative = _call_anthropic(memo, key)
         return narrative, "llm"
-    except Exception:
-        # Reliability over cleverness: any failure degrades to the deterministic template.
+    except Exception as exc:
+        # Reliability over cleverness: any failure degrades to the deterministic template —
+        # but say so on stderr, otherwise the fallback is indistinguishable from success.
+        import sys
+        print(f"⚠ LLM narrative failed ({type(exc).__name__}: {exc}); using template fallback", file=sys.stderr)
         return template_narrative(memo), "template"
 
 
